@@ -1,0 +1,5 @@
+/*
+* Task grammar
+*/
+$WORD= aaa|bbb|ccc;
+([$WORD])

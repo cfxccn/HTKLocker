@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <string name="app_name">声纹锁屏</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="first_login_tips">首次启动，请先设置密码</string>
+    <string name="new_password">新密码</string>
+    <string name="confirm_password">密码确认</string>
+    <string name="submit">确定</string>
+    <string name="reset">清除</string>
+    <string name="login_tips">请输入密码</string>
+    <string name="password">密码</string>
+    <string name="passwords_diff">两次密码不同</string>
+    <string name="password_error">密码错误</string>
+    <string name="password_blank">密码为空</string>
+    <string name="lock_service">锁屏后台启动</string>
+    <string name="change_password">修改密码</string>
+    <string name="test">测试</string>
+    <string name="train">训练</string>
+    <string name="config">设置</string>
+    <string name="lock">立即锁屏</string>
+    <string name="exit">完全退出</string>
+    <string name="old_password">旧密码</string>
+    <string name="password_change_success">密码修改成功</string>
+    <string name="register_success">注册成功</string>
+    <string name="default_time">00:00</string>
+    <string name="default_date">2014/12/31</string>
+    <string name="change_numerical_password">切换到数字密码</string>
+    <string name="change_sound_password">切换到语音识别</string>
+    <string name="service_start">锁屏服务启动</string>
+    <string name="service_stop">锁屏服务关闭</string>
+    <string name="train_tips_title">训练提示</string>
+    <string name="train_tips1">要使用语音识别解锁，首先请进行训练。</string>
+    <string name="train_tips2">训练过程中将录音，并保存处理。</string>
+    <string name="train_tips3">训练后可以再次训练，\n每次训练都将清除原先的训练数据。</string>
+    <string name="record_time">录音时间为4秒。</string>
+    <string name="train_tips5">录音时请清晰地说出\n“解锁这台手机”。</string>
+    <string name="train_not_exist">训练模型不存在</string>
+    <string name="start_record">正在录音......</string>
+    <string name="start_handling">录音结束，正在处理</string>
+    <string name="train_end">训练结束</string>
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
+    <string name="four">4</string>
+    <string name="five">5</string>
+    <string name="six">6</string>
+    <string name="seven">7</string>
+    <string name="eight">8</string>
+    <string name="nine">9</string>
+    <string name="zero">0</string>
+    <string name="backspace">&lt;</string>
+    <string name="audio_error_no_sdcard">录音失败，无SD卡</string>
+    <string name="audio_error_state_record">录音失败，后台录音线程未销毁</string>
+    <string name="audio_error_unknown">录音失败，未知错误</string>
+    <string name="test_tips_title">测试提示</string>
+    <string name="test_tips1">测试过程中将录音，并保存处理。</string>
+    <string name="test_tips2">测试后将返回与训练语音的匹配结果。</string>
+    <string name="test_tips3">测试时请清晰地说出\n“解锁这台手机”。</string>
+    <string name="test_end">测试结束</string>
+    <string name="user_manage_train">用户管理及训练</string>
+    <string name="threshold_config">阈值设置</string>
+    <string name="add_user">添加用户</string>
+    <string name="user_name">用户名</string>
+    <string name="delete">删除</string>
+    <string name="delete_success">删除成功</string>
+    <string name="istrained">已训练</string>
+    <string name="untrained">未训练</string>
+
+                
+    
+    
+
+</resources>

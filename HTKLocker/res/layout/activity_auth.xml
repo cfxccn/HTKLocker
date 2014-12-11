@@ -1,0 +1,186 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/relativeLayout_MainPanel"
+
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_horizontal" >
+
+    <TextView
+        android:id="@+id/textView_Time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        android:text="@string/default_time"
+        android:textColor="#ffffffff"
+        android:textSize="55sp" />
+
+    <TextView
+        android:id="@+id/textView_Date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView_Time"
+        android:layout_centerHorizontal="true"
+        android:text="@string/default_date"
+        android:textColor="#ffffffff"
+        android:textSize="25sp" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+
+    <ImageButton
+        android:id="@+id/authButton"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_below="@+id/progressBar"
+        android:layout_centerHorizontal="true"
+                android:background="@drawable/auth_btn_normal"
+        
+        android:contentDescription="@string/test"
+        android:src="@drawable/ic_lock_holo_dark" />
+
+    <TextView
+        android:id="@+id/textView_Info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/progressBar"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/editText_Password"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="#70000000"
+        android:ems="12"
+        android:gravity="center"
+        android:inputType="numberPassword"
+        android:textColor="#ffffffff" />
+
+    <GridLayout
+        android:id="@+id/gridLayout_NumberPanel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText_Password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="17dp"
+        android:columnCount="4"
+        android:rowCount="3" >
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="70dp"
+            android:background="#70000000"
+            android:text="@string/one"
+            android:textColor="#ffffffff"
+            android:textSize="40sp" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="70dp"
+            android:background="#40000000"
+            android:text="@string/two"
+            android:textColor="#ffffffff"
+            android:textSize="40sp" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="70dp"
+            android:background="#70000000"
+            android:text="@string/three"
+            android:textColor="#ffffffff"
+            android:textSize="40sp" />
+
+        <Button
+            android:id="@+id/button_Reset"
+            android:layout_width="70dp"
+            android:background="#40000000"
+            android:text="@string/backspace"
+            android:textColor="#ffffffff"
+            android:textSize="40sp" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="70dp"
+            android:background="#70000000"
+            android:text="@string/four"
+            android:textColor="#ffffffff"
+            android:textSize="40sp" />
+
+        <Button
+            android:id="@+id/button5"
+            android:layout_width="70dp"
+            android:background="#40000000"
+            android:text="@string/five"
+            android:textColor="#ffffffff"
+            android:textSize="40sp" />
+
+        <Button
+            android:id="@+id/button6"
+            android:layout_width="70dp"
+            android:background="#70000000"
+            android:text="@string/six"
+            android:textColor="#ffffffff"
+            android:textSize="40sp" />
+
+        <Button
+            android:id="@+id/button0"
+            android:layout_width="70dp"
+            android:background="#40000000"
+            android:text="@string/zero"
+            android:textColor="#ffffffff"
+            android:textSize="40sp" />
+
+        <Button
+            android:id="@+id/button7"
+            android:layout_width="70dp"
+            android:background="#70000000"
+            android:text="@string/seven"
+            android:textColor="#ffffffff"
+            android:textSize="40sp" />
+
+        <Button
+            android:id="@+id/button8"
+            android:layout_width="70dp"
+            android:background="#40000000"
+            android:text="@string/eight"
+            android:textColor="#ffffffff"
+            android:textSize="40sp" />
+
+        <Button
+            android:id="@+id/button9"
+            android:layout_width="70dp"
+            android:background="#70000000"
+            android:text="@string/nine"
+            android:textColor="#ffffffff"
+            android:textSize="40sp" />
+
+        <Button
+            android:layout_width="70dp"
+            android:background="#40000000"
+            android:textSize="40sp" />
+    </GridLayout>
+
+    <Button
+        android:id="@+id/button_ChangeMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="17dp"
+        android:background="@drawable/my_btn"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="@string/change_numerical_password"
+        android:textSize="15sp" />
+
+</RelativeLayout>

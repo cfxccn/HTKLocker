@@ -1,0 +1,4 @@
+mfcc\aaa1.mfc
+mfcc\aaa2.mfc
+mfcc\aaa3.mfc
+mfcc\aaa4.mfc
