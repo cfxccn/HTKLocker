@@ -3,7 +3,6 @@ package com.flo.htklocker;
 import com.flo.service.LoginService;
 import com.flo.util.ToastUtil;
 
-import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,11 +11,12 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Button;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 	LoginService loginService;
 	Switch switch_Service;
 	Button button_UserManage;

@@ -3,7 +3,7 @@ package com.flo.htklocker;
 import com.flo.service.LoginService;
 import com.flo.util.ToastUtil;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-public class LoginActivity extends ActionBarActivity {
+public class LoginActivity extends Activity {
 	LoginService loginService;
 	String password1;
 	String password2;

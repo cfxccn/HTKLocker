@@ -5,17 +5,17 @@ import com.flo.util.AudioRecordFunc;
 import com.flo.util.FileHelper;
 import com.flo.util.ToastUtil;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class TrainActivity extends ActionBarActivity {
+public class TrainActivity extends Activity {
 	UserService userService;
 	AudioRecordFunc audioRecordFunc;
 	Button button_Train;
