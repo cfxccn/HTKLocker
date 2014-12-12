@@ -25,9 +25,7 @@ public class MainActivity extends Activity {
 	Button button_ChangePassword;
 	Button button_Exit;
 	Intent serviceIntent;
-
 	private void bindControl() {
-
 		switch_Service = (Switch) findViewById(R.id.switch_Service);
 		button_UserManage = (Button) findViewById(R.id.button_UserManage);
 		button_Test = (Button) findViewById(R.id.button_Test);
@@ -40,7 +38,6 @@ public class MainActivity extends Activity {
 			switch_Service.setChecked(false);
 		}
 		serviceIntent = new Intent(MainActivity.this, BackgroundService.class);
-
 		switch_Service
 				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 					@Override
@@ -96,7 +93,6 @@ public class MainActivity extends Activity {
 						.findViewById(R.id.editText_NewPassword);
 				final EditText editText_ConfirmPassword = (EditText) dialog
 						.findViewById(R.id.editText_ConfirmPassword);
-
 				button_Register.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View arg0) {

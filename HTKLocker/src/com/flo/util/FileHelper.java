@@ -70,6 +70,11 @@ public class FileHelper {
 		return testWavPath;
 	}
 
+	
+	public String getConfigFilePath() {
+		return 	appRoot + "/config";
+	}
+	
 	public FileHelper(Context context) {
 		this.context = context;
 		File sdDir;
@@ -137,14 +142,14 @@ public class FileHelper {
 			appRoot = null;
 		}
 	}
-
-	public void copyWav(String userid) {
-		FileUtil.copyFile(trainWavPath + "/" + userid + "-1.wav", trainWavPath
-				+ "/" + userid + "-2.wav");
-		FileUtil.copyFile(trainWavPath + "/" + userid + "-1.wav", trainWavPath
-				+ "/" + userid + "-3.wav");
-		FileUtil.copyFile(trainWavPath + "/" + userid + "-1.wav", trainWavPath
-				+ "/" + userid + "-4.wav");
+	
+	public void copyMfcc(String userid) {
+		FileUtil.copyFile(mfccPath + "/" + userid + "-1.mfc", mfccPath
+				+ "/" + userid + "-2.mfc");
+		FileUtil.copyFile(mfccPath + "/" + userid + "-1.mfc", mfccPath
+				+ "/" + userid + "-3.mfc");
+		FileUtil.copyFile(mfccPath + "/" + userid + "-1.mfc", mfccPath
+				+ "/" + userid + "-4.mfc");
 	}
 
 	public void clearWav(String userid) {
@@ -177,28 +182,18 @@ public class FileHelper {
 		}
 	}
 
-	public boolean createWavList(String userid) {
+	public String createWavList(String userid) {
 		getLabPath(userid);
 		FileOutputStream fs = null;
 		String textString1 = trainWavPath + "/" + userid + "-1.wav " + mfccPath
 				+ "/" + userid + "-1.mfc \n";
-		String textString2 = trainWavPath + "/" + userid + "-2.wav " + mfccPath
-				+ "/" + userid + "-2.mfc \n";
-		String textString3 = trainWavPath + "/" + userid + "-3.wav " + mfccPath
-				+ "/" + userid + "-3.mfc \n";
-		String textString4 = trainWavPath + "/" + userid + "-4.wav " + mfccPath
-				+ "/" + userid + "-4.mfc \n";
-
 		try {
 			fs = new FileOutputStream(appRoot + "/wavlist.txt");
 			fs.write(textString1.getBytes());
-			fs.write(textString2.getBytes());
-			fs.write(textString3.getBytes());
-			fs.write(textString4.getBytes());
 			fs.close();
-			return true;
+			return appRoot + "/wavlist.txt";
 		} catch (Exception e) {
-			return false;
+			return null;
 		}
 	}
 

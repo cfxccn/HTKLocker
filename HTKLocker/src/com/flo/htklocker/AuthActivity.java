@@ -8,7 +8,6 @@ import com.flo.service.LoginService;
 import com.flo.util.AudioRecordFunc;
 import com.flo.util.FileHelper;
 import com.flo.util.ToastUtil;
-import com.flo.util.ValidateFunc;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -278,7 +277,6 @@ public class AuthActivity extends Activity {
 		progressBar.setVisibility(View.INVISIBLE);
 		button_ChangeMode.setVisibility(View.VISIBLE);
 
-		ValidateFunc.Validate();
 	}
 
 	@Override

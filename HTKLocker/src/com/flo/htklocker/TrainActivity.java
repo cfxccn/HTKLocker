@@ -3,6 +3,7 @@ package com.flo.htklocker;
 import com.flo.service.UserService;
 import com.flo.util.AudioRecordFunc;
 import com.flo.util.FileHelper;
+import com.flo.util.HTK;
 import com.flo.util.ToastUtil;
 
 import android.app.Activity;
@@ -21,6 +22,7 @@ public class TrainActivity extends Activity {
 	Button button_Train;
 	TextView textView_TrainInfo;
 	String wavPath;
+	String wavlist;
 	String labPath;
 	String userid;
 	String username;
@@ -83,18 +85,20 @@ public class TrainActivity extends Activity {
 		audioRecordFunc.stopRecordAndFile();
 		ToastUtil.ShowResString(getApplicationContext(),
 				R.string.start_handling);
-		createMFCCnTrain();
 		userService.trainUser(Integer.valueOf(userid));
-		ToastUtil.ShowResString(getApplicationContext(), R.string.train_end);
+		ToastUtil.ShowResString(this, R.string.train_end);
 		button_Train.setText(R.string.train);
+		createMFCCnTrain();
+
 	}
 
 	private void createMFCCnTrain() {
-		fileHelper.copyWav(userid);
 		fileHelper.createLab(userid);
-		fileHelper.createWavList(userid);
-		fileHelper.clearWav(userid);
+		wavlist=fileHelper.createWavList(userid);
 		fileHelper.createProto(userid);
+		HTK.mfcc(fileHelper.getConfigFilePath(), wavlist);
+		fileHelper.copyMfcc(userid);
+
 	}
 
 	@Override
@@ -106,7 +110,6 @@ public class TrainActivity extends Activity {
 		fileHelper = new FileHelper(getApplicationContext());
 		username = getIntent().getStringExtra("USERNAME");
 		userid = getIntent().getStringExtra("USERID");
-
 		bindControl();
 		controlBindListener();
 	}

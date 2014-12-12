@@ -180,7 +180,7 @@ int main_HCopy(int argc, char *argv[])
 
    if (!InfoPrinted() && NumArgs() == 0)
       ReportUsageHCopy();
-   if (NumArgs() == 0) Exit(0);
+   if (NumArgs() == 0) return (0);
 
    SetConfParmsHCopy();
    /* initial trace string is null */
@@ -319,7 +319,6 @@ int main_HCopy(int argc, char *argv[])
    }
    if(useMLF) CloseMLFSaveFile();
    if (NumArgs() != 0) HError(-1019,"HCopy: Unused args ignored");
-   Exit(0);
    return (0);          /* never reached -- make compiler happy */
 }
 
