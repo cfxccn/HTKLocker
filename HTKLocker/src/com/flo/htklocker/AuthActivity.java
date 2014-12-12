@@ -7,6 +7,7 @@ import com.flo.htklocker.R;
 import com.flo.service.LoginService;
 import com.flo.util.AudioRecordFunc;
 import com.flo.util.FileHelper;
+import com.flo.util.HTK;
 import com.flo.util.ToastUtil;
 
 import android.app.Activity;
@@ -57,9 +58,10 @@ public class AuthActivity extends Activity {
 	ImageButton authButton;
 	DecimalFormat decimalFormat;
 	AlertDialog alertDialog;
-	String pathString;
-	String wavString = "test.wav";
-	String rawString = "test.raw";
+	String wavPath;
+	String wavString = "test-1.wav";
+	String rawString = "test-1.raw";
+	String wavlist;
 	AudioRecordFunc audioRecordFunc;
 	FileHelper fileHelper;
 
@@ -137,10 +139,7 @@ public class AuthActivity extends Activity {
 			editText_Password.setText(inputPassword);
 			if (loginService.validateUser(editText_Password
 					.getText().toString())) {
-				Intent intent = new Intent(Intent.ACTION_MAIN);
-				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				intent.addCategory(Intent.CATEGORY_HOME);
-				startActivity(intent);
+				unLock();
 			}
 		}
 	}
@@ -191,6 +190,13 @@ public class AuthActivity extends Activity {
 		});
 	}
 
+	public void unLock() {
+		Intent intent = new Intent(Intent.ACTION_MAIN);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.addCategory(Intent.CATEGORY_HOME);
+		startActivity(intent);		
+	}
+
 	protected void resetPassword(boolean isAll) {
 		if (isAll) {
 			inputPassword = "";
@@ -238,8 +244,8 @@ public class AuthActivity extends Activity {
 		authButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				pathString = fileHelper.getTestWavPath();
-				if (pathString.equals("")) {
+				wavPath = fileHelper.getTestWavPath();
+				if (wavPath==null) {
 					ToastUtil.ShowResString(AuthActivity.this,
 							R.string.audio_error_no_sdcard);
 				} else {
@@ -256,7 +262,7 @@ public class AuthActivity extends Activity {
 
 	protected void startRecord() {
 		audioRecordFunc = AudioRecordFunc.getInstance();
-		int result = audioRecordFunc.startRecordAndFile(pathString, wavString,
+		int result = audioRecordFunc.startRecordAndFile(wavPath, wavString,
 				rawString);
 		if (result == 1) {
 			ToastUtil.ShowResString(getApplicationContext(),
@@ -272,13 +278,17 @@ public class AuthActivity extends Activity {
 
 	protected void stopRecord() {
 		audioRecordFunc.stopRecordAndFile();
+		createMFCCnTest();
 		textView_Info.setText("");
 		authButton.setVisibility(View.VISIBLE);
 		progressBar.setVisibility(View.INVISIBLE);
 		button_ChangeMode.setVisibility(View.VISIBLE);
 
 	}
-
+	private void createMFCCnTest() {
+		wavlist=fileHelper.createWavList(wavPath,"test");
+		HTK.mfcc(fileHelper.getConfigFilePath(), wavlist);
+	}
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {

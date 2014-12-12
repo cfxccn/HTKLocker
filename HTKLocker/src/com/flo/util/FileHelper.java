@@ -182,10 +182,10 @@ public class FileHelper {
 		}
 	}
 
-	public String createWavList(String userid) {
+	public String createWavList(String wavPath,String userid) {
 		getLabPath(userid);
 		FileOutputStream fs = null;
-		String textString1 = trainWavPath + "/" + userid + "-1.wav " + mfccPath
+		String textString1 = wavPath + "/" + userid + "-1.wav " + mfccPath
 				+ "/" + userid + "-1.mfc \n";
 		try {
 			fs = new FileOutputStream(appRoot + "/wavlist.txt");

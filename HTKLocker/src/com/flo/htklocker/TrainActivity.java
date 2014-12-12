@@ -85,16 +85,17 @@ public class TrainActivity extends Activity {
 		audioRecordFunc.stopRecordAndFile();
 		ToastUtil.ShowResString(getApplicationContext(),
 				R.string.start_handling);
+		createMFCCnTrain();
+
 		userService.trainUser(Integer.valueOf(userid));
 		ToastUtil.ShowResString(this, R.string.train_end);
 		button_Train.setText(R.string.train);
-		createMFCCnTrain();
 
 	}
 
 	private void createMFCCnTrain() {
 		fileHelper.createLab(userid);
-		wavlist=fileHelper.createWavList(userid);
+		wavlist=fileHelper.createWavList(wavPath,userid);
 		fileHelper.createProto(userid);
 		HTK.mfcc(fileHelper.getConfigFilePath(), wavlist);
 		fileHelper.copyMfcc(userid);

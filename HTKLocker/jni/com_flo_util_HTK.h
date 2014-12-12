@@ -2,8 +2,8 @@
 #include <jni.h>
 /* Header for class com_flo_util_HTKFunc */
 
-#ifndef _Included_com_flo_util_HTKFunc
-#define _Included_com_flo_util_HTKFunc
+#ifndef _Included_com_flo_util_HTK
+#define _Included_com_flo_util_HTK
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -12,15 +12,17 @@ extern "C" {
  * Method:    HCopy
  * Signature: (Ljava/lang/String;)V
  */
-JNIEXPORT void JNICALL Java_com_flo_util_HTKFunc_HCopy
-  (JNIEnv *, jclass, jstring);
+JNIEXPORT void JNICALL Java_com_flo_util_HTK_HCopy
+(JNIEnv *, jclass, jstring, jstring);
+
+
 
 /*
  * Class:     com_flo_util_HTKFunc
  * Method:    HInit
  * Signature: (Ljava/lang/String;)V
  */
-JNIEXPORT void JNICALL Java_com_flo_util_HTKFunc_HInit
+JNIEXPORT void JNICALL Java_com_flo_util_HTK_HInit
   (JNIEnv *, jclass, jstring);
 
 /*
@@ -28,7 +30,7 @@ JNIEXPORT void JNICALL Java_com_flo_util_HTKFunc_HInit
  * Method:    HRest
  * Signature: (Ljava/lang/String;)V
  */
-JNIEXPORT void JNICALL Java_com_flo_util_HTKFunc_HRest
+JNIEXPORT void JNICALL Java_com_flo_util_HTK_HRest
   (JNIEnv *, jclass, jstring);
 
 /*
@@ -36,7 +38,7 @@ JNIEXPORT void JNICALL Java_com_flo_util_HTKFunc_HRest
  * Method:    HVite
  * Signature: (Ljava/lang/String;)V
  */
-JNIEXPORT void JNICALL Java_com_flo_util_HTKFunc_HVite
+JNIEXPORT void JNICALL Java_com_flo_util_HTK_HVite
   (JNIEnv *, jclass, jstring);
 
 #ifdef __cplusplus

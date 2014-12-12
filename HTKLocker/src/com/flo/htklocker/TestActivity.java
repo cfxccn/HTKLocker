@@ -2,6 +2,7 @@ package com.flo.htklocker;
 
 import com.flo.util.AudioRecordFunc;
 import com.flo.util.FileHelper;
+import com.flo.util.HTK;
 import com.flo.util.ToastUtil;
 
 import android.app.Activity;
@@ -17,17 +18,17 @@ import android.widget.TextView;
 public class TestActivity extends Activity {
 	FileHelper fileHelper;
 	AudioRecordFunc audioRecordFunc;
-	String pathString;
-	String wavString = "test.wav";
-	String rawString = "test.raw";
+	String wavPath;
+	String wavlist;
+	String wavString = "test-1.wav";
+	String rawString = "test-1.raw";
 	AlertDialog alertDialog;
 	Button button_Test;
 	TextView textView_TestInfo;
 
 	protected void startRecord() {
 		audioRecordFunc = AudioRecordFunc.getInstance();
-
-		int result = audioRecordFunc.startRecordAndFile(pathString, wavString,
+		int result = audioRecordFunc.startRecordAndFile(wavPath, wavString,
 				rawString);
 		if (result == 1) {
 			ToastUtil.ShowResString(getApplicationContext(),
@@ -47,9 +48,14 @@ public class TestActivity extends Activity {
 		audioRecordFunc.stopRecordAndFile();
 		ToastUtil.ShowResString(getApplicationContext(),
 				R.string.start_handling);
-		
+		createMFCCnTest();
 		ToastUtil.ShowResString(getApplicationContext(), R.string.test_end);
 		button_Test.setText(R.string.test);
+	}
+
+	private void createMFCCnTest() {
+		wavlist=fileHelper.createWavList(wavPath,"test");
+		HTK.mfcc(fileHelper.getConfigFilePath(), wavlist);
 	}
 
 	private void bindControl() {
@@ -61,8 +67,8 @@ public class TestActivity extends Activity {
 		button_Test.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				pathString = fileHelper.getTestWavPath();
-				if (pathString==null) {
+				wavPath = fileHelper.getTestWavPath();
+				if (wavPath==null) {
 					ToastUtil.ShowResString(TestActivity.this,
 							R.string.audio_error_no_sdcard);
 				} else {
