@@ -1,3 +1,11 @@
+/HTKLocker/bin
+/HTKLocker/gen
+/HTKLocker/obj
+/appcompat_v7/bin
+/appcompat_v7/gen
+
+
+
 *.class
 
 # Mobile Tools for Java (J2ME)
