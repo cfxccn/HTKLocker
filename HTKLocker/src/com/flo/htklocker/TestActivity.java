@@ -1,9 +1,9 @@
 package com.flo.htklocker;
 
+import com.flo.service.FileService;
 import com.flo.util.AudioRecordFunc;
-import com.flo.util.FileHelper;
-import com.flo.util.HCopyFunc;
 import com.flo.util.ToastUtil;
+import com.flo.util.TrainTest;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -16,7 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class TestActivity extends Activity {
-	FileHelper fileHelper;
+	FileService fileService;
 	AudioRecordFunc audioRecordFunc;
 	String wavPath;
 	String wavlist;
@@ -48,15 +48,12 @@ public class TestActivity extends Activity {
 		audioRecordFunc.stopRecordAndFile();
 		ToastUtil.show(getApplicationContext(),
 				R.string.start_handling);
-		createMFCCnTest();
+		TrainTest.createMFCC(fileService,wavPath, "test");
 		ToastUtil.show(getApplicationContext(), R.string.test_end);
 		button_Test.setText(R.string.test);
 	}
 
-	private void createMFCCnTest() {
-		wavlist=fileHelper.createWavList(wavPath,"test");
-		HCopyFunc.exec(fileHelper.getConfigFilePath(), wavlist);
-	}
+
 
 	private void bindControl() {
 		button_Test = (Button) findViewById(R.id.button_Test);
@@ -67,7 +64,7 @@ public class TestActivity extends Activity {
 		button_Test.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				wavPath = fileHelper.getTestWavPath();
+				wavPath = fileService.getTestWavPath();
 				if (wavPath==null) {
 					ToastUtil.show(TestActivity.this,
 							R.string.audio_error_no_sdcard);
@@ -93,7 +90,7 @@ public class TestActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_test);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		fileHelper=new FileHelper(getApplicationContext());
+		fileService=new FileService(getApplicationContext());
 		bindControl();
 		controlBindListener();
 	}

@@ -109,7 +109,7 @@ public class UserActivity extends Activity {
 					@Override
 					public void onClick(View arg0) {
 						User user = new User();
-						user.setId((Integer) map.get("USERID"));
+						user.setId(Integer.valueOf( map.get("USERID").toString().substring(2)));
 						if (userService.deleteUser(user)) {
 							ToastUtil.show(getApplicationContext(),
 									R.string.delete_success);

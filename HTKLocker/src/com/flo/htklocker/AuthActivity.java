@@ -6,9 +6,9 @@ import java.util.Calendar;
 import com.flo.htklocker.R;
 import com.flo.service.LoginService;
 import com.flo.util.AudioRecordFunc;
-import com.flo.util.FileHelper;
-import com.flo.util.HCopyFunc;
+import com.flo.service.*;
 import com.flo.util.ToastUtil;
+import com.flo.util.TrainTest;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -63,7 +63,7 @@ public class AuthActivity extends Activity {
 	String rawString = "test_1.raw";
 	String wavlist;
 	AudioRecordFunc audioRecordFunc;
-	FileHelper fileHelper;
+	FileService fileService;
 
 	static String[] weekDaysName = { "SUN", "MON", "TUE", "WED", "THU", "FRI",
 			"ÐÇÆÚÁù" };
@@ -214,7 +214,7 @@ public class AuthActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_auth);
-		fileHelper=new FileHelper(getApplicationContext());
+		fileService=new FileService(getApplicationContext());
 		loginService=new LoginService(getApplicationContext());
 		Window win = getWindow();
 		WindowManager.LayoutParams winParams = win.getAttributes();
@@ -244,7 +244,7 @@ public class AuthActivity extends Activity {
 		authButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				wavPath = fileHelper.getTestWavPath();
+				wavPath = fileService.getTestWavPath();
 				if (wavPath==null) {
 					ToastUtil.show(AuthActivity.this,
 							R.string.audio_error_no_sdcard);
@@ -278,17 +278,16 @@ public class AuthActivity extends Activity {
 
 	protected void stopRecord() {
 		audioRecordFunc.stopRecordAndFile();
-		createMFCCnTest();
+		
+		
+		TrainTest.createMFCC(fileService, wavPath,"test");
 		textView_Info.setText("");
 		authButton.setVisibility(View.VISIBLE);
 		progressBar.setVisibility(View.INVISIBLE);
 		button_ChangeMode.setVisibility(View.VISIBLE);
 
 	}
-	private void createMFCCnTest() {
-		wavlist=fileHelper.createWavList(wavPath,"test");
-		HCopyFunc.exec(fileHelper.getConfigFilePath(), wavlist);
-	}
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {

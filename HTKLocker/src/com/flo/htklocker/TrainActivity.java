@@ -1,13 +1,10 @@
 package com.flo.htklocker;
 
+import com.flo.service.FileService;
 import com.flo.service.UserService;
 import com.flo.util.AudioRecordFunc;
-import com.flo.util.FileHelper;
-import com.flo.util.HCopyFunc;
-import com.flo.util.HInitFunc;
-import com.flo.util.HRest2Func;
-import com.flo.util.HRestFunc;
 import com.flo.util.ToastUtil;
+import com.flo.util.TrainTest;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -28,7 +25,7 @@ public class TrainActivity extends Activity {
 	String userid;
 	String username;
 	AlertDialog alertDialog;
-	FileHelper fileHelper;
+	FileService fileService;
 
 	private void bindControl() {
 		button_Train = (Button) findViewById(R.id.button_Train);
@@ -42,7 +39,7 @@ public class TrainActivity extends Activity {
 		button_Train.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				wavPath = fileHelper.getTrainWavPath();
+				wavPath = fileService.getTrainWavPath();
 				if (wavPath == null) {
 					ToastUtil.show(TrainActivity.this,
 							R.string.audio_error_no_sdcard);
@@ -86,28 +83,16 @@ public class TrainActivity extends Activity {
 		audioRecordFunc.stopRecordAndFile();
 		ToastUtil.show(getApplicationContext(),
 				R.string.start_handling);
-		createMFCCnTrain();
-
+		TrainTest.createMFCC(fileService,wavPath, userid);
+		TrainTest.train(fileService, userid);
 		userService.trainUser(Integer.valueOf(userid.substring(2)));
 		ToastUtil.show(this, R.string.train_end);
 		button_Train.setText(R.string.train);
+		TrainTest.clear();
 
 	}
 
-	private void createMFCCnTrain() {
-		String labUserPath = fileHelper.createLab(userid);
-		String wavlist = fileHelper.createWavList(wavPath, userid);
-		String protoFile = fileHelper.createProto(userid);
-		HCopyFunc.exec(fileHelper.getConfigFilePath(), wavlist);
-		fileHelper.copyMfcc(userid);
-		String trainlist = fileHelper.createTrainList(userid);
-		HInitFunc.exec(trainlist,fileHelper.getHmm0Path(),
-				 protoFile,  userid,  labUserPath);
-		HRestFunc.exec(trainlist,fileHelper.getHmm1Path(),
-				fileHelper.getHmm0Path()+"/hmm_"+userid,  userid,  labUserPath);
-		HRest2Func.exec(trainlist,fileHelper.getHmm2Path(),
-				fileHelper.getHmm1Path()+"/hmm_"+userid,  userid,  labUserPath);
-	}
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +100,7 @@ public class TrainActivity extends Activity {
 		setContentView(R.layout.activity_train);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		userService = new UserService(getApplicationContext());
-		fileHelper = new FileHelper(getApplicationContext());
+		fileService = new FileService(getApplicationContext());
 		username = getIntent().getStringExtra("USERNAME");
 		userid = getIntent().getStringExtra("USERID");
 		bindControl();
