@@ -1,14 +1,3 @@
-#LOCAL_PATH := $(call my-dir)
-#
-#include $(CLEAR_VARS)
-#
-#LOCAL_MODULE    := libHTK
-#LOCAL_SRC_FILES := A.c
-#
-#include $(BUILD_SHARED_LIBRARY)
-
-
-
 LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)  
@@ -28,5 +17,15 @@ LOCAL_SRC_FILES := com_flo_util_HInitFunc.c
 LOCAL_WHOLE_STATIC_LIBRARIES := libHTKCore
 include $(BUILD_SHARED_LIBRARY) 
 
+include $(CLEAR_VARS)
+LOCAL_MODULE    := HRest
+LOCAL_SRC_FILES := com_flo_util_HRestFunc.c
+LOCAL_WHOLE_STATIC_LIBRARIES := libHTKCore
+include $(BUILD_SHARED_LIBRARY) 
 
+include $(CLEAR_VARS)
+LOCAL_MODULE    := HRest2
+LOCAL_SRC_FILES := com_flo_util_HRest2Func.c
+LOCAL_WHOLE_STATIC_LIBRARIES := libHTKCore
+include $(BUILD_SHARED_LIBRARY) 
 
