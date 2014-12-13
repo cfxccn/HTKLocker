@@ -180,7 +180,7 @@ int main_HCopy(int argc, char *argv[])
 
    if (!InfoPrinted() && NumArgs() == 0)
       ReportUsageHCopy();
-   if (NumArgs() == 0) return (0);
+   if (NumArgs() == 0) return(0);
 
    SetConfParmsHCopy();
    /* initial trace string is null */

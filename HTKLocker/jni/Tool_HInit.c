@@ -183,7 +183,7 @@ int main_HInit(int argc, char *argv[])
 
    if (!InfoPrinted() && NumArgs() == 0)
       ReportUsageHInit();
-   if (NumArgs() == 0) Exit(0);
+   if (NumArgs() == 0) return(0);
    SetConfParmsHInit();
 
    CreateHMMSet(&hset,&gstack,FALSE);
@@ -284,7 +284,6 @@ int main_HInit(int argc, char *argv[])
    if (trace&T_TOP)
       printf("Output written to directory %s\n",
              outDir==NULL?"current":outDir);
-   Exit(0);
    return (0);          /* never reached -- make compiler happy */
 }
 

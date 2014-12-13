@@ -219,7 +219,7 @@ int main_HParse(int argc, char *argv[])
 
 	if (!InfoPrinted() && NumArgs() == 0)
 		ReportUsageHParse();
-	if (NumArgs() == 0) Exit(0);
+	if (NumArgs() == 0) return (0);
 	SetConfParmsHParse();
 
 	while (NextArg() == SWITCHARG) {
@@ -264,7 +264,7 @@ int main_HParse(int argc, char *argv[])
 	if (trace&T_HPNET)
 		PrintHParseNetwork(&theNet);
 	ConvertHParseNetwork(&theNet, latFn, dictFn);
-	Exit(0);
+	
 	return (0);          /* never reached -- make compiler happy */
 }
 

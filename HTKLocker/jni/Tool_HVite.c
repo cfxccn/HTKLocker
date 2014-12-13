@@ -235,7 +235,7 @@ int main_HVite(int argc, char *argv[])
 
 	if (!InfoPrinted() && NumArgs() == 0)
 		ReportUsageHVite();
-	if (NumArgs() == 0) Exit(0);
+	if (NumArgs() == 0) return (0);
 
 	SetConfParmsHVite();
 	CreateHeap(&modelHeap, "Model heap", MSTAK, 1, 0.0, 100000, 800000);
@@ -484,7 +484,7 @@ int main_HVite(int argc, char *argv[])
 	UpdateSpkrStats(&hset, &xfInfo, NULL);
 	ResetHeap(&regHeap);
 	ResetHeap(&modelHeap);
-	Exit(0);
+
 	return (0);          /* never reached -- make compiler happy */
 }
 

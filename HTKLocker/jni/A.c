@@ -5,7 +5,7 @@
 
 //main_HCopy(argc, argv);
 //	main_HInit(argc, argv);
-//	smain_HRest(argc, argv);
+//	main_HRest(argc, argv);
 	//main_HParse(argc, argv);
 
 //main_HVite(argc, argv);

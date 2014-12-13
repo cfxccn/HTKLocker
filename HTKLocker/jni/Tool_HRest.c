@@ -207,7 +207,7 @@ int main_HRest(int argc, char *argv[])
 
 	if (!InfoPrinted() && NumArgs() == 0)
 		ReportUsage();
-	if (NumArgs() == 0) Exit(0);
+	if (NumArgs() == 0) return (0);
 	SetConfParms();
 	CreateHMMSet(&hset, &gstack, FALSE);
 	while (NextArg() == SWITCHARG) {
@@ -304,7 +304,7 @@ int main_HRest(int argc, char *argv[])
 
 	if (SaveHMMSet(&hset, outDir, NULL, NULL, saveBinary)<SUCCESS)
 		HError(2211, "HRest: SaveHMMSet failed");
-	Exit(0);
+	
 	return (0);          /* never reached -- make compiler happy */
 }
 
