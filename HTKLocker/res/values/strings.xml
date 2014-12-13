@@ -67,9 +67,7 @@
     <string name="delete_success">删除成功</string>
     <string name="istrained">已训练</string>
     <string name="untrained">未训练</string>
-
-                
-    
-    
+    <string name="username_blank">用户名为空</string>
+    <string name="add_user_failure">用户添加失败</string>
 
 </resources>

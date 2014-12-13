@@ -7,7 +7,7 @@ import com.flo.htklocker.R;
 import com.flo.service.LoginService;
 import com.flo.util.AudioRecordFunc;
 import com.flo.util.FileHelper;
-import com.flo.util.HTK;
+import com.flo.util.HCopyFunc;
 import com.flo.util.ToastUtil;
 
 import android.app.Activity;
@@ -59,8 +59,8 @@ public class AuthActivity extends Activity {
 	DecimalFormat decimalFormat;
 	AlertDialog alertDialog;
 	String wavPath;
-	String wavString = "test-1.wav";
-	String rawString = "test-1.raw";
+	String wavString = "test_1.wav";
+	String rawString = "test_1.raw";
 	String wavlist;
 	AudioRecordFunc audioRecordFunc;
 	FileHelper fileHelper;
@@ -204,7 +204,7 @@ public class AuthActivity extends Activity {
 		} else {
 			if (inputPassword.length() > 0) {
 				inputPassword = inputPassword.substring(0,
-						inputPassword.length() - 1);
+						inputPassword.length() -1);
 				editText_Password.setText(inputPassword);
 			}
 		}
@@ -287,7 +287,7 @@ public class AuthActivity extends Activity {
 	}
 	private void createMFCCnTest() {
 		wavlist=fileHelper.createWavList(wavPath,"test");
-		HTK.mfcc(fileHelper.getConfigFilePath(), wavlist);
+		HCopyFunc.exec(fileHelper.getConfigFilePath(), wavlist);
 	}
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {

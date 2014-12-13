@@ -2,7 +2,7 @@ package com.flo.htklocker;
 
 import com.flo.util.AudioRecordFunc;
 import com.flo.util.FileHelper;
-import com.flo.util.HTK;
+import com.flo.util.HCopyFunc;
 import com.flo.util.ToastUtil;
 
 import android.app.Activity;
@@ -20,8 +20,8 @@ public class TestActivity extends Activity {
 	AudioRecordFunc audioRecordFunc;
 	String wavPath;
 	String wavlist;
-	String wavString = "test-1.wav";
-	String rawString = "test-1.raw";
+	String wavString = "test_1.wav";
+	String rawString = "test_1.raw";
 	AlertDialog alertDialog;
 	Button button_Test;
 	TextView textView_TestInfo;
@@ -55,7 +55,7 @@ public class TestActivity extends Activity {
 
 	private void createMFCCnTest() {
 		wavlist=fileHelper.createWavList(wavPath,"test");
-		HTK.mfcc(fileHelper.getConfigFilePath(), wavlist);
+		HCopyFunc.exec(fileHelper.getConfigFilePath(), wavlist);
 	}
 
 	private void bindControl() {

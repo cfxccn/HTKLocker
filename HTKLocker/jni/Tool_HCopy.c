@@ -22,8 +22,6 @@
 char *hcopy_version = "!HVER!HCopy:   3.4.1 [CUED 12/03/09]";
 char *hcopy_vc_id = "$Id: HCopy.c,v 1.1.1.1 2006/10/11 09:54:59 jal58 Exp $";
 
-#include "tool.h"
-
 #include "HShell.h"
 #include "HMem.h"
 #include "HMath.h"

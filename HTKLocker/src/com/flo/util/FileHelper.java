@@ -132,7 +132,7 @@ public class FileHelper {
 			}
 			trainWavPath = trainWav.getAbsolutePath();
 
-			File testWav = new File(appRoot + "/testWav");
+			File testWav = new File(appRoot + "/testwav");
 			if (!testWav.exists()) {
 				testWav.mkdirs();
 			}
@@ -143,50 +143,51 @@ public class FileHelper {
 		}
 	}
 	
-	public void copyMfcc(String userid) {
-		FileUtil.copyFile(mfccPath + "/" + userid + "-1.mfc", mfccPath
-				+ "/" + userid + "-2.mfc");
-		FileUtil.copyFile(mfccPath + "/" + userid + "-1.mfc", mfccPath
-				+ "/" + userid + "-3.mfc");
-		FileUtil.copyFile(mfccPath + "/" + userid + "-1.mfc", mfccPath
-				+ "/" + userid + "-4.mfc");
+	public String copyMfcc(String userid) {
+		FileUtil.copyFile(mfccPath + "/" + userid + "_1.mfc", mfccPath
+				+ "/" + userid + "_2.mfc");
+		FileUtil.copyFile(mfccPath + "/" + userid + "_1.mfc", mfccPath
+				+ "/" + userid + "_3.mfc");
+		FileUtil.copyFile(mfccPath + "/" + userid + "_1.mfc", mfccPath
+				+ "/" + userid + "_4.mfc");
+		return mfccPath;
 	}
 
 	public void clearWav(String userid) {
-		FileUtil.deleteFile(trainWavPath + "/" + userid + "-2.wav");
-		FileUtil.deleteFile(trainWavPath + "/" + userid + "-3.wav");
-		FileUtil.deleteFile(trainWavPath + "/" + userid + "-4.wav");
+		FileUtil.deleteFile(trainWavPath + "/" + userid + "_2.wav");
+		FileUtil.deleteFile(trainWavPath + "/" + userid + "_3.wav");
+		FileUtil.deleteFile(trainWavPath + "/" + userid + "_4.wav");
 
 	}
 
-	public boolean createLab(String userid) {
+	public String createLab(String userid) {
 		getLabPath(userid);
 		FileOutputStream fs = null;
 		String textString = "0 20000000 " + userid;
 		try {
-			fs = new FileOutputStream(labUserPath + "/" + userid + "-1.lab");
+			fs = new FileOutputStream(labUserPath + "/" + userid + "_1.lab");
 			fs.write(textString.getBytes());
 			fs.close();
-			fs = new FileOutputStream(labUserPath + "/" + userid + "-2.lab");
+			fs = new FileOutputStream(labUserPath + "/" + userid + "_2.lab");
 			fs.write(textString.getBytes());
 			fs.close();
-			fs = new FileOutputStream(labUserPath + "/" + userid + "-3.lab");
+			fs = new FileOutputStream(labUserPath + "/" + userid + "_3.lab");
 			fs.write(textString.getBytes());
 			fs.close();
-			fs = new FileOutputStream(labUserPath + "/" + userid + "-4.lab");
+			fs = new FileOutputStream(labUserPath + "/" + userid + "_4.lab");
 			fs.write(textString.getBytes());
 			fs.close();
-			return true;
+			return labUserPath;
 		} catch (Exception e) {
-			return false;
+			return null;
 		}
 	}
 
 	public String createWavList(String wavPath,String userid) {
 		getLabPath(userid);
 		FileOutputStream fs = null;
-		String textString1 = wavPath + "/" + userid + "-1.wav " + mfccPath
-				+ "/" + userid + "-1.mfc \n";
+		String textString1 = wavPath + "/" + userid + "_1.wav " + mfccPath
+				+ "/" + userid + "_1.mfc \n";
 		try {
 			fs = new FileOutputStream(appRoot + "/wavlist.txt");
 			fs.write(textString1.getBytes());
@@ -197,10 +198,10 @@ public class FileHelper {
 		}
 	}
 
-	public boolean createProto(String userid) {
+	public String createProto(String userid) {
 		try {
 			InputStream inputStream = context.getAssets().open("proto");
-			OutputStream fosto = new FileOutputStream(protoPath + "/hmm-" + userid);
+			OutputStream fosto = new FileOutputStream(protoPath + "/hmm_" + userid);
 			byte btHeader[] = new byte[34];
 			inputStream.read(btHeader);
 			fosto.write(btHeader);
@@ -211,10 +212,28 @@ public class FileHelper {
 			fosto.write(bt, 0, c);
 			}
 			fosto.close();
-			return true;
+			return protoPath + "/hmm_" + userid;
 		} catch (IOException e) {
-			return false;
+			return null;
 		}
 	}
+	public String createTrainList(String userid) {
+		FileOutputStream fs = null;
+		String textString1 = mfccPath + "/" + userid + "_1.mfc \n";
+		String textString2 = mfccPath + "/" + userid + "_2.mfc \n";
+		String textString3 = mfccPath + "/" + userid + "_3.mfc \n";
+		String textString4 = mfccPath + "/" + userid + "_4.mfc \n";
 
+		try {
+			fs = new FileOutputStream(appRoot + "/trainlist.txt");
+			fs.write(textString1.getBytes());
+			fs.write(textString2.getBytes());
+			fs.write(textString3.getBytes());
+			fs.write(textString4.getBytes());
+			fs.close();
+			return appRoot + "/trainlist.txt";
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }

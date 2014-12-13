@@ -34,7 +34,6 @@
 
 char *hvite_version = "!HVER!HVite:   3.4.1 [CUED 12/03/09]";
 char *hvite_vc_id = "$Id: HVite.c,v 1.1.1.1 2006/10/11 09:55:02 jal58 Exp $";
-#include "tool.h"
 
 #include "HShell.h"
 #include "HMem.h"

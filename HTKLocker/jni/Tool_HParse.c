@@ -92,7 +92,6 @@ use additional 'glue' nodes
 #define T_HPNET      0002    /* print HParse final network */
 #define T_HPMEMSTAT  0004    /* print memory stacks after HP net built */
 #define T_HPREMGLUE  0010    /* print progress through Remove Glue */
-#include "tool.h"
 
 #include "HShell.h" /* HMM ToolKit Modules */
 #include "HMem.h"

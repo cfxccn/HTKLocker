@@ -38,7 +38,7 @@ public class UserActivity extends Activity {
 		for (User u : userList) {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("textView_Username", u.getName());
-			map.put("USERID", u.getId());
+			map.put("USERID", u.getNameId());
 
 			if (u.getIsTrained()) {
 				map.put("textView_TrainState",
@@ -109,7 +109,7 @@ public class UserActivity extends Activity {
 					@Override
 					public void onClick(View arg0) {
 						User user = new User();
-						user.setId((int) map.get("USERID"));
+						user.setId((Integer) map.get("USERID"));
 						if (userService.deleteUser(user)) {
 							ToastUtil.ShowResString(getApplicationContext(),
 									R.string.delete_success);
@@ -145,14 +145,23 @@ public class UserActivity extends Activity {
 			button_Register.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
+					String username=editText_Username.getEditableText().toString();
+					if(username.equals("")){
+						ToastUtil.ShowResString(getApplicationContext(), R.string.username_blank);
+						return ;
+					}
+
 					User user = new User();
-					user.setName(editText_Username.getEditableText().toString());
+					user.setName(username);
 					user.setIsTrained(false);
 					if (userService.addUser(user)) {
 						ToastUtil.ShowResString(getApplicationContext(),
 								R.string.register_success);
 						dialog.cancel();
 						bindControl();
+					}else{
+						ToastUtil.ShowResString(getApplicationContext(),
+								R.string.add_user_failure);						
 					}
 				}
 			});

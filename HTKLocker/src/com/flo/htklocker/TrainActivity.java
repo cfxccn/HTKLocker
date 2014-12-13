@@ -3,7 +3,8 @@ package com.flo.htklocker;
 import com.flo.service.UserService;
 import com.flo.util.AudioRecordFunc;
 import com.flo.util.FileHelper;
-import com.flo.util.HTK;
+import com.flo.util.HCopyFunc;
+import com.flo.util.HInitFunc;
 import com.flo.util.ToastUtil;
 
 import android.app.Activity;
@@ -22,8 +23,6 @@ public class TrainActivity extends Activity {
 	Button button_Train;
 	TextView textView_TrainInfo;
 	String wavPath;
-	String wavlist;
-	String labPath;
 	String userid;
 	String username;
 	AlertDialog alertDialog;
@@ -65,7 +64,7 @@ public class TrainActivity extends Activity {
 	protected void startRecord() {
 		audioRecordFunc = AudioRecordFunc.getInstance();
 		int result = audioRecordFunc.startRecordAndFile(wavPath, userid
-				+ "-1.wav", userid + "1.raw");
+				+ "_1.wav", userid + "_1.raw");
 		if (result == 1) {
 			ToastUtil.ShowResString(getApplicationContext(),
 					R.string.audio_error_unknown);
@@ -87,19 +86,21 @@ public class TrainActivity extends Activity {
 				R.string.start_handling);
 		createMFCCnTrain();
 
-		userService.trainUser(Integer.valueOf(userid));
+		userService.trainUser(Integer.valueOf(userid.substring(2)));
 		ToastUtil.ShowResString(this, R.string.train_end);
 		button_Train.setText(R.string.train);
 
 	}
 
 	private void createMFCCnTrain() {
-		fileHelper.createLab(userid);
-		wavlist=fileHelper.createWavList(wavPath,userid);
-		fileHelper.createProto(userid);
-		HTK.mfcc(fileHelper.getConfigFilePath(), wavlist);
+		String labUserPath = fileHelper.createLab(userid);
+		String wavlist = fileHelper.createWavList(wavPath, userid);
+		String protoFile = fileHelper.createProto(userid);
+		HCopyFunc.exec(fileHelper.getConfigFilePath(), wavlist);
 		fileHelper.copyMfcc(userid);
-
+		String trainlist = fileHelper.createTrainList(userid);
+		HInitFunc.exec(trainlist,fileHelper.getHmm0Path(),
+				 protoFile,  userid,  labUserPath);
 	}
 
 	@Override

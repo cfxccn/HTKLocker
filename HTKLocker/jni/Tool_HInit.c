@@ -53,7 +53,6 @@ char *hinit_vc_id = "$Id: HInit.c,v 1.1.1.1 2006/10/11 09:55:01 jal58 Exp $";
 #define T_MIX 0100      /* Mixture Component Alignment */
 #define T_CNT 0200      /* Count Updating */
 #define T_OBP 0400      /* Trace output probs */
-#include "tool.h"
 #include "HShell.h"     /* HMM ToolKit Modules */
 #include "HMem.h"
 #include "HMath.h"
