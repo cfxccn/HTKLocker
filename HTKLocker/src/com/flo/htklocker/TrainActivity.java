@@ -5,6 +5,8 @@ import com.flo.util.AudioRecordFunc;
 import com.flo.util.FileHelper;
 import com.flo.util.HCopyFunc;
 import com.flo.util.HInitFunc;
+import com.flo.util.HRest2Func;
+import com.flo.util.HRestFunc;
 import com.flo.util.ToastUtil;
 
 import android.app.Activity;
@@ -101,6 +103,10 @@ public class TrainActivity extends Activity {
 		String trainlist = fileHelper.createTrainList(userid);
 		HInitFunc.exec(trainlist,fileHelper.getHmm0Path(),
 				 protoFile,  userid,  labUserPath);
+		HRestFunc.exec(trainlist,fileHelper.getHmm1Path(),
+				fileHelper.getHmm0Path()+"/hmm_"+userid,  userid,  labUserPath);
+		HRest2Func.exec(trainlist,fileHelper.getHmm2Path(),
+				fileHelper.getHmm1Path()+"/hmm_"+userid,  userid,  labUserPath);
 	}
 
 	@Override
