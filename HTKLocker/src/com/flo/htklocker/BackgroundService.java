@@ -28,7 +28,7 @@ public class BackgroundService extends Service{
 	}
 	@Override
 	public void onCreate() {
-		ToastUtil.ShowResString(this, R.string.service_start);
+		ToastUtil.show(this, R.string.service_start);
 		super.onCreate();
 		registerIntentReceivers();
 		startForeground(1, new Notification());
@@ -36,7 +36,7 @@ public class BackgroundService extends Service{
 	}
 	@Override
 	public void onDestroy(){
-		ToastUtil.ShowResString(this, R.string.service_stop);
+		ToastUtil.show(this, R.string.service_stop);
 		status = Status.STOP;
 		super.onDestroy();
 	}

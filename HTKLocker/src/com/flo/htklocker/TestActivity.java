@@ -31,7 +31,7 @@ public class TestActivity extends Activity {
 		int result = audioRecordFunc.startRecordAndFile(wavPath, wavString,
 				rawString);
 		if (result == 1) {
-			ToastUtil.ShowResString(getApplicationContext(),
+			ToastUtil.show(getApplicationContext(),
 					R.string.audio_error_unknown);
 			alertDialog.cancel();
 			return;
@@ -46,10 +46,10 @@ public class TestActivity extends Activity {
 
 	protected void stopRecord() {
 		audioRecordFunc.stopRecordAndFile();
-		ToastUtil.ShowResString(getApplicationContext(),
+		ToastUtil.show(getApplicationContext(),
 				R.string.start_handling);
 		createMFCCnTest();
-		ToastUtil.ShowResString(getApplicationContext(), R.string.test_end);
+		ToastUtil.show(getApplicationContext(), R.string.test_end);
 		button_Test.setText(R.string.test);
 	}
 
@@ -69,7 +69,7 @@ public class TestActivity extends Activity {
 			public void onClick(View arg0) {
 				wavPath = fileHelper.getTestWavPath();
 				if (wavPath==null) {
-					ToastUtil.ShowResString(TestActivity.this,
+					ToastUtil.show(TestActivity.this,
 							R.string.audio_error_no_sdcard);
 				} else {
 					button_Test.setText(R.string.start_record);

@@ -65,18 +65,18 @@ public class LoginActivity extends Activity {
 					if (password2.equals(password1)) {
 
 						if (password1.equals("")) {
-							ToastUtil.ShowResString(getApplicationContext(),
+							ToastUtil.show(getApplicationContext(),
 									R.string.password_blank);
 						} else {
 							loginService.setPassword(password1);
-							ToastUtil.ShowResString(getApplicationContext(),
+							ToastUtil.show(getApplicationContext(),
 									R.string.register_success);
 							Intent intent = new Intent(getApplicationContext(),
 									MainActivity.class);
 							startActivity(intent);
 						}
 					} else {
-						ToastUtil.ShowResString(getApplicationContext(),
+						ToastUtil.show(getApplicationContext(),
 								R.string.passwords_diff);
 					}
 				}
@@ -111,7 +111,7 @@ public class LoginActivity extends Activity {
 								MainActivity.class);
 						startActivity(intent);
 					} else {
-						ToastUtil.ShowResString(getApplicationContext(),
+						ToastUtil.show(getApplicationContext(),
 								R.string.password_error);
 					}
 				}

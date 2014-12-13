@@ -111,7 +111,7 @@ public class UserActivity extends Activity {
 						User user = new User();
 						user.setId((Integer) map.get("USERID"));
 						if (userService.deleteUser(user)) {
-							ToastUtil.ShowResString(getApplicationContext(),
+							ToastUtil.show(getApplicationContext(),
 									R.string.delete_success);
 							dialog.cancel();
 							bindControl();
@@ -147,7 +147,7 @@ public class UserActivity extends Activity {
 				public void onClick(View arg0) {
 					String username=editText_Username.getEditableText().toString();
 					if(username.equals("")){
-						ToastUtil.ShowResString(getApplicationContext(), R.string.username_blank);
+						ToastUtil.show(getApplicationContext(), R.string.username_blank);
 						return ;
 					}
 
@@ -155,12 +155,12 @@ public class UserActivity extends Activity {
 					user.setName(username);
 					user.setIsTrained(false);
 					if (userService.addUser(user)) {
-						ToastUtil.ShowResString(getApplicationContext(),
+						ToastUtil.show(getApplicationContext(),
 								R.string.register_success);
 						dialog.cancel();
 						bindControl();
 					}else{
-						ToastUtil.ShowResString(getApplicationContext(),
+						ToastUtil.show(getApplicationContext(),
 								R.string.add_user_failure);						
 					}
 				}

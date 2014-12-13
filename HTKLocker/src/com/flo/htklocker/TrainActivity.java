@@ -44,7 +44,7 @@ public class TrainActivity extends Activity {
 			public void onClick(View arg0) {
 				wavPath = fileHelper.getTrainWavPath();
 				if (wavPath == null) {
-					ToastUtil.ShowResString(TrainActivity.this,
+					ToastUtil.show(TrainActivity.this,
 							R.string.audio_error_no_sdcard);
 				} else {
 					button_Train.setText(R.string.start_record);
@@ -68,7 +68,7 @@ public class TrainActivity extends Activity {
 		int result = audioRecordFunc.startRecordAndFile(wavPath, userid
 				+ "_1.wav", userid + "_1.raw");
 		if (result == 1) {
-			ToastUtil.ShowResString(getApplicationContext(),
+			ToastUtil.show(getApplicationContext(),
 					R.string.audio_error_unknown);
 			alertDialog.cancel();
 			return;
@@ -84,12 +84,12 @@ public class TrainActivity extends Activity {
 
 	protected void stopRecord() {
 		audioRecordFunc.stopRecordAndFile();
-		ToastUtil.ShowResString(getApplicationContext(),
+		ToastUtil.show(getApplicationContext(),
 				R.string.start_handling);
 		createMFCCnTrain();
 
 		userService.trainUser(Integer.valueOf(userid.substring(2)));
-		ToastUtil.ShowResString(this, R.string.train_end);
+		ToastUtil.show(this, R.string.train_end);
 		button_Train.setText(R.string.train);
 
 	}

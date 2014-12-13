@@ -25,6 +25,7 @@ public class MainActivity extends Activity {
 	Button button_ChangePassword;
 	Button button_Exit;
 	Intent serviceIntent;
+
 	private void bindControl() {
 		switch_Service = (Switch) findViewById(R.id.switch_Service);
 		button_UserManage = (Button) findViewById(R.id.button_UserManage);
@@ -96,30 +97,28 @@ public class MainActivity extends Activity {
 				button_Register.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View arg0) {
-						if (loginService.validateUser(editText_OldPassword.getText().toString())) {
+						if (loginService.validateUser(editText_OldPassword
+								.getText().toString())) {
 							String password1 = editText_NewPassword.getText()
 									.toString();
 							String password2 = editText_ConfirmPassword
 									.getText().toString();
 							if (password2.equals(password1)) {
 								if (password1.equals("")) {
-									ToastUtil.ShowResString(
-											getApplicationContext(),
+									ToastUtil.show(getApplicationContext(),
 											R.string.password_blank);
 								} else {
 									loginService.setPassword(password1);
-									ToastUtil.ShowResString(
-											getApplicationContext(),
+									ToastUtil.show(getApplicationContext(),
 											R.string.password_change_success);
 									dialog.cancel();
 								}
 							} else {
-								ToastUtil.ShowResString(
-										getApplicationContext(),
+								ToastUtil.show(getApplicationContext(),
 										R.string.passwords_diff);
 							}
 						} else {
-							ToastUtil.ShowResString(getApplicationContext(),
+							ToastUtil.show(getApplicationContext(),
 									R.string.password_error);
 						}
 					}
@@ -151,13 +150,11 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		loginService=new LoginService(getApplicationContext());
+		loginService = new LoginService(getApplicationContext());
 		bindControl();
 		controlBindListener();
 
 	}
-
-
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {

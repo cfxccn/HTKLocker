@@ -246,7 +246,7 @@ public class AuthActivity extends Activity {
 			public void onClick(View arg0) {
 				wavPath = fileHelper.getTestWavPath();
 				if (wavPath==null) {
-					ToastUtil.ShowResString(AuthActivity.this,
+					ToastUtil.show(AuthActivity.this,
 							R.string.audio_error_no_sdcard);
 				} else {
 					textView_Info.setText(R.string.start_record);
@@ -265,7 +265,7 @@ public class AuthActivity extends Activity {
 		int result = audioRecordFunc.startRecordAndFile(wavPath, wavString,
 				rawString);
 		if (result == 1) {
-			ToastUtil.ShowResString(getApplicationContext(),
+			ToastUtil.show(getApplicationContext(),
 					R.string.audio_error_unknown);
 			return;
 		}
