@@ -1,11 +1,12 @@
 package com.flo.util;
 
 public class HInitFunc {
-
+	static {
+		System.loadLibrary("HInit");
+	}
 
 	public static void exec(String trainlist, String hmm0Path,
 			String protoFile, String userid, String labUserPath) {
-		System.loadLibrary("HInit");
 
 		HInit(trainlist, hmm0Path, protoFile, userid, labUserPath);
 		/*
