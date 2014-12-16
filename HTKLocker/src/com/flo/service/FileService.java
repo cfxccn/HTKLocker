@@ -5,8 +5,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.flo.util.FileUtil;
+import org.apache.commons.io.FileUtils;
 
 import android.content.Context;
 import android.os.Environment;
@@ -72,11 +74,10 @@ public class FileService {
 		return testWavPath;
 	}
 
-	
 	public String getConfigFilePath() {
-		return 	appRoot + "/config";
+		return appRoot + "/config";
 	}
-	
+
 	public FileService(Context context) {
 		this.context = context;
 		File sdDir;
@@ -88,112 +89,135 @@ public class FileService {
 			InputStream inputStream;
 			try {
 				inputStream = context.getAssets().open("config");
-				FileUtil.copyFile(inputStream, appRoot + "/config");
+				// FileUtil.copyFile(inputStream, appRoot + "/config");
+				File conf = new File(appRoot + "/config");
+				FileUtils.copyInputStreamToFile(inputStream, conf);
 			} catch (IOException e) {
 			}
 
-			File hmm0 = new File(appRoot + "/hmm0");
-			if (!hmm0.exists()) {
-				hmm0.mkdirs();
-			}
-			hmm0Path = hmm0.getAbsolutePath();
+			try {
+				File hmm0 = new File(appRoot + "/hmm0");
+				FileUtils.forceMkdir(hmm0);
+				hmm0Path = hmm0.getAbsolutePath();
 
-			File hmm1 = new File(appRoot + "/hmm1");
-			if (!hmm1.exists()) {
-				hmm1.mkdirs();
-			}
-			hmm1Path = hmm1.getAbsolutePath();
+				File hmm1 = new File(appRoot + "/hmm1");
+				FileUtils.forceMkdir(hmm1);
+				hmm1Path = hmm1.getAbsolutePath();
 
-			File hmm2 = new File(appRoot + "/hmm2");
-			if (!hmm2.exists()) {
-				hmm2.mkdirs();
-			}
-			hmm2Path = hmm2.getAbsolutePath();
+				File hmm2 = new File(appRoot + "/hmm2");
+				FileUtils.forceMkdir(hmm2);
+				hmm2Path = hmm2.getAbsolutePath();
 
-			File proto = new File(appRoot + "/proto");
-			if (!proto.exists()) {
-				proto.mkdirs();
-			}
-			protoPath = proto.getAbsolutePath();
+				File proto = new File(appRoot + "/proto");
+				FileUtils.forceMkdir(proto);
+				protoPath = proto.getAbsolutePath();
 
-			File mfcc = new File(appRoot + "/mfcc");
-			if (!mfcc.exists()) {
-				mfcc.mkdirs();
-			}
-			mfccPath = mfcc.getAbsolutePath();
+				File mfcc = new File(appRoot + "/mfcc");
+				FileUtils.forceMkdir(mfcc);
+				mfccPath = mfcc.getAbsolutePath();
 
-			File lab = new File(appRoot + "/lab");
-			if (!lab.exists()) {
-				lab.mkdirs();
-			}
-			labPath = lab.getAbsolutePath();
+				File lab = new File(appRoot + "/lab");
+				FileUtils.forceMkdir(lab);
+				labPath = lab.getAbsolutePath();
 
-			File trainWav = new File(appRoot + "/trainwav");
-			if (!trainWav.exists()) {
-				trainWav.mkdirs();
-			}
-			trainWavPath = trainWav.getAbsolutePath();
+				File trainWav = new File(appRoot + "/trainwav");
+				FileUtils.forceMkdir(trainWav);
+				trainWavPath = trainWav.getAbsolutePath();
 
-			File testWav = new File(appRoot + "/testwav");
-			if (!testWav.exists()) {
-				testWav.mkdirs();
+				File testWav = new File(appRoot + "/testwav");
+				FileUtils.forceMkdir(testWav);
+				testWavPath = testWav.getAbsolutePath();
+			} catch (IOException e) {
+				appRoot = null;
 			}
-			testWavPath = testWav.getAbsolutePath();
-
 		} else {
 			appRoot = null;
 		}
 	}
-	
+
 	public String copyMfcc(String userid) {
-		FileUtil.copyFile(mfccPath + "/" + userid + "_1.mfc", mfccPath
-				+ "/" + userid + "_2.mfc");
-		FileUtil.copyFile(mfccPath + "/" + userid + "_1.mfc", mfccPath
-				+ "/" + userid + "_3.mfc");
-		FileUtil.copyFile(mfccPath + "/" + userid + "_1.mfc", mfccPath
-				+ "/" + userid + "_4.mfc");
-		return mfccPath;
+		File srcFile = new File(mfccPath + "/" + userid + "_1.mfc");
+		File destFile1 = new File(mfccPath + "/" + userid + "_2.mfc");
+		File destFile2 = new File(mfccPath + "/" + userid + "_3.mfc");
+		File destFile3 = new File(mfccPath + "/" + userid + "_4.mfc");
+
+		try {
+			FileUtils.copyFile(srcFile, destFile1);
+			FileUtils.copyFile(srcFile, destFile2);
+			FileUtils.copyFile(srcFile, destFile3);
+			return mfccPath;
+
+		} catch (IOException e) {
+			return null;
+		}
+
+		// FileUtil.copyFile(mfccPath + "/" + userid + "_1.mfc", mfccPath + "/"
+		// + userid + "_2.mfc");
+		// FileUtil.copyFile(mfccPath + "/" + userid + "_1.mfc", mfccPath + "/"
+		// + userid + "_3.mfc");
+		// FileUtil.copyFile(mfccPath + "/" + userid + "_1.mfc", mfccPath + "/"
+		// + userid + "_4.mfc");
 	}
 
 	public void clearWav(String userid) {
-		FileUtil.deleteFile(trainWavPath + "/" + userid + "_2.wav");
-		FileUtil.deleteFile(trainWavPath + "/" + userid + "_3.wav");
-		FileUtil.deleteFile(trainWavPath + "/" + userid + "_4.wav");
+		FileUtils
+				.deleteQuietly(new File(trainWavPath + "/" + userid + "_2.wav"));
+		FileUtils
+				.deleteQuietly(new File(trainWavPath + "/" + userid + "_3.wav"));
+		FileUtils
+				.deleteQuietly(new File(trainWavPath + "/" + userid + "_4.wav"));
+
+		// FileUtil.deleteFile(trainWavPath + "/" + userid + "_2.wav");
+		// FileUtil.deleteFile(trainWavPath + "/" + userid + "_3.wav");
+		// FileUtil.deleteFile(trainWavPath + "/" + userid + "_4.wav");
 
 	}
 
 	public String createLab(String userid) {
 		getLabPath(userid);
-		FileOutputStream fs = null;
-		String textString = "0 20000000 " + userid;
+		// FileOutputStream fs = null;
+		// String textString = "0 20000000 " + userid;
+
 		try {
-			fs = new FileOutputStream(labUserPath + "/" + userid + "_1.lab");
-			fs.write(textString.getBytes());
-			fs.close();
-			fs = new FileOutputStream(labUserPath + "/" + userid + "_2.lab");
-			fs.write(textString.getBytes());
-			fs.close();
-			fs = new FileOutputStream(labUserPath + "/" + userid + "_3.lab");
-			fs.write(textString.getBytes());
-			fs.close();
-			fs = new FileOutputStream(labUserPath + "/" + userid + "_4.lab");
-			fs.write(textString.getBytes());
-			fs.close();
+			FileUtils.write(new File(labUserPath + "/" + userid + "_1.lab"),
+					"0 20000000 " + userid);
+			FileUtils.write(new File(labUserPath + "/" + userid + "_2.lab"),
+					"0 20000000 " + userid);
+			FileUtils.write(new File(labUserPath + "/" + userid + "_3.lab"),
+					"0 20000000 " + userid);
+			FileUtils.write(new File(labUserPath + "/" + userid + "_4.lab"),
+					"0 20000000 " + userid);
+
+			// fs = new FileOutputStream(labUserPath + "/" + userid + "_1.lab");
+			// fs.write(textString.getBytes());
+			// fs.close();
+			// fs = new FileOutputStream(labUserPath + "/" + userid + "_2.lab");
+			// fs.write(textString.getBytes());
+			// fs.close();
+			// fs = new FileOutputStream(labUserPath + "/" + userid + "_3.lab");
+			// fs.write(textString.getBytes());
+			// fs.close();
+			// fs = new FileOutputStream(labUserPath + "/" + userid + "_4.lab");
+			// fs.write(textString.getBytes());
+			// fs.close();
 			return labUserPath;
 		} catch (Exception e) {
 			return null;
 		}
 	}
 
-	public String createWavList(String wavPath,String userid) {
-		getLabPath(userid);
-		FileOutputStream fs = null;
-		String textString1 = wavPath + "/" + userid + "_1.wav " + mfccPath
-				+ "/" + userid + "_1.mfc \n";
+	public String createWavList(String wavPath, String userid) {
+		// getLabPath(userid);
+		// FileOutputStream fs = null;
+		// String textString1 = wavPath + "/" + userid + "_1.wav " + mfccPath
+		// + "/" + userid + "_1.mfc \n";
 		try {
-			fs = new FileOutputStream(appRoot + "/wavlist.txt");
-			fs.write(textString1.getBytes());
-			fs.close();
+			FileUtils.write(new File(appRoot + "/wavlist.txt"), wavPath + "/"
+					+ userid + "_1.wav " + mfccPath + "/" + userid
+					+ "_1.mfc \n");
+			// fs = new FileOutputStream(appRoot + "/wavlist.txt");
+			// fs.write(textString1.getBytes());
+			// fs.close();
 			return appRoot + "/wavlist.txt";
 		} catch (Exception e) {
 			return null;
@@ -203,7 +227,8 @@ public class FileService {
 	public String createProto(String userid) {
 		try {
 			InputStream inputStream = context.getAssets().open("proto");
-			OutputStream fosto = new FileOutputStream(protoPath + "/hmm_" + userid);
+			OutputStream fosto = new FileOutputStream(protoPath + "/hmm_"
+					+ userid);
 			byte btHeader[] = new byte[34];
 			inputStream.read(btHeader);
 			fosto.write(btHeader);
@@ -211,7 +236,7 @@ public class FileService {
 			int c;
 			byte bt[] = new byte[1024];
 			while ((c = inputStream.read(bt)) > 0) {
-			fosto.write(bt, 0, c);
+				fosto.write(bt, 0, c);
 			}
 			fosto.close();
 			return protoPath + "/hmm_" + userid;
@@ -219,23 +244,46 @@ public class FileService {
 			return null;
 		}
 	}
+
 	public String createTrainList(String userid) {
-		FileOutputStream fs = null;
-		String textString1 = mfccPath + "/" + userid + "_1.mfc \n";
-		String textString2 = mfccPath + "/" + userid + "_2.mfc \n";
-		String textString3 = mfccPath + "/" + userid + "_3.mfc \n";
-		String textString4 = mfccPath + "/" + userid + "_4.mfc \n";
+		// FileOutputStream fs = null;
+		// String textString1 = mfccPath + "/" + userid + "_1.mfc \n";
+		// String textString2 = mfccPath + "/" + userid + "_2.mfc \n";
+		// String textString3 = mfccPath + "/" + userid + "_3.mfc \n";
+		// String textString4 = mfccPath + "/" + userid + "_4.mfc \n";
+		List<String> textStrings = new ArrayList<String>();
+		textStrings.add(mfccPath + "/" + userid + "_1.mfc \n");
+		textStrings.add(mfccPath + "/" + userid + "_2.mfc \n");
+		textStrings.add(mfccPath + "/" + userid + "_3.mfc \n");
+		textStrings.add(mfccPath + "/" + userid + "_4.mfc \n");
 
 		try {
-			fs = new FileOutputStream(appRoot + "/trainlist.txt");
-			fs.write(textString1.getBytes());
-			fs.write(textString2.getBytes());
-			fs.write(textString3.getBytes());
-			fs.write(textString4.getBytes());
-			fs.close();
+			FileUtils.writeLines(new File(appRoot + "/trainlist.txt"),
+					textStrings);
+
+			// fs = new FileOutputStream(appRoot + "/trainlist.txt");
+			// fs.write(textString1.getBytes());
+			// fs.write(textString2.getBytes());
+			// fs.write(textString3.getBytes());
+			// fs.write(textString4.getBytes());
+			// fs.close();
 			return appRoot + "/trainlist.txt";
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	public void deleteUser(String userid) {
+		FileUtils.deleteQuietly(new File(labUserPath + "/" + userid));
+		FileUtils
+				.deleteQuietly(new File(trainWavPath + "/" + userid + "_1.wav"));
+		FileUtils.deleteQuietly(new File(mfccPath + "/" + userid + "_1.mfc"));
+		FileUtils.deleteQuietly(new File(mfccPath + "/" + userid + "_2.mfc"));
+		FileUtils.deleteQuietly(new File(mfccPath + "/" + userid + "_3.mfc"));
+		FileUtils.deleteQuietly(new File(mfccPath + "/" + userid + "_4.mfc"));
+		FileUtils.deleteQuietly(new File(protoPath + "/hmm" + userid));
+		FileUtils.deleteQuietly(new File(hmm0Path + "/hmm" + userid));
+		FileUtils.deleteQuietly(new File(hmm1Path + "/hmm" + userid));
+		FileUtils.deleteQuietly(new File(hmm2Path + "/hmm" + userid));
 	}
 }
