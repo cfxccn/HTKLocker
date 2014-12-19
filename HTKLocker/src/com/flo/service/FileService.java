@@ -33,6 +33,64 @@ public class FileService {
 	String testWavPath;
 	Context context;
 
+	public FileService(Context context ) {
+		this.context = context;
+		File sdDir;
+		boolean sdCardExist = Environment.getExternalStorageState().equals(
+				Environment.MEDIA_MOUNTED);
+		if (sdCardExist) {
+			sdDir = context.getExternalFilesDir(null);
+			appRoot = sdDir.getAbsolutePath();
+			InputStream inputStream;
+			try {
+				inputStream = context.getAssets().open("config");
+				// FileUtil.copyFile(inputStream, appRoot + "/config");
+				File conf = new File(appRoot + "/config");
+				FileUtils.copyInputStreamToFile(inputStream, conf);
+			} catch (IOException e) {
+			}
+			try {
+				File hmm0 = new File(appRoot + "/hmm0");
+				FileUtils.forceMkdir(hmm0);
+				hmm0Path = hmm0.getAbsolutePath();
+
+				File hmm1 = new File(appRoot + "/hmm1");
+				FileUtils.forceMkdir(hmm1);
+				hmm1Path = hmm1.getAbsolutePath();
+
+				File hmm2 = new File(appRoot + "/hmm2");
+				FileUtils.forceMkdir(hmm2);
+				hmm2Path = hmm2.getAbsolutePath();
+
+				File proto = new File(appRoot + "/proto");
+				FileUtils.forceMkdir(proto);
+				protoPath = proto.getAbsolutePath();
+
+				File mfcc = new File(appRoot + "/mfcc");
+				FileUtils.forceMkdir(mfcc);
+				mfccPath = mfcc.getAbsolutePath();
+
+				File lab = new File(appRoot + "/lab");
+				FileUtils.forceMkdir(lab);
+				labPath = lab.getAbsolutePath();
+
+				File trainWav = new File(appRoot + "/trainwav");
+				FileUtils.forceMkdir(trainWav);
+				trainWavPath = trainWav.getAbsolutePath();
+
+				File testWav = new File(appRoot + "/testwav");
+				FileUtils.forceMkdir(testWav);
+				testWavPath = testWav.getAbsolutePath();
+				
+				
+			} catch (IOException e) {
+				appRoot = null;
+			}
+		} else {
+			appRoot = null;
+		}
+	}
+
 	public String getAppRoot() {
 		return appRoot;
 	}
@@ -78,63 +136,6 @@ public class FileService {
 		return appRoot + "/config";
 	}
 
-	public FileService(Context context) {
-		this.context = context;
-		File sdDir;
-		boolean sdCardExist = Environment.getExternalStorageState().equals(
-				Environment.MEDIA_MOUNTED);
-		if (sdCardExist) {
-			sdDir = context.getExternalFilesDir(null);
-			appRoot = sdDir.getAbsolutePath();
-			InputStream inputStream;
-			try {
-				inputStream = context.getAssets().open("config");
-				// FileUtil.copyFile(inputStream, appRoot + "/config");
-				File conf = new File(appRoot + "/config");
-				FileUtils.copyInputStreamToFile(inputStream, conf);
-			} catch (IOException e) {
-			}
-
-			try {
-				File hmm0 = new File(appRoot + "/hmm0");
-				FileUtils.forceMkdir(hmm0);
-				hmm0Path = hmm0.getAbsolutePath();
-
-				File hmm1 = new File(appRoot + "/hmm1");
-				FileUtils.forceMkdir(hmm1);
-				hmm1Path = hmm1.getAbsolutePath();
-
-				File hmm2 = new File(appRoot + "/hmm2");
-				FileUtils.forceMkdir(hmm2);
-				hmm2Path = hmm2.getAbsolutePath();
-
-				File proto = new File(appRoot + "/proto");
-				FileUtils.forceMkdir(proto);
-				protoPath = proto.getAbsolutePath();
-
-				File mfcc = new File(appRoot + "/mfcc");
-				FileUtils.forceMkdir(mfcc);
-				mfccPath = mfcc.getAbsolutePath();
-
-				File lab = new File(appRoot + "/lab");
-				FileUtils.forceMkdir(lab);
-				labPath = lab.getAbsolutePath();
-
-				File trainWav = new File(appRoot + "/trainwav");
-				FileUtils.forceMkdir(trainWav);
-				trainWavPath = trainWav.getAbsolutePath();
-
-				File testWav = new File(appRoot + "/testwav");
-				FileUtils.forceMkdir(testWav);
-				testWavPath = testWav.getAbsolutePath();
-			} catch (IOException e) {
-				appRoot = null;
-			}
-		} else {
-			appRoot = null;
-		}
-	}
-
 	public String copyMfcc(String userid) {
 		File srcFile = new File(mfccPath + "/" + userid + "_1.mfc");
 		File destFile1 = new File(mfccPath + "/" + userid + "_2.mfc");
@@ -174,10 +175,9 @@ public class FileService {
 	}
 
 	public String createLab(String userid) {
-		getLabPath(userid);
 		// FileOutputStream fs = null;
 		// String textString = "0 20000000 " + userid;
-
+		getLabPath(userid);
 		try {
 			FileUtils.write(new File(labUserPath + "/" + userid + "_1.lab"),
 					"0 20000000 " + userid);
@@ -274,16 +274,18 @@ public class FileService {
 	}
 
 	public void deleteUser(String userid) {
-		FileUtils.deleteQuietly(new File(labUserPath + "/" + userid));
+
+		FileUtils.deleteQuietly(new File(getLabPath(userid)));
+
 		FileUtils
 				.deleteQuietly(new File(trainWavPath + "/" + userid + "_1.wav"));
 		FileUtils.deleteQuietly(new File(mfccPath + "/" + userid + "_1.mfc"));
 		FileUtils.deleteQuietly(new File(mfccPath + "/" + userid + "_2.mfc"));
 		FileUtils.deleteQuietly(new File(mfccPath + "/" + userid + "_3.mfc"));
 		FileUtils.deleteQuietly(new File(mfccPath + "/" + userid + "_4.mfc"));
-		FileUtils.deleteQuietly(new File(protoPath + "/hmm" + userid));
-		FileUtils.deleteQuietly(new File(hmm0Path + "/hmm" + userid));
-		FileUtils.deleteQuietly(new File(hmm1Path + "/hmm" + userid));
-		FileUtils.deleteQuietly(new File(hmm2Path + "/hmm" + userid));
+		FileUtils.deleteQuietly(new File(protoPath + "/hmm_" + userid));
+		FileUtils.deleteQuietly(new File(hmm0Path + "/hmm_" + userid));
+		FileUtils.deleteQuietly(new File(hmm1Path + "/hmm_" + userid));
+		FileUtils.deleteQuietly(new File(hmm2Path + "/hmm_" + userid));
 	}
 }

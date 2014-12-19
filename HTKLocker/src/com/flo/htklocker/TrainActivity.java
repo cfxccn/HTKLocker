@@ -99,10 +99,11 @@ public class TrainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_train);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		userService = new UserService(getApplicationContext());
-		fileService = new FileService(getApplicationContext());
 		username = getIntent().getStringExtra("USERNAME");
 		userid = getIntent().getStringExtra("USERID");
+		userService = new UserService(getApplicationContext());
+		fileService = new FileService(getApplicationContext());
+
 		bindControl();
 		controlBindListener();
 	}
