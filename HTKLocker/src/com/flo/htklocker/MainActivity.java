@@ -26,7 +26,7 @@ public class MainActivity extends Activity {
 	Button button_Exit;
 	Intent serviceIntent;
 
-	private void bindControl() {
+	private void bindView() {
 		switch_Service = (Switch) findViewById(R.id.switch_Service);
 		button_UserManage = (Button) findViewById(R.id.button_UserManage);
 		button_Test = (Button) findViewById(R.id.button_Test);
@@ -53,7 +53,7 @@ public class MainActivity extends Activity {
 				});
 	}
 
-	private void controlBindListener() {
+	private void bindListener() {
 		button_UserManage.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -151,8 +151,8 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		loginService = new LoginService(getApplicationContext());
-		bindControl();
-		controlBindListener();
+		bindView();
+		bindListener();
 
 	}
 

@@ -52,7 +52,7 @@ public class UserActivity extends Activity {
 		return result;
 	}
 
-	private void bindControl() {
+	private void bindView() {
 		listView = (ListView) findViewById(R.id.listView);
 		userMapList = list2Map(userService.getUserList());
 		adapter = new SimpleAdapter(this, userMapList, R.layout.user_item,
@@ -72,11 +72,11 @@ public class UserActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		userService = new UserService(getApplicationContext());
-		bindControl();
-		setOnClickListener();
+		bindView();
+		bindListener();
 	}
 
-	private void setOnClickListener() {
+	private void bindListener() {
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
@@ -114,7 +114,7 @@ public class UserActivity extends Activity {
 							ToastUtil.show(getApplicationContext(),
 									R.string.delete_success);
 							dialog.cancel();
-							bindControl();
+							bindView();
 						}
 						;
 					}
@@ -158,7 +158,7 @@ public class UserActivity extends Activity {
 						ToastUtil.show(getApplicationContext(),
 								R.string.register_success);
 						dialog.cancel();
-						bindControl();
+						bindView();
 					}else{
 						ToastUtil.show(getApplicationContext(),
 								R.string.add_user_failure);						

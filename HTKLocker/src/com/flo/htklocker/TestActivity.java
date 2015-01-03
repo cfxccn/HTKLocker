@@ -55,12 +55,12 @@ public class TestActivity extends Activity {
 
 
 
-	private void bindControl() {
+	private void bindView() {
 		button_Test = (Button) findViewById(R.id.button_Test);
 		textView_TestInfo = (TextView) findViewById(R.id.textView_TestInfo);
 	}
 
-	private void controlBindListener() {
+	private void bindListener() {
 		button_Test.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -91,8 +91,8 @@ public class TestActivity extends Activity {
 		setContentView(R.layout.activity_test);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		fileService=new FileService(getApplicationContext());
-		bindControl();
-		controlBindListener();
+		bindView();
+		bindListener();
 	}
 
 	@Override

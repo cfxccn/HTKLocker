@@ -15,7 +15,7 @@ public class ConfigActivity extends Activity {
 	TextView textView_Threshold;
 	int threshold;
 
-	private void bindControl() {
+	private void bindView() {
 		seekBar_Threshold = (SeekBar) findViewById(R.id.seekBar_Threshold);
 		threshold=kVService.getThreshold();
 		seekBar_Threshold.setProgress(threshold);
@@ -23,7 +23,7 @@ public class ConfigActivity extends Activity {
 		textView_Threshold.setText(" "+threshold);
 	}
 
-	private void controlBindListener() {
+	private void bindListener() {
 		seekBar_Threshold
 				.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 					@Override
@@ -48,8 +48,8 @@ public class ConfigActivity extends Activity {
 		setContentView(R.layout.activity_config);
 		kVService=new KVService(getApplicationContext());
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		bindControl();
-		controlBindListener();
+		bindView();
+		bindListener();
 	}
 
 	@Override

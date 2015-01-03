@@ -27,14 +27,14 @@ public class TrainActivity extends Activity {
 	AlertDialog alertDialog;
 	FileService fileService;
 
-	private void bindControl() {
+	private void bindView() {
 		button_Train = (Button) findViewById(R.id.button_Train);
 		textView_TrainInfo = (TextView) findViewById(R.id.textView_TrainInfo);
 		textView_TrainInfo.setText(getResources().getString(R.string.user_name)
 				+ ":" + username);
 	}
 
-	private void controlBindListener() {
+	private void bindListener() {
 
 		button_Train.setOnClickListener(new OnClickListener() {
 			@Override
@@ -104,8 +104,8 @@ public class TrainActivity extends Activity {
 		userService = new UserService(getApplicationContext());
 		fileService = new FileService(getApplicationContext());
 
-		bindControl();
-		controlBindListener();
+		bindView();
+		bindListener();
 	}
 
 	@Override

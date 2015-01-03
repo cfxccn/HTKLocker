@@ -68,7 +68,7 @@ public class AuthActivity extends Activity {
 	static String[] weekDaysName = { "SUN", "MON", "TUE", "WED", "THU", "FRI",
 			"ÐÇÆÚÁù" };
 
-	private void bindControl() {
+	private void bindView() {
 		relativeLayout_MainPanel = (RelativeLayout) findViewById(R.id.relativeLayout_MainPanel);
 		textView_Time = (TextView) findViewById(R.id.textView_Time);
 		textView_Date = (TextView) findViewById(R.id.textView_Date);
@@ -144,7 +144,7 @@ public class AuthActivity extends Activity {
 		}
 	}
 
-	private void controlBindListener() {
+	private void bindListener() {
 		button1.setOnClickListener(new numberButtonClickListener());
 		button2.setOnClickListener(new numberButtonClickListener());
 		button3.setOnClickListener(new numberButtonClickListener());
@@ -223,8 +223,8 @@ public class AuthActivity extends Activity {
 				| WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON | WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		win.setAttributes(winParams);
 		win.setFlags(0x80000000, 0x80000000);
-		bindControl();
-		controlBindListener();
+		bindView();
+		bindListener();
 		decimalFormat = new DecimalFormat("00");
 	}
 
