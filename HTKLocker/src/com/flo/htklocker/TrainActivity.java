@@ -88,7 +88,7 @@ public class TrainActivity extends Activity {
 		userService.trainUser(Integer.valueOf(userid.substring(2)));
 		ToastUtil.show(this, R.string.train_end);
 		button_Train.setText(R.string.train);
-		TrainTest.clear();
+	//	TrainTest.clear();
 
 	}
 

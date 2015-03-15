@@ -1,5 +1,7 @@
 package com.flo.model;
 
+import java.util.Date;
+
 import com.lidroid.xutils.db.annotation.Column;
 import com.lidroid.xutils.db.annotation.Id;
 import com.lidroid.xutils.db.annotation.Table;
@@ -17,6 +19,30 @@ public class User {
 
 	@Column(column = "ISTRAINED")
 	private Boolean isTrained;
+
+	@Column(column = "TRAINTIME")
+	private Date trainTime;
+	
+	@Column(column = "TESTTIME")
+	private Date testTime;
+	
+	
+	
+	public Date getTrainTime() {
+		return trainTime;
+	}
+
+	public void setTrainTime(Date trainTime) {
+		this.trainTime = trainTime;
+	}
+
+	public Date getTestTime() {
+		return testTime;
+	}
+
+	public void setTestTime(Date testTime) {
+		this.testTime = testTime;
+	}
 
 	public int getId() {
 		return id;
