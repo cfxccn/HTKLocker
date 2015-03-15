@@ -1,10 +1,16 @@
 package com.flo.htklocker;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.flo.htklocker.R;
+import com.flo.model.User;
 import com.flo.service.LoginService;
+import com.flo.service.UserService;
 import com.flo.util.AudioRecordFunc;
 import com.flo.service.*;
 import com.flo.util.ToastUtil;
@@ -24,9 +30,10 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
-import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 public class AuthActivity extends Activity {
@@ -55,7 +62,11 @@ public class AuthActivity extends Activity {
 	GridLayout gridLayout_NumberPanel;
 	String inputPassword;
 	String oldPassword;
-	ImageButton authButton;
+
+	ListView listView_User;
+	List<Map<String, Object>> userMapList;
+	SimpleAdapter adapter;
+	// ImageButton authButton;
 	DecimalFormat decimalFormat;
 	AlertDialog alertDialog;
 	String wavPath;
@@ -64,9 +75,26 @@ public class AuthActivity extends Activity {
 	String wavlist;
 	AudioRecordFunc audioRecordFunc;
 	FileService fileService;
+	UserService userService;
 
-	static String[] weekDaysName ;
+	static String[] weekDaysName;
 
+	private List<Map<String, Object>> list2Map(List<User> userList) {
+		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+		if (userList == null) {
+			return result;
+		}
+		for (User u : userList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			if (u.getIsTrained()) {
+				map.put("textView_UserName", u.getName());
+				map.put("USERID", u.getNameId());
+			} else {
+			}
+			result.add(map);
+		}
+		return result;
+	}
 
 	private void bindView() {
 		relativeLayout_MainPanel = (RelativeLayout) findViewById(R.id.relativeLayout_MainPanel);
@@ -74,7 +102,19 @@ public class AuthActivity extends Activity {
 		textView_Date = (TextView) findViewById(R.id.textView_Date);
 		textView_Info = (TextView) findViewById(R.id.textView_Info);
 		progressBar = (ProgressBar) findViewById(R.id.progressBar);
-		authButton = (ImageButton) findViewById(R.id.authButton);
+		listView_User = (ListView) findViewById(R.id.listView_User);
+
+		userMapList = list2Map(userService.getTrainedUserList());
+		
+		if(userMapList==null){
+			changeMode();
+		}
+		adapter = new SimpleAdapter(this, userMapList, R.layout.item_auth,
+				new String[] { "textView_UserName" },
+				new int[] { R.id.textView_UserName });
+		listView_User.setAdapter(adapter);
+
+		// authButton = (ImageButton) findViewById(R.id.authButton);
 		button_Reset = (Button) findViewById(R.id.button_Reset);
 		button1 = (Button) findViewById(R.id.button1);
 		button2 = (Button) findViewById(R.id.button2);
@@ -137,8 +177,8 @@ public class AuthActivity extends Activity {
 				break;
 			}
 			editText_Password.setText(inputPassword);
-			if (loginService.validateUser(editText_Password
-					.getText().toString())) {
+			if (loginService.validateUser(editText_Password.getText()
+					.toString())) {
 				unLock();
 			}
 		}
@@ -172,29 +212,33 @@ public class AuthActivity extends Activity {
 		button_ChangeMode.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				if (isSoundMode) {
-					isSoundMode = false;
-					authButton.setVisibility(View.INVISIBLE);
-					gridLayout_NumberPanel.setVisibility(View.VISIBLE);
-					editText_Password.setVisibility(View.VISIBLE);
-					button_ChangeMode.setText(R.string.change_sound_password);
-				} else {
-					isSoundMode = true;
-					gridLayout_NumberPanel.setVisibility(View.INVISIBLE);
-					authButton.setVisibility(View.VISIBLE);
-					editText_Password.setVisibility(View.INVISIBLE);
-					button_ChangeMode
-							.setText(R.string.change_numerical_password);
-				}
+				changeMode();
 			}
 		});
+	}
+
+	protected void changeMode() {
+		if (isSoundMode) {
+			isSoundMode = false;
+			listView_User.setVisibility(View.INVISIBLE);
+			gridLayout_NumberPanel.setVisibility(View.VISIBLE);
+			editText_Password.setVisibility(View.VISIBLE);
+			button_ChangeMode.setText(R.string.change_sound_password);
+		} else {
+			isSoundMode = true;
+			gridLayout_NumberPanel.setVisibility(View.INVISIBLE);
+			listView_User.setVisibility(View.VISIBLE);
+			editText_Password.setVisibility(View.INVISIBLE);
+			button_ChangeMode
+					.setText(R.string.change_numerical_password);
+		}
 	}
 
 	public void unLock() {
 		Intent intent = new Intent(Intent.ACTION_MAIN);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.addCategory(Intent.CATEGORY_HOME);
-		startActivity(intent);		
+		startActivity(intent);
 	}
 
 	protected void resetPassword(boolean isAll) {
@@ -204,7 +248,7 @@ public class AuthActivity extends Activity {
 		} else {
 			if (inputPassword.length() > 0) {
 				inputPassword = inputPassword.substring(0,
-						inputPassword.length() -1);
+						inputPassword.length() - 1);
 				editText_Password.setText(inputPassword);
 			}
 		}
@@ -214,9 +258,9 @@ public class AuthActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_auth);
-		fileService=new FileService(getApplicationContext());
-		loginService=new LoginService(getApplicationContext());
-		weekDaysName=getResources().getStringArray(R.array.weekDays);
+		fileService = new FileService(getApplicationContext());
+		loginService = new LoginService(getApplicationContext());
+		weekDaysName = getResources().getStringArray(R.array.weekDays);
 		Window win = getWindow();
 		WindowManager.LayoutParams winParams = win.getAttributes();
 		winParams.flags |= (WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
@@ -224,6 +268,8 @@ public class AuthActivity extends Activity {
 				| WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON | WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		win.setAttributes(winParams);
 		win.setFlags(0x80000000, 0x80000000);
+		userService = new UserService(getApplicationContext());
+
 		bindView();
 		bindListener();
 		decimalFormat = new DecimalFormat("00");
@@ -242,23 +288,22 @@ public class AuthActivity extends Activity {
 				+ "/" + decimalFormat.format(c.get(Calendar.MONTH) + 1) + "/"
 				+ decimalFormat.format(c.get(Calendar.DAY_OF_MONTH)) + " "
 				+ weekDaysName[weekIndex]);
-		authButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				wavPath = fileService.getTestWavPath();
-				if (wavPath==null) {
-					ToastUtil.show(AuthActivity.this,
-							R.string.audio_error_no_sdcard);
-				} else {
-					textView_Info.setText(R.string.record_start);
-					progressBar.setVisibility(View.VISIBLE);
-					authButton.setVisibility(View.INVISIBLE);
-					button_ChangeMode.setVisibility(View.INVISIBLE);
-
-					startRecord();
-				}
-			}
-		});
+		// listView_User.setOnClickListener(new OnClickListener() {
+		// @Override
+		// public void onClick(View arg0) {
+		// wavPath = fileService.getTestWavPath();
+		// if (wavPath==null) {
+		// ToastUtil.show(AuthActivity.this,
+		// R.string.audio_error_no_sdcard);
+		// } else {
+		// textView_Info.setText(R.string.record_start);
+		// progressBar.setVisibility(View.VISIBLE);
+		// listView_User.setVisibility(View.INVISIBLE);
+		// button_ChangeMode.setVisibility(View.INVISIBLE);
+		// startRecord();
+		// }
+		// }
+		// });
 	}
 
 	protected void startRecord() {
@@ -279,11 +324,10 @@ public class AuthActivity extends Activity {
 
 	protected void stopRecord() {
 		audioRecordFunc.stopRecordAndFile();
-		
-		
-		TrainTest.createMFCC(fileService, wavPath,"test",false);
+
+		TrainTest.createMFCC(fileService, wavPath, "test", false);
 		textView_Info.setText("");
-		authButton.setVisibility(View.VISIBLE);
+		listView_User.setVisibility(View.VISIBLE);
 		progressBar.setVisibility(View.INVISIBLE);
 		button_ChangeMode.setVisibility(View.VISIBLE);
 

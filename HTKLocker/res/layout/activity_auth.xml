@@ -1,6 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/relativeLayout_MainPanel"
-
+    android:id="@+id/relativeLayout_MainPanel"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:gravity="center_horizontal" >
@@ -51,6 +50,7 @@
         <Button
             android:id="@+id/button1"
             android:layout_width="70dp"
+            android:layout_height="match_parent"
             android:background="#70000000"
             android:text="@string/one"
             android:textColor="#ffffffff"
@@ -107,6 +107,7 @@
         <Button
             android:id="@+id/button0"
             android:layout_width="70dp"
+            android:layout_height="match_parent"
             android:background="#40000000"
             android:text="@string/zero"
             android:textColor="#ffffffff"
@@ -142,28 +143,7 @@
             android:textSize="40sp" />
     </GridLayout>
 
-    <Button
-        android:id="@+id/button_ChangeMode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="17dp"
-        android:background="@drawable/my_btn"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:text="@string/change_numerical_password"
-        android:textSize="15sp" />
 
-    <ImageButton
-        android:id="@+id/authButton"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_alignBottom="@+id/textView_Time"
-        android:layout_alignLeft="@+id/progressBar"
-        android:background="@drawable/auth_btn_normal"
-        android:contentDescription="@string/test"
-        android:src="@drawable/ic_lock_holo_dark" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -180,5 +160,29 @@
         android:layout_below="@+id/progressBar"
         android:layout_centerHorizontal="true"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ListView
+        android:id="@+id/listView_User"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button_ChangeMode"
+        android:layout_below="@+id/textView_Date"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" >
+
+    </ListView>
+
+    <Button
+        android:id="@+id/button_ChangeMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/my_btn"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="@string/change_numerical_password"
+        android:textSize="15sp" />
 
 </RelativeLayout>

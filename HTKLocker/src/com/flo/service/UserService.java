@@ -8,6 +8,7 @@ import android.content.Context;
 
 import com.flo.model.User;
 import com.lidroid.xutils.DbUtils;
+import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.exception.DbException;
 
 public class UserService {
@@ -23,6 +24,16 @@ public class UserService {
 		List<User> userList = new ArrayList<User>();
 		try {
 			userList = db.findAll(User.class);
+		} catch (DbException e) {
+		}
+		return userList;
+	}
+	
+	public List<User> getTrainedUserList() {
+		List<User> userList =null;
+		try {
+			userList = db.findAll(Selector.from(User.class)
+                    .where("ISTRAINED", "=", true));
 		} catch (DbException e) {
 		}
 		return userList;

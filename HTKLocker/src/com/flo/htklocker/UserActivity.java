@@ -69,7 +69,7 @@ public class UserActivity extends Activity {
 	private void bindView() {
 		listView = (ListView) findViewById(R.id.listView);
 		userMapList = list2Map(userService.getUserList());
-		adapter = new SimpleAdapter(this, userMapList, R.layout.user_item,
+		adapter = new SimpleAdapter(this, userMapList, R.layout.item_user,
 				new String[] { "textView_Username", "textView_TrainState",
 						"textView_TrainTime", "textView_TestTime" }, new int[] {
 						R.id.textView_Username, R.id.textView_TrainState,
