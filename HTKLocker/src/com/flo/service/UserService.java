@@ -1,6 +1,7 @@
 package com.flo.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
@@ -51,8 +52,12 @@ public class UserService {
 		User user = new User();
 		user.setId(id);
 		user.setIsTrained(true);
+		user.setTrainTime(new Date());
+
 		try {
 			db.update(user, "ISTRAINED");
+			db.update(user, "TRAINTIME");
+
 		} catch (DbException e) {
 		}
 	}

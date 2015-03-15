@@ -249,7 +249,7 @@ public class AuthActivity extends Activity {
 					ToastUtil.show(AuthActivity.this,
 							R.string.audio_error_no_sdcard);
 				} else {
-					textView_Info.setText(R.string.start_record);
+					textView_Info.setText(R.string.record_start);
 					progressBar.setVisibility(View.VISIBLE);
 					authButton.setVisibility(View.INVISIBLE);
 					button_ChangeMode.setVisibility(View.INVISIBLE);
@@ -280,7 +280,7 @@ public class AuthActivity extends Activity {
 		audioRecordFunc.stopRecordAndFile();
 		
 		
-		TrainTest.createMFCC(fileService, wavPath,"test");
+		TrainTest.createMFCC(fileService, wavPath,"test",false);
 		textView_Info.setText("");
 		authButton.setVisibility(View.VISIBLE);
 		progressBar.setVisibility(View.INVISIBLE);

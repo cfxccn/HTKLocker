@@ -46,7 +46,16 @@
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/textView_TrainTips4"
+            android:id="@+id/train_tips4"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:text="@string/train_tips4"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/textView_TrainTips5"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
@@ -55,33 +64,46 @@
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/textView_TrainTips5"
+            android:id="@+id/textView_TrainTips6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:text="@string/train_tips5"
-            android:textSize="30sp" />
+            android:textSize="25sp" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView_TrainInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/button_Train"
-        android:layout_centerHorizontal="true"
-        android:text=""
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <Button
-        android:id="@+id/button_Train"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="24dp"
-        android:background="@drawable/my_btn"
-        android:text="@string/train"
-        android:textSize="45sp" />
+        android:layout_marginBottom="35dp"
+        android:background="@drawable/my_btn" >
+
+        <Button
+            android:id="@+id/button_Record1"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/record_1"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/button_Record2"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/record_2"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/button_Record3"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/record_3"
+            android:textSize="15sp" />
+    </LinearLayout>
 
 </RelativeLayout>

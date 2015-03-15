@@ -47,8 +47,8 @@ public class TestActivity extends Activity {
 	protected void stopRecord() {
 		audioRecordFunc.stopRecordAndFile();
 		ToastUtil.show(getApplicationContext(),
-				R.string.start_handling);
-		TrainTest.createMFCC(fileService,wavPath, "test");
+				R.string.record_end);
+		TrainTest.createMFCC(fileService,wavPath, "test",false);
 		ToastUtil.show(getApplicationContext(), R.string.test_end);
 		button_Test.setText(R.string.test);
 	}
@@ -69,7 +69,7 @@ public class TestActivity extends Activity {
 					ToastUtil.show(TestActivity.this,
 							R.string.audio_error_no_sdcard);
 				} else {
-					button_Test.setText(R.string.start_record);
+					button_Test.setText(R.string.record_start);
 					final AlertDialog.Builder dialogBuilder1 = new AlertDialog.Builder(
 							TestActivity.this);
 					View view1 = View.inflate(TestActivity.this,

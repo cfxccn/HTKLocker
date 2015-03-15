@@ -1,8 +1,10 @@
 package com.flo.htklocker;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import com.flo.model.User;
@@ -29,7 +31,9 @@ public class UserActivity extends Activity {
 	List<Map<String, Object>> userMapList;
 	ListView listView;
 	SimpleAdapter adapter;
-
+	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()) ; 
+	
+	
 	private List<Map<String, Object>> list2Map(List<User> userList) {
 		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
 		if (userList == null) {
@@ -39,6 +43,16 @@ public class UserActivity extends Activity {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("textView_Username", u.getName());
 			map.put("USERID", u.getNameId());
+			if (u.getTrainTime() == null) {
+				map.put("textView_TrainTime", getResources().getString(R.string.train_time)+":");
+			} else {
+				map.put("textView_TrainTime", getResources().getString(R.string.train_time)+":"+simpleDateFormat.format(u.getTrainTime()));
+			}
+			if (u.getTestTime() == null) {
+				map.put("textView_TestTime", getResources().getString(R.string.test_time)+":");
+			} else {
+				map.put("textView_TestTime", getResources().getString(R.string.test_time)+":"+simpleDateFormat.format(u.getTestTime()));
+			}
 
 			if (u.getIsTrained()) {
 				map.put("textView_TrainState",
@@ -56,8 +70,10 @@ public class UserActivity extends Activity {
 		listView = (ListView) findViewById(R.id.listView);
 		userMapList = list2Map(userService.getUserList());
 		adapter = new SimpleAdapter(this, userMapList, R.layout.user_item,
-				new String[] { "textView_Username", "textView_TrainState" },
-				new int[] { R.id.textView_Username, R.id.textView_TrainState });
+				new String[] { "textView_Username", "textView_TrainState",
+						"textView_TrainTime", "textView_TestTime" }, new int[] {
+						R.id.textView_Username, R.id.textView_TrainState,
+						R.id.textView_TrainTime, R.id.textView_TestTime });
 		listView.setAdapter(adapter);
 	}
 
@@ -97,10 +113,9 @@ public class UserActivity extends Activity {
 					public void onClick(View arg0) {
 						Intent intent = new Intent(getApplicationContext(),
 								TrainActivity.class);
-						intent.putExtra("USERNAME",
-								map.get("textView_Username").toString());
-						intent.putExtra("USERID",
-								map.get("USERID").toString());
+						intent.putExtra("USERNAME", map
+								.get("textView_Username").toString());
+						intent.putExtra("USERID", map.get("USERID").toString());
 						dialog.cancel();
 						startActivityForResult(intent, 100);
 					}
@@ -109,7 +124,8 @@ public class UserActivity extends Activity {
 					@Override
 					public void onClick(View arg0) {
 						User user = new User();
-						user.setId(Integer.valueOf( map.get("USERID").toString().substring(2)));
+						user.setId(Integer.valueOf(map.get("USERID").toString()
+								.substring(2)));
 						if (userService.deleteUser(user)) {
 							ToastUtil.show(getApplicationContext(),
 									R.string.delete_success);
@@ -145,10 +161,12 @@ public class UserActivity extends Activity {
 			button_Register.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
-					String username=editText_Username.getEditableText().toString();
-					if(username.equals("")){
-						ToastUtil.show(getApplicationContext(), R.string.username_blank);
-						return ;
+					String username = editText_Username.getEditableText()
+							.toString();
+					if (username.equals("")) {
+						ToastUtil.show(getApplicationContext(),
+								R.string.username_blank);
+						return;
 					}
 
 					User user = new User();
@@ -159,9 +177,9 @@ public class UserActivity extends Activity {
 								R.string.register_success);
 						dialog.cancel();
 						bindView();
-					}else{
+					} else {
 						ToastUtil.show(getApplicationContext(),
-								R.string.add_user_failure);						
+								R.string.add_user_failure);
 					}
 				}
 			});

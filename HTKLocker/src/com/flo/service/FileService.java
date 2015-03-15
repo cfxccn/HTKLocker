@@ -33,7 +33,7 @@ public class FileService {
 	String testWavPath;
 	Context context;
 
-	public FileService(Context context ) {
+	public FileService(Context context) {
 		this.context = context;
 		File sdDir;
 		boolean sdCardExist = Environment.getExternalStorageState().equals(
@@ -81,8 +81,7 @@ public class FileService {
 				File testWav = new File(appRoot + "/testwav");
 				FileUtils.forceMkdir(testWav);
 				testWavPath = testWav.getAbsolutePath();
-				
-				
+
 			} catch (IOException e) {
 				appRoot = null;
 			}
@@ -136,43 +135,43 @@ public class FileService {
 		return appRoot + "/config";
 	}
 
-	public String copyMfcc(String userid) {
-		File srcFile = new File(mfccPath + "/" + userid + "_1.mfc");
-		File destFile1 = new File(mfccPath + "/" + userid + "_2.mfc");
-		File destFile2 = new File(mfccPath + "/" + userid + "_3.mfc");
-		File destFile3 = new File(mfccPath + "/" + userid + "_4.mfc");
+	//
+	// public String copyMfcc(String userid) {
+	// File srcFile = new File(mfccPath + "/" + userid + "_1.mfc");
+	// File destFile1 = new File(mfccPath + "/" + userid + "_2.mfc");
+	// File destFile2 = new File(mfccPath + "/" + userid + "_3.mfc");
+	// File destFile3 = new File(mfccPath + "/" + userid + "_4.mfc");
+	//
+	// try {
+	// FileUtils.copyFile(srcFile, destFile1);
+	// FileUtils.copyFile(srcFile, destFile2);
+	// FileUtils.copyFile(srcFile, destFile3);
+	// return mfccPath;
+	//
+	// } catch (IOException e) {
+	// return null;
+	// }
+	//
+	// // FileUtil.copyFile(mfccPath + "/" + userid + "_1.mfc", mfccPath + "/"
+	// // + userid + "_2.mfc");
+	// // FileUtil.copyFile(mfccPath + "/" + userid + "_1.mfc", mfccPath + "/"
+	// // + userid + "_3.mfc");
+	// // FileUtil.copyFile(mfccPath + "/" + userid + "_1.mfc", mfccPath + "/"
+	// // + userid + "_4.mfc");
+	// }
 
-		try {
-			FileUtils.copyFile(srcFile, destFile1);
-			FileUtils.copyFile(srcFile, destFile2);
-			FileUtils.copyFile(srcFile, destFile3);
-			return mfccPath;
-
-		} catch (IOException e) {
-			return null;
-		}
-
-		// FileUtil.copyFile(mfccPath + "/" + userid + "_1.mfc", mfccPath + "/"
-		// + userid + "_2.mfc");
-		// FileUtil.copyFile(mfccPath + "/" + userid + "_1.mfc", mfccPath + "/"
-		// + userid + "_3.mfc");
-		// FileUtil.copyFile(mfccPath + "/" + userid + "_1.mfc", mfccPath + "/"
-		// + userid + "_4.mfc");
-	}
-
-	public void clearWav(String userid) {
-		FileUtils
-				.deleteQuietly(new File(trainWavPath + "/" + userid + "_2.wav"));
-		FileUtils
-				.deleteQuietly(new File(trainWavPath + "/" + userid + "_3.wav"));
-		FileUtils
-				.deleteQuietly(new File(trainWavPath + "/" + userid + "_4.wav"));
-
-		// FileUtil.deleteFile(trainWavPath + "/" + userid + "_2.wav");
-		// FileUtil.deleteFile(trainWavPath + "/" + userid + "_3.wav");
-		// FileUtil.deleteFile(trainWavPath + "/" + userid + "_4.wav");
-
-	}
+	// public void clearWav(String userid) {
+	// FileUtils
+	// .deleteQuietly(new File(trainWavPath + "/" + userid + "_2.wav"));
+	// FileUtils
+	// .deleteQuietly(new File(trainWavPath + "/" + userid + "_3.wav"));
+	//
+	//
+	// // FileUtil.deleteFile(trainWavPath + "/" + userid + "_2.wav");
+	// // FileUtil.deleteFile(trainWavPath + "/" + userid + "_3.wav");
+	// // FileUtil.deleteFile(trainWavPath + "/" + userid + "_4.wav");
+	//
+	// }
 
 	public String createLab(String userid) {
 		// FileOutputStream fs = null;
@@ -184,8 +183,6 @@ public class FileService {
 			FileUtils.write(new File(labUserPath + "/" + userid + "_2.lab"),
 					"0 20000000 " + userid);
 			FileUtils.write(new File(labUserPath + "/" + userid + "_3.lab"),
-					"0 20000000 " + userid);
-			FileUtils.write(new File(labUserPath + "/" + userid + "_4.lab"),
 					"0 20000000 " + userid);
 
 			// fs = new FileOutputStream(labUserPath + "/" + userid + "_1.lab");
@@ -206,15 +203,23 @@ public class FileService {
 		}
 	}
 
-	public String createWavList(String wavPath, String userid) {
+	public String createWavList(String wavPath, String userid, boolean isTrain) {
 		// getLabPath(userid);
 		// FileOutputStream fs = null;
 		// String textString1 = wavPath + "/" + userid + "_1.wav " + mfccPath
 		// + "/" + userid + "_1.mfc \n";
 		try {
-			FileUtils.write(new File(appRoot + "/wavlist.txt"), wavPath + "/"
-					+ userid + "_1.wav " + mfccPath + "/" + userid
-					+ "_1.mfc \n");
+			if (isTrain == true) {
+				FileUtils.write(new File(appRoot + "/wavlist.txt"), wavPath
+						+ "/" + userid + "_1.wav " + mfccPath + "/" + userid
+						+ "_1.mfc \n" + wavPath + "/" + userid + "_2.wav "
+						+ mfccPath + "/" + userid + "_2.mfc \n" + wavPath + "/"
+						+ userid + "_3.wav " + mfccPath + "/" + userid
+						+ "_3.mfc \n");
+			} else {
+				FileUtils.write(new File(appRoot + "/wavlist.txt"), wavPath
+						+ "/test_1.wav " + mfccPath + "/test_1.mfc \n");
+			}
 			// fs = new FileOutputStream(appRoot + "/wavlist.txt");
 			// fs.write(textString1.getBytes());
 			// fs.close();
@@ -255,7 +260,6 @@ public class FileService {
 		textStrings.add(mfccPath + "/" + userid + "_1.mfc \n");
 		textStrings.add(mfccPath + "/" + userid + "_2.mfc \n");
 		textStrings.add(mfccPath + "/" + userid + "_3.mfc \n");
-		textStrings.add(mfccPath + "/" + userid + "_4.mfc \n");
 
 		try {
 			FileUtils.writeLines(new File(appRoot + "/trainlist.txt"),
@@ -279,10 +283,13 @@ public class FileService {
 
 		FileUtils
 				.deleteQuietly(new File(trainWavPath + "/" + userid + "_1.wav"));
+		FileUtils
+				.deleteQuietly(new File(trainWavPath + "/" + userid + "_2.wav"));
+		FileUtils
+				.deleteQuietly(new File(trainWavPath + "/" + userid + "_3.wav"));
 		FileUtils.deleteQuietly(new File(mfccPath + "/" + userid + "_1.mfc"));
 		FileUtils.deleteQuietly(new File(mfccPath + "/" + userid + "_2.mfc"));
 		FileUtils.deleteQuietly(new File(mfccPath + "/" + userid + "_3.mfc"));
-		FileUtils.deleteQuietly(new File(mfccPath + "/" + userid + "_4.mfc"));
 		FileUtils.deleteQuietly(new File(protoPath + "/hmm_" + userid));
 		FileUtils.deleteQuietly(new File(hmm0Path + "/hmm_" + userid));
 		FileUtils.deleteQuietly(new File(hmm1Path + "/hmm_" + userid));

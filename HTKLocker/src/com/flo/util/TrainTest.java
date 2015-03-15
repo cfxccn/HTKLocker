@@ -1,14 +1,15 @@
 package com.flo.util;
 
+
 import com.flo.service.FileService;
 
 public class TrainTest {
 
 	public static void createMFCC(FileService fileService, String wavPath,
-			String userid) {
-		String wavlist = fileService.createWavList(wavPath, userid);
+			String userid,boolean isTrain) {
+		String wavlist = fileService.createWavList(wavPath, userid,isTrain);
 		HCopyFunc.exec(fileService.getConfigFilePath(), wavlist);
-		fileService.copyMfcc(userid);
+	//	fileService.copyMfcc(userid);
 	}
 
 	public static void train(FileService fileService, String userid) {
