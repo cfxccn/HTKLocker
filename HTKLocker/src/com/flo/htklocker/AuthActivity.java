@@ -65,8 +65,8 @@ public class AuthActivity extends Activity {
 	AudioRecordFunc audioRecordFunc;
 	FileService fileService;
 
-	static String[] weekDaysName = { "SUN", "MON", "TUE", "WED", "THU", "FRI",
-			"ÐÇÆÚÁù" };
+	static String[] weekDaysName ;
+
 
 	private void bindView() {
 		relativeLayout_MainPanel = (RelativeLayout) findViewById(R.id.relativeLayout_MainPanel);
@@ -216,6 +216,7 @@ public class AuthActivity extends Activity {
 		setContentView(R.layout.activity_auth);
 		fileService=new FileService(getApplicationContext());
 		loginService=new LoginService(getApplicationContext());
+		weekDaysName=getResources().getStringArray(R.array.weekDays);
 		Window win = getWindow();
 		WindowManager.LayoutParams winParams = win.getAttributes();
 		winParams.flags |= (WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD

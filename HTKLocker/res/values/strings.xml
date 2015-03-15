@@ -76,4 +76,16 @@
     <string name="train_time">训练时间</string>
     <string name="test_time">测试时间</string>
 
+
+    <string-array name="weekDays">
+        <item>星期日</item>
+        <item>星期一</item>
+        <item>星期二</item>
+        <item>星期三</item>
+        <item>星期四</item>
+        <item>星期五</item>
+        <item>星期六</item>
+        <item>星期日</item>
+    </string-array>
+
 </resources>
