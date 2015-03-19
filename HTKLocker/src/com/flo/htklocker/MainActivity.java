@@ -24,6 +24,7 @@ public class MainActivity extends Activity {
 	Button button_Config;
 	Button button_ChangePassword;
 	Button button_Exit;
+	Button button_DEVTest;
 	Intent serviceIntent;
 
 	private void bindView() {
@@ -33,6 +34,7 @@ public class MainActivity extends Activity {
 		button_Config = (Button) findViewById(R.id.button_Config);
 		button_ChangePassword = (Button) findViewById(R.id.button_ChangePassword);
 		button_Exit = (Button) findViewById(R.id.button_Exit);
+		button_DEVTest= (Button) findViewById(R.id.button_DEVTest);
 		if (BackgroundService.getStatus() == BackgroundService.Status.RUNNING) {
 			switch_Service.setChecked(true);
 		} else {
@@ -142,6 +144,14 @@ public class MainActivity extends Activity {
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				intent.addCategory(Intent.CATEGORY_HOME);
 				startActivity(intent);
+			}
+		});
+		button_DEVTest.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent(getApplicationContext(),
+						AuthActivity.class);
+				startActivityForResult(intent, 100);
 			}
 		});
 	}

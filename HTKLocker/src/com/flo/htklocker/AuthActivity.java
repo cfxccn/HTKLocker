@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.flo.adapter.AuthListViewAdapter;
 import com.flo.htklocker.R;
 import com.flo.model.User;
 import com.flo.service.LoginService;
@@ -33,7 +34,6 @@ import android.widget.GridLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 public class AuthActivity extends Activity {
@@ -65,8 +65,8 @@ public class AuthActivity extends Activity {
 
 	ListView listView_User;
 	List<Map<String, Object>> userMapList;
-	SimpleAdapter adapter;
-	// ImageButton authButton;
+	//SimpleAdapter adapter;
+	AuthListViewAdapter adapter;
 	DecimalFormat decimalFormat;
 	AlertDialog alertDialog;
 	String wavPath;
@@ -103,18 +103,6 @@ public class AuthActivity extends Activity {
 		textView_Info = (TextView) findViewById(R.id.textView_Info);
 		progressBar = (ProgressBar) findViewById(R.id.progressBar);
 		listView_User = (ListView) findViewById(R.id.listView_User);
-
-		userMapList = list2Map(userService.getTrainedUserList());
-		
-		if(userMapList==null){
-			changeMode();
-		}
-		adapter = new SimpleAdapter(this, userMapList, R.layout.item_auth,
-				new String[] { "textView_UserName" },
-				new int[] { R.id.textView_UserName });
-		listView_User.setAdapter(adapter);
-
-		// authButton = (ImageButton) findViewById(R.id.authButton);
 		button_Reset = (Button) findViewById(R.id.button_Reset);
 		button1 = (Button) findViewById(R.id.button1);
 		button2 = (Button) findViewById(R.id.button2);
@@ -129,17 +117,40 @@ public class AuthActivity extends Activity {
 		gridLayout_NumberPanel = (GridLayout) findViewById(R.id.gridLayout_NumberPanel);
 		button_ChangeMode = (Button) findViewById(R.id.button_ChangeMode);
 		editText_Password = (EditText) findViewById(R.id.editText_Password);
-		editText_Password.setVisibility(View.INVISIBLE);
+		relativeLayout_MainPanel.setBackground(getWallpaper());
 		editText_Password.setCursorVisible(false);
 		editText_Password.setFocusable(false);
 		editText_Password.setFocusableInTouchMode(false);
-		gridLayout_NumberPanel.setVisibility(View.INVISIBLE);
-
 		progressBar.setVisibility(View.INVISIBLE);
-		relativeLayout_MainPanel.setBackground(getWallpaper());
+
+		if(isSoundMode){
+			editText_Password.setVisibility(View.INVISIBLE);
+			gridLayout_NumberPanel.setVisibility(View.INVISIBLE);
+			listView_User.setVisibility(View.VISIBLE);
+			button_ChangeMode.setText(R.string.switch_numerical_password);
+
+		}else{
+			listView_User.setVisibility(View.INVISIBLE);
+			editText_Password.setVisibility(View.VISIBLE);
+			gridLayout_NumberPanel.setVisibility(View.VISIBLE);
+			button_ChangeMode.setText(R.string.switch_sound_password);
+
+		}
+		userMapList = list2Map(userService.getTrainedUserList());
+		if (userMapList == null) {
+			changeMode();
+		}
+//		adapter = new SimpleAdapter(this, userMapList, R.layout.item_auth,
+//				new String[] { "textView_UserName" },
+//				new int[] { R.id.textView_UserName });
+		adapter = new AuthListViewAdapter(this, userMapList, R.layout.item_auth,
+		new String[] { "textView_UserName", "imageButton_UnLock","USERID"},
+		new int[] { R.id.textView_UserName ,R.id.imageButton_UnLock});
+		
+		listView_User.setAdapter(adapter);
 	}
 
-	class numberButtonClickListener implements OnClickListener {
+	class NumberButtonClickListener implements OnClickListener {
 		@Override
 		public void onClick(View arg0) {
 			switch (arg0.getId()) {
@@ -185,16 +196,17 @@ public class AuthActivity extends Activity {
 	}
 
 	private void bindListener() {
-		button1.setOnClickListener(new numberButtonClickListener());
-		button2.setOnClickListener(new numberButtonClickListener());
-		button3.setOnClickListener(new numberButtonClickListener());
-		button4.setOnClickListener(new numberButtonClickListener());
-		button5.setOnClickListener(new numberButtonClickListener());
-		button6.setOnClickListener(new numberButtonClickListener());
-		button7.setOnClickListener(new numberButtonClickListener());
-		button8.setOnClickListener(new numberButtonClickListener());
-		button9.setOnClickListener(new numberButtonClickListener());
-		button0.setOnClickListener(new numberButtonClickListener());
+		NumberButtonClickListener numberButtonClickListener = new NumberButtonClickListener();
+		button1.setOnClickListener(numberButtonClickListener);
+		button2.setOnClickListener(numberButtonClickListener);
+		button3.setOnClickListener(numberButtonClickListener);
+		button4.setOnClickListener(numberButtonClickListener);
+		button5.setOnClickListener(numberButtonClickListener);
+		button6.setOnClickListener(numberButtonClickListener);
+		button7.setOnClickListener(numberButtonClickListener);
+		button8.setOnClickListener(numberButtonClickListener);
+		button9.setOnClickListener(numberButtonClickListener);
+		button0.setOnClickListener(numberButtonClickListener);
 		button_Reset.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -223,14 +235,13 @@ public class AuthActivity extends Activity {
 			listView_User.setVisibility(View.INVISIBLE);
 			gridLayout_NumberPanel.setVisibility(View.VISIBLE);
 			editText_Password.setVisibility(View.VISIBLE);
-			button_ChangeMode.setText(R.string.change_sound_password);
+			button_ChangeMode.setText(R.string.switch_sound_password);
 		} else {
 			isSoundMode = true;
 			gridLayout_NumberPanel.setVisibility(View.INVISIBLE);
 			listView_User.setVisibility(View.VISIBLE);
 			editText_Password.setVisibility(View.INVISIBLE);
-			button_ChangeMode
-					.setText(R.string.change_numerical_password);
+			button_ChangeMode.setText(R.string.switch_numerical_password);
 		}
 	}
 
@@ -270,14 +281,15 @@ public class AuthActivity extends Activity {
 		win.setFlags(0x80000000, 0x80000000);
 		userService = new UserService(getApplicationContext());
 
-		bindView();
-		bindListener();
+		
 		decimalFormat = new DecimalFormat("00");
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+		bindView();
+		bindListener();
 		resetPassword(true);
 		Calendar c = Calendar.getInstance();
 		int weekIndex = c.get(Calendar.DAY_OF_WEEK) - 1;
@@ -288,6 +300,7 @@ public class AuthActivity extends Activity {
 				+ "/" + decimalFormat.format(c.get(Calendar.MONTH) + 1) + "/"
 				+ decimalFormat.format(c.get(Calendar.DAY_OF_MONTH)) + " "
 				+ weekDaysName[weekIndex]);
+
 		// listView_User.setOnClickListener(new OnClickListener() {
 		// @Override
 		// public void onClick(View arg0) {

@@ -49,9 +49,11 @@ public class UserService {
 	}
 
 	public boolean deleteUser(User user) {
+		FileService fileService = new FileService(context);
+
 		try {
+		//	db.deleteById(User.class, user.getId());
 			db.delete(user);
-			FileService fileService = new FileService(context);
 			fileService.deleteUser(user.getNameId());
 			return true;
 		} catch (DbException e) {

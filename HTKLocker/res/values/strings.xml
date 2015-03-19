@@ -26,8 +26,8 @@
     <string name="register_success">注册成功</string>
     <string name="default_time">00:00</string>
     <string name="default_date">2014/12/31</string>
-    <string name="change_numerical_password">切换到数字密码</string>
-    <string name="change_sound_password">切换到语音识别</string>
+    <string name="switch_numerical_password">切换到数字密码</string>
+    <string name="switch_sound_password">切换到语音识别</string>
     <string name="service_start">锁屏服务启动</string>
     <string name="service_stop">锁屏服务关闭</string>
     <string name="train_tips_title">训练提示</string>

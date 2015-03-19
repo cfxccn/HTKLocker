@@ -64,6 +64,7 @@
         android:paddingLeft="@dimen/button_text_left_pad"
         android:text="@string/change_password" />
 
+
     <Button
         android:id="@+id/button_Exit"
         android:layout_width="match_parent"
@@ -73,5 +74,13 @@
         android:gravity="center_vertical|left"
         android:paddingLeft="@dimen/button_text_left_pad"
         android:text="@string/exit" />
-
+    <Button
+        android:id="@+id/button_DEVTest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/button_top_bottom_margin"
+        android:background="@drawable/my_btn"
+        android:gravity="center_vertical|left"
+        android:paddingLeft="@dimen/button_text_left_pad"
+        android:text="DEVTEST" />
 </LinearLayout>
