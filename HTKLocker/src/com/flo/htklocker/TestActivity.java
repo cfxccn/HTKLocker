@@ -26,10 +26,10 @@ public class TestActivity extends Activity {
 	Button button_Test;
 	TextView textView_TestInfo;
 
+	
 	protected void startRecord() {
 		audioRecordFunc = AudioRecordFunc.getInstance();
-		int result = audioRecordFunc.startRecordAndFile(wavPath, wavString,
-				rawString);
+		int result = audioRecordFunc.startRecordAndFile(wavPath, wavString, rawString);
 		if (result == 1) {
 			ToastUtil.show(getApplicationContext(),
 					R.string.audio_error_unknown);
@@ -40,10 +40,12 @@ public class TestActivity extends Activity {
 			public void run() {
 				stopRecord();
 				alertDialog.cancel();
+
 			}
 		}, 3000);
 	}
 
+	
 	protected void stopRecord() {
 		audioRecordFunc.stopRecordAndFile();
 		ToastUtil.show(getApplicationContext(),

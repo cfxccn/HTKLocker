@@ -34,7 +34,7 @@ public class MainActivity extends Activity {
 		button_Config = (Button) findViewById(R.id.button_Config);
 		button_ChangePassword = (Button) findViewById(R.id.button_ChangePassword);
 		button_Exit = (Button) findViewById(R.id.button_Exit);
-		button_DEVTest= (Button) findViewById(R.id.button_DEVTest);
+		button_DEVTest= (Button) findViewById(R.id.button_Dev);
 		if (BackgroundService.getStatus() == BackgroundService.Status.RUNNING) {
 			switch_Service.setChecked(true);
 		} else {
