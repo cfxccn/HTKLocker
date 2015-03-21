@@ -1,16 +1,15 @@
 package com.flo.util;
 
-
 import com.flo.service.FileService;
 import com.flo.service.UserService;
 
 public class TrainTest {
 
 	public static void createMFCC(FileService fileService, String wavPath,
-			String userid,boolean isTrain) {
-		String wavlist = fileService.createWavList(wavPath, userid,isTrain);
+			String userid, boolean isTrain) {
+		String wavlist = fileService.createWavList(wavPath, userid, isTrain);
 		HCopyFunc.exec(fileService.getConfigFilePath(), wavlist);
-	//	fileService.copyMfcc(userid);
+		// fileService.copyMfcc(userid);
 	}
 
 	public static void train(FileService fileService, String userid) {
@@ -32,16 +31,8 @@ public class TrainTest {
 		HClearFunc.exec();
 
 	}
-	
-	
-	public static void createGram(UserService userService,FileService fileService){
-		
-		
-		String gramFilePath = null, slfFilePath = null;
-		
-		
-		
-		
+
+	public static void createSlf(String gramFilePath, String slfFilePath) {
 		HParseFunc.exec(gramFilePath, slfFilePath);
 	}
 

@@ -4,6 +4,7 @@ import com.flo.service.FileService;
 import com.flo.service.LoginService;
 import com.flo.service.UserService;
 import com.flo.util.ToastUtil;
+import com.flo.util.TrainTest;
 
 import android.view.KeyEvent;
 import android.view.View;
@@ -82,7 +83,8 @@ public class MainActivity extends Activity {
 //				startActivityForResult(intent, 100);
 			UserService userService=new UserService(getApplicationContext());
 			FileService fileService=new FileService(getApplicationContext());
-			fileService.createGram(userService.getTrainedUserList());
+			String gramFile=fileService.createGram(userService.getTrainedUserList());
+			TrainTest.createSlf(gramFile, fileService.getSlfFilePath());
 			}
 		});
 		button_ChangePassword.setOnClickListener(new OnClickListener() {

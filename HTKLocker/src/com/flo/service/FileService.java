@@ -33,7 +33,6 @@ public class FileService {
 	String labUserPath;
 	String trainWavPath;
 	String testWavPath;
-	String gramFile;
 	String slfFile;
 	String dictFile;
 
@@ -274,15 +273,19 @@ public class FileService {
 
 	public String createGram(List<User> userList) {
 		String gramFile = appRoot + "/gram.txt";
-		StringBuilder userStringBuilder = new StringBuilder();
-		
-		for(User u:userList){
-			userStringBuilder.append("|");
-			userStringBuilder.append(u.getNameId());
+		String userString = "";
+		if (userList.size() != 0) {
+			StringBuilder userStringBuilder = new StringBuilder();
+			for (User u : userList) {
+				userStringBuilder.append("|");
+				userStringBuilder.append(u.getNameId());
+			}
+			userString = userStringBuilder.toString().substring(1);
 		}
-		String userString=userStringBuilder.toString().substring(1);
+
 		try {
-			FileUtils.write(new File(gramFile), "$WORD= "+userString+";\n([$WORD])");
+			FileUtils.write(new File(gramFile), "$WORD= " + userString
+					+ ";\n([$WORD])");
 			return gramFile;
 		} catch (IOException e) {
 			return null;
