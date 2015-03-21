@@ -65,7 +65,7 @@ public class AuthActivity extends Activity {
 
 	ListView listView_User;
 	List<Map<String, Object>> userMapList;
-	//SimpleAdapter adapter;
+	// SimpleAdapter adapter;
 	AuthListViewAdapter adapter;
 	DecimalFormat decimalFormat;
 	AlertDialog alertDialog;
@@ -123,13 +123,13 @@ public class AuthActivity extends Activity {
 		editText_Password.setFocusableInTouchMode(false);
 		progressBar.setVisibility(View.INVISIBLE);
 
-		if(isSoundMode){
+		if (isSoundMode) {
 			editText_Password.setVisibility(View.INVISIBLE);
 			gridLayout_NumberPanel.setVisibility(View.INVISIBLE);
 			listView_User.setVisibility(View.VISIBLE);
 			button_ChangeMode.setText(R.string.switch_numerical_password);
 
-		}else{
+		} else {
 			listView_User.setVisibility(View.INVISIBLE);
 			editText_Password.setVisibility(View.VISIBLE);
 			gridLayout_NumberPanel.setVisibility(View.VISIBLE);
@@ -137,16 +137,17 @@ public class AuthActivity extends Activity {
 
 		}
 		userMapList = list2Map(userService.getTrainedUserList());
-		if (userMapList == null) {
+		if (userMapList.size() < 3) {
 			changeMode();
 		}
-//		adapter = new SimpleAdapter(this, userMapList, R.layout.item_auth,
-//				new String[] { "textView_UserName" },
-//				new int[] { R.id.textView_UserName });
-		adapter = new AuthListViewAdapter(this, userMapList, R.layout.item_auth,
-		new String[] { "textView_UserName", "imageButton_UnLock","USERID"},
-		new int[] { R.id.textView_UserName ,R.id.imageButton_UnLock});
-		
+		// adapter = new SimpleAdapter(this, userMapList, R.layout.item_auth,
+		// new String[] { "textView_UserName" },
+		// new int[] { R.id.textView_UserName });
+		adapter = new AuthListViewAdapter(this, userMapList,
+				R.layout.item_auth, new String[] { "textView_UserName",
+						"imageButton_UnLock", "USERID" }, new int[] {
+						R.id.textView_UserName, R.id.imageButton_UnLock });
+
 		listView_User.setAdapter(adapter);
 	}
 
@@ -224,7 +225,12 @@ public class AuthActivity extends Activity {
 		button_ChangeMode.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				changeMode();
+				if (userMapList.size() < 3) {
+					ToastUtil.show(getApplicationContext(), getResources()
+							.getString(R.string.trained_user_not_enough));
+				} else {
+					changeMode();
+				}
 			}
 		});
 	}
@@ -281,7 +287,6 @@ public class AuthActivity extends Activity {
 		win.setFlags(0x80000000, 0x80000000);
 		userService = new UserService(getApplicationContext());
 
-		
 		decimalFormat = new DecimalFormat("00");
 	}
 
