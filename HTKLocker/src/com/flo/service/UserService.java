@@ -30,7 +30,7 @@ public class UserService {
 	}
 	
 	public List<User> getTrainedUserList() {
-		List<User> userList =null;
+		List<User> userList =new ArrayList<User>();
 		try {
 			userList = db.findAll(Selector.from(User.class)
                     .where("ISTRAINED", "=", true));

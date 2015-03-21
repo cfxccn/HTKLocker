@@ -33,7 +33,6 @@ public class FileService {
 	String labUserPath;
 	String trainWavPath;
 	String testWavPath;
-	String slfFile;
 	String dictFile;
 
 	Context context;
@@ -293,5 +292,31 @@ public class FileService {
 		}
 
 	}
+
+	public String createDict(List<User> userList) {
+		String dictFile = appRoot + "/dict.txt";
+		StringBuilder userStringBuilder = new StringBuilder();
+
+		if (userList.size() != 0) {
+			for (User u : userList) {
+				userStringBuilder.append(u.getNameId());
+				userStringBuilder.append(" [");
+				userStringBuilder.append(u.getNameId());
+				userStringBuilder.append("] ");
+				userStringBuilder.append(u.getNameId());
+				userStringBuilder.append("\n");
+			}
+		}
+
+		try {
+			FileUtils.write(new File(dictFile), userStringBuilder.toString());
+			return dictFile;
+		} catch (IOException e) {
+			return null;
+
+		}
+
+	}
+
 
 }

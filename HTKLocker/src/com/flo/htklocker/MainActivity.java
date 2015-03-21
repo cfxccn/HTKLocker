@@ -85,6 +85,12 @@ public class MainActivity extends Activity {
 			FileService fileService=new FileService(getApplicationContext());
 			String gramFile=fileService.createGram(userService.getTrainedUserList());
 			TrainTest.createSlf(gramFile, fileService.getSlfFilePath());
+			
+			
+			String dictFile=fileService.createDict(userService.getTrainedUserList());
+			ToastUtil.show(getApplicationContext(), dictFile.toString());
+			
+			
 			}
 		});
 		button_ChangePassword.setOnClickListener(new OnClickListener() {

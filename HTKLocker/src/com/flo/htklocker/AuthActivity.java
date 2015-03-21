@@ -38,7 +38,7 @@ import android.widget.TextView;
 
 public class AuthActivity extends Activity {
 	LoginService loginService;
-	boolean isSoundMode = true;
+	boolean isSoundMode;
 	RelativeLayout relativeLayout_MainPanel;
 	TextView textView_Time;
 	TextView textView_Date;
@@ -123,6 +123,11 @@ public class AuthActivity extends Activity {
 		editText_Password.setFocusableInTouchMode(false);
 		progressBar.setVisibility(View.INVISIBLE);
 
+
+		userMapList = list2Map(userService.getTrainedUserList());
+		if (userMapList.size() < 3) {
+			isSoundMode=false;
+		}
 		if (isSoundMode) {
 			editText_Password.setVisibility(View.INVISIBLE);
 			gridLayout_NumberPanel.setVisibility(View.INVISIBLE);
@@ -135,10 +140,6 @@ public class AuthActivity extends Activity {
 			gridLayout_NumberPanel.setVisibility(View.VISIBLE);
 			button_ChangeMode.setText(R.string.switch_sound_password);
 
-		}
-		userMapList = list2Map(userService.getTrainedUserList());
-		if (userMapList.size() < 3) {
-			changeMode();
 		}
 		// adapter = new SimpleAdapter(this, userMapList, R.layout.item_auth,
 		// new String[] { "textView_UserName" },
@@ -226,9 +227,12 @@ public class AuthActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				if (userMapList.size() < 3) {
+					isSoundMode=false;
+
 					ToastUtil.show(getApplicationContext(), getResources()
 							.getString(R.string.trained_user_not_enough));
 				} else {
+					isSoundMode=true;
 					changeMode();
 				}
 			}
