@@ -2,6 +2,7 @@ package com.flo.util;
 
 
 import com.flo.service.FileService;
+import com.flo.service.UserService;
 
 public class TrainTest {
 
@@ -30,6 +31,18 @@ public class TrainTest {
 	public static void clear() {
 		HClearFunc.exec();
 
+	}
+	
+	
+	public static void createGram(UserService userService,FileService fileService){
+		
+		
+		String gramFilePath = null, slfFilePath = null;
+		
+		
+		
+		
+		HParseFunc.exec(gramFilePath, slfFilePath);
 	}
 
 }

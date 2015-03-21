@@ -1,6 +1,8 @@
 package com.flo.htklocker;
 
+import com.flo.service.FileService;
 import com.flo.service.LoginService;
+import com.flo.service.UserService;
 import com.flo.util.ToastUtil;
 
 import android.view.KeyEvent;
@@ -75,9 +77,12 @@ public class MainActivity extends Activity {
 		button_Config.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				Intent intent = new Intent(getApplicationContext(),
-						ConfigActivity.class);
-				startActivityForResult(intent, 100);
+//				Intent intent = new Intent(getApplicationContext(),
+//						ConfigActivity.class);
+//				startActivityForResult(intent, 100);
+			UserService userService=new UserService(getApplicationContext());
+			FileService fileService=new FileService(getApplicationContext());
+			fileService.createGram(userService.getTrainedUserList());
 			}
 		});
 		button_ChangePassword.setOnClickListener(new OnClickListener() {

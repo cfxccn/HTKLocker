@@ -35,3 +35,9 @@ LOCAL_SRC_FILES := com_flo_util_HClearFunc.c
 LOCAL_WHOLE_STATIC_LIBRARIES := libHTKCore
 include $(BUILD_SHARED_LIBRARY) 
 
+include $(CLEAR_VARS)
+LOCAL_MODULE    := HParse
+LOCAL_SRC_FILES := com_flo_util_HParseFunc.c
+LOCAL_WHOLE_STATIC_LIBRARIES := libHTKCore
+include $(BUILD_SHARED_LIBRARY) 
+

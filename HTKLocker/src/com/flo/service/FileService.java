@@ -10,6 +10,8 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 
+import com.flo.model.User;
+
 import android.content.Context;
 import android.os.Environment;
 
@@ -31,6 +33,10 @@ public class FileService {
 	String labUserPath;
 	String trainWavPath;
 	String testWavPath;
+	String gramFile;
+	String slfFile;
+	String dictFile;
+
 	Context context;
 
 	public FileService(Context context) {
@@ -135,43 +141,13 @@ public class FileService {
 		return appRoot + "/config";
 	}
 
-	//
-	// public String copyMfcc(String userid) {
-	// File srcFile = new File(mfccPath + "/" + userid + "_1.mfc");
-	// File destFile1 = new File(mfccPath + "/" + userid + "_2.mfc");
-	// File destFile2 = new File(mfccPath + "/" + userid + "_3.mfc");
-	// File destFile3 = new File(mfccPath + "/" + userid + "_4.mfc");
-	//
-	// try {
-	// FileUtils.copyFile(srcFile, destFile1);
-	// FileUtils.copyFile(srcFile, destFile2);
-	// FileUtils.copyFile(srcFile, destFile3);
-	// return mfccPath;
-	//
-	// } catch (IOException e) {
-	// return null;
-	// }
-	//
-	// // FileUtil.copyFile(mfccPath + "/" + userid + "_1.mfc", mfccPath + "/"
-	// // + userid + "_2.mfc");
-	// // FileUtil.copyFile(mfccPath + "/" + userid + "_1.mfc", mfccPath + "/"
-	// // + userid + "_3.mfc");
-	// // FileUtil.copyFile(mfccPath + "/" + userid + "_1.mfc", mfccPath + "/"
-	// // + userid + "_4.mfc");
-	// }
+	public String getDictFilePath() {
+		return appRoot + "/dict.txt ";
+	}
 
-	// public void clearWav(String userid) {
-	// FileUtils
-	// .deleteQuietly(new File(trainWavPath + "/" + userid + "_2.wav"));
-	// FileUtils
-	// .deleteQuietly(new File(trainWavPath + "/" + userid + "_3.wav"));
-	//
-	//
-	// // FileUtil.deleteFile(trainWavPath + "/" + userid + "_2.wav");
-	// // FileUtil.deleteFile(trainWavPath + "/" + userid + "_3.wav");
-	// // FileUtil.deleteFile(trainWavPath + "/" + userid + "_4.wav");
-	//
-	// }
+	public String getSlfFilePath() {
+		return appRoot + "/net.slf";
+	}
 
 	public String createLab(String userid) {
 		// FileOutputStream fs = null;
@@ -295,4 +271,24 @@ public class FileService {
 		FileUtils.deleteQuietly(new File(hmm1Path + "/hmm_" + userid));
 		FileUtils.deleteQuietly(new File(hmm2Path + "/hmm_" + userid));
 	}
+
+	public String createGram(List<User> userList) {
+		String gramFile = appRoot + "/gram.txt";
+		StringBuilder userStringBuilder = new StringBuilder();
+		
+		for(User u:userList){
+			userStringBuilder.append("|");
+			userStringBuilder.append(u.getNameId());
+		}
+		String userString=userStringBuilder.toString().substring(1);
+		try {
+			FileUtils.write(new File(gramFile), "$WORD= "+userString+";\n([$WORD])");
+			return gramFile;
+		} catch (IOException e) {
+			return null;
+
+		}
+
+	}
+
 }
