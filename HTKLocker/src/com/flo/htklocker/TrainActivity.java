@@ -3,8 +3,8 @@ package com.flo.htklocker;
 import com.flo.service.FileService;
 import com.flo.service.UserService;
 import com.flo.util.AudioRecordFunc;
+import com.flo.util.HTKTool;
 import com.flo.util.ToastUtil;
-import com.flo.util.TrainTest;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -147,8 +147,8 @@ public class TrainActivity extends Activity {
 			button_Record2.setEnabled(false);
 			button_Record3.setEnabled(false);
 			
-			TrainTest.createMFCC(fileService, wavPath, userid,true);
-			TrainTest.train(fileService, userid);
+			HTKTool.createMFCC(fileService, wavPath, userid,true);
+			HTKTool.train(fileService, userid);
 			userService.trainUser(Integer.valueOf(userid.substring(2)));
 			ToastUtil.show(this, R.string.train_end);
 			

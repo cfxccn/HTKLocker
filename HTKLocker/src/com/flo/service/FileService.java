@@ -206,18 +206,18 @@ public class FileService {
 	public String createProto(String userid) {
 		try {
 			InputStream inputStream = context.getAssets().open("proto");
-			OutputStream fosto = new FileOutputStream(protoPath + "/hmm_"
-					+ userid);
+			OutputStream outputStream = new FileOutputStream(protoPath
+					+ "/hmm_" + userid);
 			byte btHeader[] = new byte[34];
 			inputStream.read(btHeader);
-			fosto.write(btHeader);
-			fosto.write(userid.getBytes());
+			outputStream.write(btHeader);
+			outputStream.write(userid.getBytes());
 			int c;
 			byte bt[] = new byte[1024];
 			while ((c = inputStream.read(bt)) > 0) {
-				fosto.write(bt, 0, c);
+				outputStream.write(bt, 0, c);
 			}
-			fosto.close();
+			outputStream.close();
 			return protoPath + "/hmm_" + userid;
 		} catch (IOException e) {
 			return null;
@@ -296,7 +296,6 @@ public class FileService {
 	public String createDict(List<User> userList) {
 		String dictFile = appRoot + "/dict.txt";
 		StringBuilder userStringBuilder = new StringBuilder();
-
 		if (userList.size() != 0) {
 			for (User u : userList) {
 				userStringBuilder.append(u.getNameId());
@@ -318,5 +317,37 @@ public class FileService {
 
 	}
 
+	public String createAllMmf(List<User> userList) {
+		String allMmfFile = appRoot + "/all.mmf";
+		InputStream inputStream = null;
+		OutputStream outputStream = null;
+		try {
+			outputStream = FileUtils.openOutputStream(new File(allMmfFile));
+			if (userList.size() != 0) {
+				for (User u : userList) {
+					inputStream = FileUtils.openInputStream(FileUtils
+							.getFile(getHmm2Path() + "/hmm_" + u.getNameId()));
+					if (userList.indexOf(u) == 0) {
+						int c;
+						byte bt[] = new byte[1024];
+						while ((c = inputStream.read(bt)) > 0) {
+							outputStream.write(bt, 0, c);
+						}
+					} else {
+						int c;
+						byte bt[] = new byte[1024];
+						inputStream.read(new byte[3]);
+						while ((c = inputStream.read(bt)) > 0) {
+							outputStream.write(bt, 0, c);
+						}
+					}
 
+				}
+			}
+			outputStream.close();
+			return allMmfFile;
+		} catch (IOException e) {
+			return null;
+		}
+	}
 }

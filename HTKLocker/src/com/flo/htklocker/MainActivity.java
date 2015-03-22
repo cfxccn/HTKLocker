@@ -4,7 +4,6 @@ import com.flo.service.FileService;
 import com.flo.service.LoginService;
 import com.flo.service.UserService;
 import com.flo.util.ToastUtil;
-import com.flo.util.TrainTest;
 
 import android.view.KeyEvent;
 import android.view.View;
@@ -37,7 +36,7 @@ public class MainActivity extends Activity {
 		button_Config = (Button) findViewById(R.id.button_Config);
 		button_ChangePassword = (Button) findViewById(R.id.button_ChangePassword);
 		button_Exit = (Button) findViewById(R.id.button_Exit);
-		button_DEVTest= (Button) findViewById(R.id.button_Dev);
+		button_DEVTest = (Button) findViewById(R.id.button_Dev);
 		if (BackgroundService.getStatus() == BackgroundService.Status.RUNNING) {
 			switch_Service.setChecked(true);
 		} else {
@@ -78,19 +77,23 @@ public class MainActivity extends Activity {
 		button_Config.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-//				Intent intent = new Intent(getApplicationContext(),
-//						ConfigActivity.class);
-//				startActivityForResult(intent, 100);
-			UserService userService=new UserService(getApplicationContext());
-			FileService fileService=new FileService(getApplicationContext());
-			String gramFile=fileService.createGram(userService.getTrainedUserList());
-			TrainTest.createSlf(gramFile, fileService.getSlfFilePath());
-			
-			
-			String dictFile=fileService.createDict(userService.getTrainedUserList());
-			ToastUtil.show(getApplicationContext(), dictFile.toString());
-			
-			
+				// Intent intent = new Intent(getApplicationContext(),
+				// ConfigActivity.class);
+				// startActivityForResult(intent, 100);
+				UserService userService = new UserService(
+						getApplicationContext());
+				FileService fileService = new FileService(
+						getApplicationContext());
+				// String
+				// gramFile=fileService.createGram(userService.getTrainedUserList());
+				// HTKTool.createSlf(gramFile, fileService.getSlfFilePath());
+				//
+				//
+				// String
+				// dictFile=fileService.createDict(userService.getTrainedUserList());
+				// ToastUtil.show(getApplicationContext(), dictFile.toString());
+				fileService.createAllMmf(userService.getTrainedUserList());
+
 			}
 		});
 		button_ChangePassword.setOnClickListener(new OnClickListener() {

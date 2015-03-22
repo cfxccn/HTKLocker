@@ -2,7 +2,7 @@ package com.flo.util;
 
 import com.flo.service.FileService;
 
-public class TrainTest {
+public class HTKTool {
 
 	public static void createMFCC(FileService fileService, String wavPath,
 			String userid, boolean isTrain) {
