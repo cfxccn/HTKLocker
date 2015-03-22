@@ -1,6 +1,10 @@
 package com.flo.util;
 
+import java.util.List;
+
+import com.flo.model.User;
 import com.flo.service.FileService;
+import com.flo.service.UserService;
 
 public class HTKTool {
 
@@ -17,7 +21,6 @@ public class HTKTool {
 		String trainlist = fileService.createTrainList(userid);
 		HInitFunc.exec(trainlist, fileService.getHmm0Path(), protoFile, userid,
 				labUserPath);
-
 		HRestFunc.exec(trainlist, fileService.getHmm1Path(),
 				fileService.getHmm0Path() + "/hmm_" + userid, userid,
 				labUserPath);
@@ -28,11 +31,21 @@ public class HTKTool {
 
 	public static void clear() {
 		HClearFunc.exec();
-
 	}
 
-	public static void createSlf(String gramFilePath, String slfFilePath) {
-		HParseFunc.exec(gramFilePath, slfFilePath);
+//	public static void createSlf(String gramFilePath, String slfFilePath) {
+//		HParseFunc.exec(gramFilePath, slfFilePath);
+//	}
+
+	public static void test(FileService fileService, UserService userService) {
+		List<User> userList = userService.getTrainedUserList();
+		String gramFile = fileService.createGram(userList);
+		HParseFunc.exec(gramFile, fileService.getSlfFilePath());
+		String dictFile = fileService.createDict(userList);
+		String allMmfFile = fileService.createAllMmf(userList);
+
+		
+		
 	}
 
 }

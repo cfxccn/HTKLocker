@@ -3,6 +3,7 @@ package com.flo.htklocker;
 import com.flo.service.FileService;
 import com.flo.service.LoginService;
 import com.flo.service.UserService;
+import com.flo.util.HTKTool;
 import com.flo.util.ToastUtil;
 
 import android.view.KeyEvent;
@@ -92,7 +93,8 @@ public class MainActivity extends Activity {
 				// String
 				// dictFile=fileService.createDict(userService.getTrainedUserList());
 				// ToastUtil.show(getApplicationContext(), dictFile.toString());
-				fileService.createAllMmf(userService.getTrainedUserList());
+				
+				HTKTool.test(fileService, userService);
 
 			}
 		});
