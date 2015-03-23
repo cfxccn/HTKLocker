@@ -6,7 +6,7 @@ import com.flo.model.User;
 import com.flo.service.FileService;
 import com.flo.service.UserService;
 
-public class HTKTool {
+public class NativeHTK {
 
 	public static void createMFCC(FileService fileService, String wavPath,
 			String userid, boolean isTrain) {
@@ -42,10 +42,10 @@ public class HTKTool {
 		String gramFile = fileService.createGram(userList);
 		HParseFunc.exec(gramFile, fileService.getSlfFilePath());
 		String dictFile = fileService.createDict(userList);
-		String allMmfFile = fileService.createAllMmf(userList);
-
+		String allMmfFile = fileService.createAllMmf(userList);	
+		
+		
 		
 		
 	}
-
 }

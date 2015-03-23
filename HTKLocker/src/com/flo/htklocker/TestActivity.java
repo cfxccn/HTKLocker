@@ -2,7 +2,7 @@ package com.flo.htklocker;
 
 import com.flo.service.FileService;
 import com.flo.util.AudioRecordFunc;
-import com.flo.util.HTKTool;
+import com.flo.util.NativeHTK;
 import com.flo.util.ToastUtil;
 
 import android.app.Activity;
@@ -50,7 +50,7 @@ public class TestActivity extends Activity {
 		audioRecordFunc.stopRecordAndFile();
 		ToastUtil.show(getApplicationContext(),
 				R.string.record_end);
-		HTKTool.createMFCC(fileService,wavPath, "test",false);
+		NativeHTK.createMFCC(fileService,wavPath, "test",false);
 		ToastUtil.show(getApplicationContext(), R.string.test_end);
 		button_Test.setText(R.string.test);
 	}

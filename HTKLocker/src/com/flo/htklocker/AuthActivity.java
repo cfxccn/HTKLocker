@@ -14,7 +14,7 @@ import com.flo.service.LoginService;
 import com.flo.service.UserService;
 import com.flo.util.AudioRecordFunc;
 import com.flo.service.*;
-import com.flo.util.HTKTool;
+import com.flo.util.NativeHTK;
 import com.flo.util.ToastUtil;
 
 import android.app.Activity;
@@ -347,7 +347,7 @@ public class AuthActivity extends Activity {
 	protected void stopRecord() {
 		audioRecordFunc.stopRecordAndFile();
 
-		HTKTool.createMFCC(fileService, wavPath, "test", false);
+		NativeHTK.createMFCC(fileService, wavPath, "test", false);
 		textView_Info.setText("");
 		listView_User.setVisibility(View.VISIBLE);
 		progressBar.setVisibility(View.INVISIBLE);
