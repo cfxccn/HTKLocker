@@ -232,7 +232,6 @@ public class AuthActivity extends Activity {
 					ToastUtil.show(getApplicationContext(), getResources()
 							.getString(R.string.trained_user_not_enough));
 				} else {
-					isSoundMode=true;
 					changeMode();
 				}
 			}
