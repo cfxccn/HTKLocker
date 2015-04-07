@@ -192,7 +192,7 @@ public class FileService {
 						+ "_3.mfc \n");
 			} else {
 				FileUtils.write(new File(appRoot + "/wavlist.txt"), wavPath
-						+ "/test_1.wav " + mfccPath + "/test_1.mfc \n");
+						+ "/"+userid+".wav " + mfccPath + "/"+userid+".mfc \n");
 			}
 			// fs = new FileOutputStream(appRoot + "/wavlist.txt");
 			// fs.write(textString1.getBytes());

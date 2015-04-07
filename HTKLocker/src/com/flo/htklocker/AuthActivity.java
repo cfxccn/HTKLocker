@@ -12,16 +12,12 @@ import com.flo.htklocker.R;
 import com.flo.model.User;
 import com.flo.service.LoginService;
 import com.flo.service.UserService;
-import com.flo.util.AudioRecordFunc;
-import com.flo.service.*;
-import com.flo.util.NativeHTK;
 import com.flo.util.ToastUtil;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -69,12 +65,7 @@ public class AuthActivity extends Activity {
 	AuthListViewAdapter adapter;
 	DecimalFormat decimalFormat;
 	AlertDialog alertDialog;
-	String wavPath;
-	String wavString = "test_1.wav";
-	String rawString = "test_1.raw";
-	String wavlist;
-	AudioRecordFunc audioRecordFunc;
-	FileService fileService;
+
 	UserService userService;
 
 	static String[] weekDaysName;
@@ -278,7 +269,6 @@ public class AuthActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_auth);
-		fileService = new FileService(getApplicationContext());
 		loginService = new LoginService(getApplicationContext());
 		weekDaysName = getResources().getStringArray(R.array.weekDays);
 		Window win = getWindow();
@@ -327,32 +317,32 @@ public class AuthActivity extends Activity {
 		// });
 	}
 
-	protected void startRecord() {
-		audioRecordFunc = AudioRecordFunc.getInstance();
-		int result = audioRecordFunc.startRecordAndFile(wavPath, wavString,
-				rawString);
-		if (result == 1) {
-			ToastUtil.show(getApplicationContext(),
-					R.string.audio_error_unknown);
-			return;
-		}
-		new Handler().postDelayed(new Runnable() {
-			public void run() {
-				stopRecord();
-			}
-		}, 3000);
-	}
-
-	protected void stopRecord() {
-		audioRecordFunc.stopRecordAndFile();
-
-		NativeHTK.createMFCC(fileService, wavPath, "test", false);
-		textView_Info.setText("");
-		listView_User.setVisibility(View.VISIBLE);
-		progressBar.setVisibility(View.INVISIBLE);
-		button_ChangeMode.setVisibility(View.VISIBLE);
-
-	}
+//	protected void startRecord() {
+//		audioRecordFunc = AudioRecordFunc.getInstance();
+//		int result = audioRecordFunc.startRecordAndFile(wavPath, wavString,
+//				rawString);
+//		if (result == 1) {
+//			ToastUtil.show(getApplicationContext(),
+//					R.string.audio_error_unknown);
+//			return;
+//		}
+//		new Handler().postDelayed(new Runnable() {
+//			public void run() {
+//				stopRecord();
+//			}
+//		}, 3000);
+//	}
+//
+//	protected void stopRecord() {
+//		audioRecordFunc.stopRecordAndFile();
+//
+//		NativeHTK.createMFCC(fileService, wavPath, "test", false);
+//		textView_Info.setText("");
+//		listView_User.setVisibility(View.VISIBLE);
+//		progressBar.setVisibility(View.INVISIBLE);
+//		button_ChangeMode.setVisibility(View.VISIBLE);
+//
+//	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
