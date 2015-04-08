@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.flo.htklocker.R;
-import com.flo.htklocker.TrainActivity;
 import com.flo.service.FileService;
 import com.flo.util.AudioRecordFunc;
 import com.flo.util.NativeHTK;
@@ -104,12 +103,12 @@ public class AuthListViewAdapter extends BaseAdapter {
 	}
 
 	class ButtonListener implements OnClickListener {
-		private int position;
+	//	private int position;
 		String textView_UserName;
 		String USERID;
 		
 		ButtonListener(int pos,String name,String userid) {
-			position = pos;
+		//	position = pos;
 			textView_UserName=name;
 			USERID=userid;
 		}
@@ -122,7 +121,7 @@ public class AuthListViewAdapter extends BaseAdapter {
 			final AlertDialog.Builder dialogBuilder1 = new AlertDialog.Builder(
 					mContext);
 			View view1 = View.inflate(mContext,
-					R.layout.dialog_record, null);
+					R.layout.dialog_unlock, null);
 			dialogBuilder1.setView(view1);
 			alertDialog = dialogBuilder1.create();
 			alertDialog.setCanceledOnTouchOutside(false);

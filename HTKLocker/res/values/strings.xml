@@ -77,7 +77,8 @@
     <string name="test_time">测试时间</string>
         <string name="trained_user_not_enough">请训练至少3个以上用户</string>
     
-
+    <string name="unlock_tips">录音时请清晰地说出“解锁手机”。</string>
+        
 
     <string-array name="weekDays">
         <item>星期日</item>
