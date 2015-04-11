@@ -33,8 +33,7 @@ public class FileService {
 	String labUserPath;
 	String trainWavPath;
 	String testWavPath;
-	String dictFile;
-
+	String resultFile;
 	Context context;
 
 	public FileService(Context context) {
@@ -147,6 +146,10 @@ public class FileService {
 		return appRoot + "/net.slf";
 	}
 
+	public String getResultFilePath() {
+		return appRoot + "/reco.mlf";
+	}
+	
 	public String createLab(String userid) {
 		// FileOutputStream fs = null;
 		// String textString = "0 20000000 " + userid;
@@ -238,13 +241,6 @@ public class FileService {
 		try {
 			FileUtils.writeLines(new File(appRoot + "/trainlist.txt"),
 					textStrings);
-
-			// fs = new FileOutputStream(appRoot + "/trainlist.txt");
-			// fs.write(textString1.getBytes());
-			// fs.write(textString2.getBytes());
-			// fs.write(textString3.getBytes());
-			// fs.write(textString4.getBytes());
-			// fs.close();
 			return appRoot + "/trainlist.txt";
 		} catch (Exception e) {
 			return null;
@@ -254,7 +250,6 @@ public class FileService {
 	public void deleteUser(String userid) {
 
 		FileUtils.deleteQuietly(new File(getLabPath(userid)));
-
 		FileUtils
 				.deleteQuietly(new File(trainWavPath + "/" + userid + "_1.wav"));
 		FileUtils
@@ -306,17 +301,29 @@ public class FileService {
 				userStringBuilder.append("\n");
 			}
 		}
-
 		try {
 			FileUtils.write(new File(dictFile), userStringBuilder.toString());
 			return dictFile;
 		} catch (IOException e) {
 			return null;
-
 		}
-
 	}
-
+	public String createHmmListFile(List<User> userList) {
+		String hmmListFile = appRoot + "/hmmlist.txt";
+		StringBuilder userStringBuilder = new StringBuilder();
+		if (userList.size() != 0) {
+			for (User u : userList) {
+				userStringBuilder.append(u.getNameId());
+				userStringBuilder.append("\n");
+			}
+		}
+		try {
+			FileUtils.write(new File(hmmListFile), userStringBuilder.toString()+"\n");
+			return hmmListFile;
+		} catch (IOException e) {
+			return null;
+		}
+	}
 	public String createAllMmf(List<User> userList) {
 		String allMmfFile = appRoot + "/all.mmf";
 		InputStream inputStream = null;
@@ -327,21 +334,28 @@ public class FileService {
 				for (User u : userList) {
 					inputStream = FileUtils.openInputStream(FileUtils
 							.getFile(getHmm2Path() + "/hmm_" + u.getNameId()));
-					if (userList.indexOf(u) == 0) {
-						int c;
-						byte bt[] = new byte[1024];
-						while ((c = inputStream.read(bt)) > 0) {
-							outputStream.write(bt, 0, c);
-						}
-					} else {
-						int c;
-						byte bt[] = new byte[1024];
-						inputStream.read(new byte[3]);
-						while ((c = inputStream.read(bt)) > 0) {
-							outputStream.write(bt, 0, c);
-						}
-					}
+//					if (userList.indexOf(u) == 0) {
+//						int c;
+//						byte bt[] = new byte[1024];
+//						while ((c = inputStream.read(bt)) > 0) {
+//							outputStream.write(bt, 0, c);
+//						}
+//					} else {
+//						int c;
+//						byte bt[] = new byte[1024];
+//						inputStream.read(new byte[3]);
+//						while ((c = inputStream.read(bt)) > 0) {
+//							outputStream.write(bt, 0, c);
+//						}
+//					}
 
+						int c;
+						byte bt[] = new byte[1024];
+						while ((c = inputStream.read(bt)) > 0) {
+							outputStream.write(bt, 0, c);
+						
+					
+					}
 				}
 			}
 			outputStream.close();

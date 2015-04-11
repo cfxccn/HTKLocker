@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.flo.htklocker.R;
 import com.flo.service.FileService;
+import com.flo.service.UserService;
 import com.flo.util.AudioRecordFunc;
 import com.flo.util.NativeHTK;
 import com.flo.util.ToastUtil;
@@ -41,6 +42,8 @@ public class AuthListViewAdapter extends BaseAdapter {
 	private ButtonViewHolder holder;
 	private int resource;
 	FileService fileService;
+	UserService userService;
+
 	AlertDialog alertDialog;
 
 	public AuthListViewAdapter(Context c,
@@ -55,7 +58,8 @@ public class AuthListViewAdapter extends BaseAdapter {
 		valueViewID = new int[to.length];
 		System.arraycopy(from, 0, keyString, 0, from.length);
 		System.arraycopy(to, 0, valueViewID, 0, to.length);
-		fileService	 = new FileService(mContext);
+		fileService = new FileService(mContext);
+		userService=new UserService(mContext);
 
 	}
 
@@ -126,12 +130,8 @@ public class AuthListViewAdapter extends BaseAdapter {
 			alertDialog = dialogBuilder1.create();
 			alertDialog.setCanceledOnTouchOutside(false);
 			alertDialog.setCancelable(false);
-			alertDialog.show();
-			
+			alertDialog.show();			
 			startRecord(USERID);
-
-				
-			
 		}
 	}
 
@@ -159,6 +159,7 @@ public class AuthListViewAdapter extends BaseAdapter {
 	protected void stopRecord(String USERID) {
 		audioRecordFunc.stopRecordAndFile();
 		NativeHTK.createMFCC(fileService, wavPath, USERID, false);
+		NativeHTK.test(fileService, userService,USERID);
 
 	}
 	

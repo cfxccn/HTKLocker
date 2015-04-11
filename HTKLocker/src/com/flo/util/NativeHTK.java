@@ -37,12 +37,18 @@ public class NativeHTK {
 //		HParseFunc.exec(gramFilePath, slfFilePath);
 //	}
 
-	public static void test(FileService fileService, UserService userService) {
+	public static void test(FileService fileService, UserService userService,String USERID) {
 		List<User> userList = userService.getTrainedUserList();
 		String gramFile = fileService.createGram(userList);
 		HParseFunc.exec(gramFile, fileService.getSlfFilePath());
 		String dictFile = fileService.createDict(userList);
 		String allMmfFile = fileService.createAllMmf(userList);	
+		String netSlfFile=fileService.getSlfFilePath();
+		String hmmListFile=fileService.createHmmListFile(userList);
+		String resultFile=fileService.getResultFilePath();
+		String mfcFile=fileService.getMfccPath()+"/"+USERID+".mfc";
+		
+		HViteFunc.exec(allMmfFile, resultFile, netSlfFile, dictFile, hmmListFile, mfcFile);
 		
 		
 		

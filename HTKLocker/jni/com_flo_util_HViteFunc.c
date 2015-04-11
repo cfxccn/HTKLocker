@@ -33,7 +33,7 @@ JNIEXPORT void JNICALL Java_com_flo_util_HViteFunc_HVite
 	argv[7]=dictFile;
 	argv[8]=hmmListFile;
 	argv[9]=mfcFile;
-	main_HParse(argc, argv);
+	main_HVite(argc, argv);
 }
 
 
