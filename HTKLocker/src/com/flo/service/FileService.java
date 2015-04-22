@@ -324,6 +324,19 @@ public class FileService {
 			return null;
 		}
 	}
+	
+	public String getHviteE(){
+		File hViteE = null;
+		try {
+			InputStream inputStream = context.getAssets().open("HViteE");
+			// FileUtil.copyFile(inputStream, appRoot + "/config");
+			hViteE = new File(appRoot + "/HViteE");
+			FileUtils.copyInputStreamToFile(inputStream, hViteE);
+		} catch (IOException e) {
+		}
+		return hViteE.getAbsolutePath();
+		
+	}
 	public String createAllMmf(List<User> userList) {
 		String allMmfFile = appRoot + "/all.mmf";
 		InputStream inputStream = null;

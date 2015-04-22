@@ -153,14 +153,13 @@ public class AuthListViewAdapter extends BaseAdapter {
 				alertDialog.cancel();
 
 			}
-		}, 3000);
+		}, 1800);
 	}
 
 	protected void stopRecord(String USERID) {
 		audioRecordFunc.stopRecordAndFile();
 		NativeHTK.createMFCC(fileService, wavPath, USERID, false);
 		NativeHTK.test(fileService, userService,USERID);
-
 	}
 	
 }

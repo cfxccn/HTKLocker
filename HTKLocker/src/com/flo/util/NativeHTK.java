@@ -1,5 +1,7 @@
 package com.flo.util;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.flo.model.User;
@@ -47,9 +49,29 @@ public class NativeHTK {
 		String hmmListFile=fileService.createHmmListFile(userList);
 		String resultFile=fileService.getResultFilePath();
 		String mfcFile=fileService.getMfccPath()+"/"+USERID+".mfc";
+		String hViteE=fileService.getHviteE();
+
+		String[] argv = new String[10];
+		argv[0]=hViteE;
+		argv[1]="-H";
+		argv[2]=allMmfFile;
+		argv[3]="-i";
+		argv[4]=resultFile;
+		argv[5]="-w";
+		argv[6]=netSlfFile;
+		argv[7]=dictFile;
+		argv[8]=hmmListFile;
+		argv[9]=mfcFile;
 		
-		HViteFunc.exec(allMmfFile, resultFile, netSlfFile, dictFile, hmmListFile, mfcFile);
-		
+		try {
+			Runtime.getRuntime().exec(argv);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	
+		//HViteFunc.exec(allMmfFile, resultFile, netSlfFile, dictFile, hmmListFile, mfcFile);
 		
 		
 		

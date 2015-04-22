@@ -298,51 +298,7 @@ public class AuthActivity extends Activity {
 				+ "/" + decimalFormat.format(c.get(Calendar.MONTH) + 1) + "/"
 				+ decimalFormat.format(c.get(Calendar.DAY_OF_MONTH)) + " "
 				+ weekDaysName[weekIndex]);
-
-		// listView_User.setOnClickListener(new OnClickListener() {
-		// @Override
-		// public void onClick(View arg0) {
-		// wavPath = fileService.getTestWavPath();
-		// if (wavPath==null) {
-		// ToastUtil.show(AuthActivity.this,
-		// R.string.audio_error_no_sdcard);
-		// } else {
-		// textView_Info.setText(R.string.record_start);
-		// progressBar.setVisibility(View.VISIBLE);
-		// listView_User.setVisibility(View.INVISIBLE);
-		// button_ChangeMode.setVisibility(View.INVISIBLE);
-		// startRecord();
-		// }
-		// }
-		// });
 	}
-
-//	protected void startRecord() {
-//		audioRecordFunc = AudioRecordFunc.getInstance();
-//		int result = audioRecordFunc.startRecordAndFile(wavPath, wavString,
-//				rawString);
-//		if (result == 1) {
-//			ToastUtil.show(getApplicationContext(),
-//					R.string.audio_error_unknown);
-//			return;
-//		}
-//		new Handler().postDelayed(new Runnable() {
-//			public void run() {
-//				stopRecord();
-//			}
-//		}, 3000);
-//	}
-//
-//	protected void stopRecord() {
-//		audioRecordFunc.stopRecordAndFile();
-//
-//		NativeHTK.createMFCC(fileService, wavPath, "test", false);
-//		textView_Info.setText("");
-//		listView_User.setVisibility(View.VISIBLE);
-//		progressBar.setVisibility(View.INVISIBLE);
-//		button_ChangeMode.setVisibility(View.VISIBLE);
-//
-//	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -352,5 +308,4 @@ public class AuthActivity extends Activity {
 			return super.onKeyDown(keyCode, event);
 		}
 	}
-
 }

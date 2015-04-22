@@ -122,7 +122,7 @@ public class TrainActivity extends Activity {
 				alertDialog.cancel();
 
 			}
-		}, 3000);
+		}, 1800);
 	}
 
 	protected void stopRecord(int n) {

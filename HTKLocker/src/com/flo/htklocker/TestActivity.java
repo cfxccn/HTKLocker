@@ -42,7 +42,7 @@ public class TestActivity extends Activity {
 				alertDialog.cancel();
 
 			}
-		}, 3000);
+		}, 1800);
 	}
 
 	
