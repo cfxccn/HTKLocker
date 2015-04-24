@@ -40,10 +40,7 @@
             android:name=".TestActivity"
             android:label="@string/test" >
         </activity>
-        <activity
-            android:name=".ConfigActivity"
-            android:label="@string/config" >
-        </activity>
+
         <activity
             android:name=".AuthActivity"
             android:launchMode="singleInstance"
