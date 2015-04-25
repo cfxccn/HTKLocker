@@ -79,7 +79,7 @@ public class AuthActivity extends Activity {
 			Map<String, Object> map = new HashMap<String, Object>();
 			if (u.getIsTrained()) {
 				map.put("textView_UserName", u.getName());
-				map.put("USERID", u.getNameId());
+				map.put("userId", u.getNameId());
 			} else {
 			}
 			result.add(map);
@@ -137,7 +137,7 @@ public class AuthActivity extends Activity {
 		// new int[] { R.id.textView_UserName });
 		adapter = new AuthListViewAdapter(this, userMapList,
 				R.layout.item_auth, new String[] { "textView_UserName",
-						"imageButton_UnLock", "USERID" }, new int[] {
+						"imageButton_UnLock", "userId" }, new int[] {
 						R.id.textView_UserName, R.id.imageButton_UnLock });
 
 		listView_User.setAdapter(adapter);

@@ -44,14 +44,14 @@ public class UserActivity extends Activity {
 			map.put("textView_Username", u.getName());
 			map.put("USERID", u.getNameId());
 			if (u.getTrainTime() == null) {
-				map.put("textView_TrainTime", getResources().getString(R.string.train_time)+":");
+				map.put("textView_TrainTime", getResources().getString(R.string.train_time)+":"+getResources().getString(R.string.none));
 			} else {
 				map.put("textView_TrainTime", getResources().getString(R.string.train_time)+":"+simpleDateFormat.format(u.getTrainTime()));
 			}
-			if (u.getTestTime() == null) {
-				map.put("textView_TestTime", getResources().getString(R.string.test_time)+":");
+			if (u.getLastVerifyTime() == null) {
+				map.put("textView_TestTime", getResources().getString(R.string.last_verify_time)+":"+getResources().getString(R.string.none));
 			} else {
-				map.put("textView_TestTime", getResources().getString(R.string.test_time)+":"+simpleDateFormat.format(u.getTestTime()));
+				map.put("textView_TestTime", getResources().getString(R.string.last_verify_time)+":"+simpleDateFormat.format(u.getLastVerifyTime()));
 			}
 
 			if (u.getIsTrained()) {

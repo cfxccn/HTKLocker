@@ -33,7 +33,7 @@ public class UserService {
 		List<User> userList =new ArrayList<User>();
 		try {
 			userList = db.findAll(Selector.from(User.class)
-                    .where("ISTRAINED", "=", true));
+                    .where("IS_TRAINED", "=", true));
 		} catch (DbException e) {
 		}
 		return userList;
@@ -66,11 +66,18 @@ public class UserService {
 		user.setId(id);
 		user.setIsTrained(true);
 		user.setTrainTime(new Date());
-
 		try {
-			db.update(user, "ISTRAINED");
-			db.update(user, "TRAINTIME");
-
+			db.update(user, "IS_TRAINED");
+			db.update(user, "TRAIN_TIME");
+		} catch (DbException e) {
+		}
+	}
+	public void verifyUser(int id){
+		User user = new User();
+		user.setId(id);
+		user.setLastVerifyTime(new Date());
+		try {
+			db.update(user, "LAST_VERIFY_TIME");
 		} catch (DbException e) {
 		}
 	}

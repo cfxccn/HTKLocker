@@ -148,7 +148,7 @@ public class AuthListViewAdapter extends BaseAdapter {
 				alertDialog.cancel();
 
 			}
-		}, 1800);
+		}, 3000);
 	}
 
 	protected void stopRecord(String userId) {
@@ -167,9 +167,12 @@ public class AuthListViewAdapter extends BaseAdapter {
 	protected void verify(String userId) {
 		boolean result=userId.equalsIgnoreCase(fileService.parseRecoMlf());
 		if(result){
+			int id=Integer.parseInt(userId.substring(2));
+			userService.verifyUser(id);
 			ToastUtil.show(mContext, R.string.unlock_success);
 			AuthActivity authActivity=(AuthActivity)mContext;
 			authActivity.unLock();
+			authActivity.finish();
 		}else{
 			ToastUtil.show(mContext, R.string.unlock_failure);
 		}

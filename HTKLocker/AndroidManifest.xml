@@ -36,10 +36,7 @@
             android:name=".TrainActivity"
             android:label="@string/train" >
         </activity>
-        <activity
-            android:name=".TestActivity"
-            android:label="@string/test" >
-        </activity>
+
 
         <activity
             android:name=".AuthActivity"

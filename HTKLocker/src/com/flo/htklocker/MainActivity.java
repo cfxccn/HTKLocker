@@ -64,14 +64,14 @@ public class MainActivity extends Activity {
 				startActivityForResult(intent, 100);
 			}
 		});
-		button_Test.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				Intent intent = new Intent(getApplicationContext(),
-						TestActivity.class);
-				startActivityForResult(intent, 100);
-			}
-		});
+//		button_Test.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View arg0) {
+//				Intent intent = new Intent(getApplicationContext(),
+//						TestActivity.class);
+//				startActivityForResult(intent, 100);
+//			}
+//		});
 //		button_Config.setOnClickListener(new OnClickListener() {
 //			@Override
 //			public void onClick(View arg0) {

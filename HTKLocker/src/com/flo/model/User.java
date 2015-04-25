@@ -17,14 +17,14 @@ public class User {
 	@Column(column = "NAME")
 	private String name;
 
-	@Column(column = "ISTRAINED")
+	@Column(column = "IS_TRAINED")
 	private Boolean isTrained;
 
-	@Column(column = "TRAINTIME")
+	@Column(column = "TRAIN_TIME")
 	private Date trainTime;
 	
-	@Column(column = "TESTTIME")
-	private Date testTime;
+	@Column(column = "LAST_VERIFY_TIME")
+	private Date lastVerifyTime;
 	
 	
 	
@@ -32,17 +32,21 @@ public class User {
 		return trainTime;
 	}
 
+	public Date getLastVerifyTime() {
+		return lastVerifyTime;
+	}
+
+	public void setLastVerifyTime(Date lastVerifyTime) {
+		this.lastVerifyTime = lastVerifyTime;
+	}
+
 	public void setTrainTime(Date trainTime) {
 		this.trainTime = trainTime;
 	}
 
-	public Date getTestTime() {
-		return testTime;
-	}
 
-	public void setTestTime(Date testTime) {
-		this.testTime = testTime;
-	}
+
+
 
 	public int getId() {
 		return id;
