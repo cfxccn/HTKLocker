@@ -146,8 +146,13 @@ public class TrainActivity extends Activity {
 			button_Record1.setEnabled(false);
 			button_Record2.setEnabled(false);
 			button_Record3.setEnabled(false);
-			
+
 			NativeHTK.createMFCC(fileService, wavPath, userid,true);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+			}
 			NativeHTK.train(fileService, userid);
 			userService.trainUser(Integer.valueOf(userid.substring(2)));
 			ToastUtil.show(this, R.string.train_end);

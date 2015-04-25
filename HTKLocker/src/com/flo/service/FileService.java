@@ -156,11 +156,11 @@ public class FileService {
 		getLabPath(userid);
 		try {
 			FileUtils.write(new File(labUserPath + "/" + userid + "_1.lab"),
-					"0 20000000 " + userid);
+					"0 30000000 " + userid);
 			FileUtils.write(new File(labUserPath + "/" + userid + "_2.lab"),
-					"0 20000000 " + userid);
+					"0 30000000 " + userid);
 			FileUtils.write(new File(labUserPath + "/" + userid + "_3.lab"),
-					"0 20000000 " + userid);
+					"0 30000000 " + userid);
 
 			// fs = new FileOutputStream(labUserPath + "/" + userid + "_1.lab");
 			// fs.write(textString.getBytes());

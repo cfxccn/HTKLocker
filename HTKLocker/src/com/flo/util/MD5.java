@@ -4,7 +4,7 @@ import java.security.MessageDigest;
 
 
 public class MD5 {
-	public static String getMD5(String inStr) {
+	public static String encrypt(String inStr) {
 		MessageDigest md5 = null;
 		try {
 			md5 = MessageDigest.getInstance("MD5");

@@ -24,7 +24,7 @@ public class LoginService {
 		} catch (DbException e) {
 			e.printStackTrace();
 		}
-		if (MD5.getMD5(password).equals(keyValue.getValue())) {
+		if (MD5.encrypt(password).equals(keyValue.getValue())) {
 			return true;
 		} else {
 			return false;
@@ -56,7 +56,7 @@ public class LoginService {
 	public boolean setPassword( String password) {
 		KeyValue keyValue = new KeyValue();
 		keyValue.setKey("PASSWORD");
-		keyValue.setValue(MD5.getMD5(password));
+		keyValue.setValue(MD5.encrypt(password));
 
 		try {
 			db.delete(KeyValue.class, WhereBuilder.b("KEY", "=", "PASSWORD"));
