@@ -30,52 +30,25 @@ public class NativeHTK {
 				labUserPath);
 	}
 
+	// public static void createSlf(String gramFilePath, String slfFilePath) {
+	// HParseFunc.exec(gramFilePath, slfFilePath);
+	// }
 
-
-//	public static void createSlf(String gramFilePath, String slfFilePath) {
-//		HParseFunc.exec(gramFilePath, slfFilePath);
-//	}
-
-	public static void test(FileService fileService, UserService userService,String USERID) {
+	public static void test(FileService fileService, UserService userService,
+			String USERID) throws IOException, InterruptedException {
 		List<User> userList = userService.getTrainedUserList();
 		String gramFile = fileService.createGram(userList);
 		HParseFunc.exec(gramFile, fileService.getSlfFilePath());
 		String dictFile = fileService.createDict(userList);
-		String allMmfFile = fileService.createAllMmf(userList);	
-		String netSlfFile=fileService.getSlfFilePath();
-		String hmmListFile=fileService.createHmmListFile(userList);
-		String resultFile=fileService.getResultFilePath();
-		String mfcFile=fileService.getMfccPath()+"/"+USERID+".mfc";
-		String hViteE=fileService.getHviteE();
+		String allMmfFile = fileService.createAllMmf(userList);
+		String netSlfFile = fileService.getSlfFilePath();
+		String hmmListFile = fileService.createHmmListFile(userList);
+		String resultFile = fileService.getResultFilePath();
+		String mfcFile = fileService.getMfccPath() + "/" + USERID + ".mfc";
+		String hViteE = fileService.getHviteE();
+		HViteFunc.exec(hViteE, allMmfFile, resultFile, netSlfFile, dictFile,
+				hmmListFile, mfcFile);
+		Thread.sleep(1000);
 
-//		String[] argv = new String[10];
-//		argv[0]=hViteE;
-//		argv[1]="-H";
-//		argv[2]=allMmfFile;
-//		argv[3]="-i";
-//		argv[4]=resultFile;
-//		argv[5]="-w";
-//		argv[6]=netSlfFile;
-//		argv[7]=dictFile;
-//		argv[8]=hmmListFile;
-//		argv[9]=mfcFile;
-//		
-//		try {
-//			Runtime.getRuntime().exec(argv);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-
-	
-	try {
-		HViteFunc.exec(hViteE,allMmfFile, resultFile, netSlfFile, dictFile, hmmListFile, mfcFile);
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-		
-		
-		
 	}
 }

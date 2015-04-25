@@ -149,7 +149,7 @@ public class FileService {
 	public String getResultFilePath() {
 		return appRoot + "/reco.mlf";
 	}
-	
+
 	public String createLab(String userid) {
 		// FileOutputStream fs = null;
 		// String textString = "0 20000000 " + userid;
@@ -195,7 +195,8 @@ public class FileService {
 						+ "_3.mfc \n");
 			} else {
 				FileUtils.write(new File(appRoot + "/wavlist.txt"), wavPath
-						+ "/"+userid+".wav " + mfccPath + "/"+userid+".mfc \n");
+						+ "/" + userid + ".wav " + mfccPath + "/" + userid
+						+ ".mfc \n");
 			}
 			// fs = new FileOutputStream(appRoot + "/wavlist.txt");
 			// fs.write(textString1.getBytes());
@@ -308,6 +309,7 @@ public class FileService {
 			return null;
 		}
 	}
+
 	public String createHmmListFile(List<User> userList) {
 		String hmmListFile = appRoot + "/hmmlist.txt";
 		StringBuilder userStringBuilder = new StringBuilder();
@@ -318,14 +320,15 @@ public class FileService {
 			}
 		}
 		try {
-			FileUtils.write(new File(hmmListFile), userStringBuilder.toString()+"\n");
+			FileUtils.write(new File(hmmListFile), userStringBuilder.toString()
+					+ "\n");
 			return hmmListFile;
 		} catch (IOException e) {
 			return null;
 		}
 	}
-	
-	public String getHviteE(){
+
+	public String getHviteE() {
 		File hViteE = null;
 		try {
 			InputStream inputStream = context.getAssets().open("HViteE");
@@ -335,8 +338,9 @@ public class FileService {
 		} catch (IOException e) {
 		}
 		return hViteE.getAbsolutePath();
-		
+
 	}
+
 	public String createAllMmf(List<User> userList) {
 		String allMmfFile = appRoot + "/all.mmf";
 		InputStream inputStream = null;
@@ -347,27 +351,25 @@ public class FileService {
 				for (User u : userList) {
 					inputStream = FileUtils.openInputStream(FileUtils
 							.getFile(getHmm2Path() + "/hmm_" + u.getNameId()));
-//					if (userList.indexOf(u) == 0) {
-//						int c;
-//						byte bt[] = new byte[1024];
-//						while ((c = inputStream.read(bt)) > 0) {
-//							outputStream.write(bt, 0, c);
-//						}
-//					} else {
-//						int c;
-//						byte bt[] = new byte[1024];
-//						inputStream.read(new byte[3]);
-//						while ((c = inputStream.read(bt)) > 0) {
-//							outputStream.write(bt, 0, c);
-//						}
-//					}
+					// if (userList.indexOf(u) == 0) {
+					// int c;
+					// byte bt[] = new byte[1024];
+					// while ((c = inputStream.read(bt)) > 0) {
+					// outputStream.write(bt, 0, c);
+					// }
+					// } else {
+					// int c;
+					// byte bt[] = new byte[1024];
+					// inputStream.read(new byte[3]);
+					// while ((c = inputStream.read(bt)) > 0) {
+					// outputStream.write(bt, 0, c);
+					// }
+					// }
+					int c;
+					byte bt[] = new byte[1024];
+					while ((c = inputStream.read(bt)) > 0) {
+						outputStream.write(bt, 0, c);
 
-						int c;
-						byte bt[] = new byte[1024];
-						while ((c = inputStream.read(bt)) > 0) {
-							outputStream.write(bt, 0, c);
-						
-					
 					}
 				}
 			}
@@ -376,5 +378,18 @@ public class FileService {
 		} catch (IOException e) {
 			return null;
 		}
+	}
+
+	public String parseRecoMlf() {
+		String recoMlfPath=getResultFilePath();
+		File file=FileUtils.getFile(recoMlfPath);
+		String userId = null;
+		try {
+			userId=FileUtils.readLines(file).get(2);
+		} catch (IOException e) {
+			
+		}
+		String [] result=userId.split(" ");
+		return result[2];
 	}
 }

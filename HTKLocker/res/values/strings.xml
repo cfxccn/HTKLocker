@@ -75,10 +75,8 @@
     <string name="add_user_failure">用户添加失败</string>
     <string name="train_time">训练时间</string>
     <string name="test_time">测试时间</string>
-        <string name="trained_user_not_enough">请训练至少3个以上用户</string>
-    
+    <string name="trained_user_not_enough">请训练至少3个以上用户</string>
     <string name="unlock_tips">录音时请清晰地说出“解锁手机”。</string>
-        
 
     <string-array name="weekDays">
         <item>星期日</item>
@@ -90,5 +88,9 @@
         <item>星期六</item>
         <item>星期日</item>
     </string-array>
+
+    <string name="error">内部错误</string>
+    <string name="unlock_success">解锁成功</string>
+    <string name="unlock_failure">解锁失败</string>
 
 </resources>
