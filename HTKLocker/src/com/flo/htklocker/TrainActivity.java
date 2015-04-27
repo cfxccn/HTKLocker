@@ -8,6 +8,7 @@ import com.flo.util.ToastUtil;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -118,9 +119,8 @@ public class TrainActivity extends Activity {
 		}
 		new Handler().postDelayed(new Runnable() {
 			public void run() {
-				stopRecord(n);
 				alertDialog.cancel();
-
+				stopRecord(n);
 			}
 		}, 3000);
 	}
@@ -148,15 +148,22 @@ public class TrainActivity extends Activity {
 			button_Record3.setEnabled(false);
 
 			NativeHTK.createMFCC(fileService, wavPath, userid,true);
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-			}
-			NativeHTK.train(fileService, userid);
-			userService.trainUser(Integer.valueOf(userid.substring(2)));
-			ToastUtil.show(this, R.string.train_end);
-			
+//			try {
+//				Thread.sleep(1000);
+//			} catch (InterruptedException e) {
+//			}
+//			NativeHTK.train(fileService, userid);
+//			userService.trainUser(Integer.valueOf(userid.substring(2)));
+//			ToastUtil.show(this, R.string.train_end);
+			final Context mContext=this;
+			new Handler().postDelayed(new Runnable() {
+				public void run() {
+					NativeHTK.train(fileService, userid);
+					userService.trainUser(Integer.valueOf(userid.substring(2)));
+					ToastUtil.show(mContext, R.string.train_end);
+				}
+			}, 1000);
+
 			break;
 		default:
 			break;
