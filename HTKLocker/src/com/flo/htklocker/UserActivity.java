@@ -87,7 +87,7 @@ public class UserActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		userService = new UserService(getApplicationContext());
+		userService = UserService.getInstance(getApplicationContext());
 		bindView();
 		bindListener();
 	}

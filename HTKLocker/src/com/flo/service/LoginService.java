@@ -12,7 +12,17 @@ import com.lidroid.xutils.exception.DbException;
 public class LoginService {
 	DbUtils db;
 
-	public LoginService(Context context){
+	
+	static LoginService singleton=null;
+
+	public static LoginService getInstance(Context context) {
+		if (singleton == null) {
+			singleton = new LoginService(context);
+			return singleton;
+		} else
+			return singleton;
+	}
+	private LoginService(Context context){
 		db = DbUtils.create(context);
 	}
 

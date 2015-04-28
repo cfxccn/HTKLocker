@@ -182,8 +182,9 @@ public class TrainActivity extends Activity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		username = getIntent().getStringExtra("USERNAME");
 		userid = getIntent().getStringExtra("USERID");
-		userService = new UserService(getApplicationContext());
-		fileService = new FileService(getApplicationContext());
+		userService = UserService.getInstance(getApplicationContext());
+		//fileService = new FileService(getApplicationContext());
+		fileService = FileService.getInstance(getApplicationContext());
 
 		bindView();
 		bindListener();

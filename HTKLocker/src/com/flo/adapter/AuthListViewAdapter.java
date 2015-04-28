@@ -58,8 +58,11 @@ public class AuthListViewAdapter extends BaseAdapter {
 		valueViewID = new int[to.length];
 		System.arraycopy(from, 0, keyString, 0, from.length);
 		System.arraycopy(to, 0, valueViewID, 0, to.length);
-		fileService = new FileService(mContext);
-		userService = new UserService(mContext);
+		//fileService = new FileService(mContext);
+		fileService =  FileService.getInstance(mContext);
+		userService = UserService.getInstance(mContext);
+
+		//userService = new UserService(mContext);
 
 	}
 

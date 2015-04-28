@@ -15,7 +15,20 @@ public class UserService {
 	Context context;
 	DbUtils db;
 
-	public UserService(Context context) {
+	
+	
+	static UserService singleton=null;
+
+	public static UserService getInstance(Context context) {
+		if (singleton == null) {
+			singleton = new UserService(context);
+			return singleton;
+		} else
+			return singleton;
+	}
+	
+	
+	private UserService(Context context) {
 		this.context = context;
 		db = DbUtils.create(this.context);
 	}
@@ -49,8 +62,8 @@ public class UserService {
 	}
 
 	public boolean deleteUser(User user) {
-		FileService fileService = new FileService(context);
-
+		//FileService fileService = new FileService(context);
+		FileService fileService=FileService.getInstance(context);
 		try {
 		//	db.deleteById(User.class, user.getId());
 			db.delete(user);

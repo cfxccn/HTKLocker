@@ -269,7 +269,7 @@ public class AuthActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_auth);
-		loginService = new LoginService(getApplicationContext());
+		loginService = LoginService.getInstance(getApplicationContext());
 		weekDaysName = getResources().getStringArray(R.array.weekDays);
 		Window win = getWindow();
 		WindowManager.LayoutParams winParams = win.getAttributes();
@@ -278,8 +278,8 @@ public class AuthActivity extends Activity {
 				| WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON | WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		win.setAttributes(winParams);
 		win.setFlags(0x80000000, 0x80000000);
-		userService = new UserService(getApplicationContext());
-
+//		userService = new UserService(getApplicationContext());
+		userService=UserService.getInstance(getApplicationContext());
 		decimalFormat = new DecimalFormat("00");
 	}
 

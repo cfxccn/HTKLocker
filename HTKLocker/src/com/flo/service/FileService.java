@@ -36,7 +36,17 @@ public class FileService {
 	String resultFile;
 	Context context;
 
-	public FileService(Context context) {
+	static FileService singleton=null;
+
+	public static FileService getInstance(Context context) {
+		if (singleton == null) {
+			singleton = new FileService(context);
+			return singleton;
+		} else
+			return singleton;
+	}
+
+	private FileService(Context context) {
 		this.context = context;
 		File sdDir;
 		boolean sdCardExist = Environment.getExternalStorageState().equals(
@@ -381,15 +391,15 @@ public class FileService {
 	}
 
 	public String parseRecoMlf() {
-		String recoMlfPath=getResultFilePath();
-		File file=FileUtils.getFile(recoMlfPath);
+		String recoMlfPath = getResultFilePath();
+		File file = FileUtils.getFile(recoMlfPath);
 		String userId = null;
 		try {
-			userId=FileUtils.readLines(file).get(2);
+			userId = FileUtils.readLines(file).get(2);
 		} catch (IOException e) {
-			
+
 		}
-		String [] result=userId.split(" ");
+		String[] result = userId.split(" ");
 		return result[2];
 	}
 }
