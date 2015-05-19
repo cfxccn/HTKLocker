@@ -1,6 +1,6 @@
 package com.flo.htklocker;
 
-import com.flo.service.LoginService;
+import com.flo.accessobject.KVAccessObject;
 import com.flo.util.ToastUtil;
 
 import android.view.KeyEvent;
@@ -17,7 +17,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 public class MainActivity extends Activity {
-	LoginService loginService;
+	KVAccessObject kVAccessObject;
 	Switch switch_Service;
 	Button button_UserManage;
 	Button button_Test;
@@ -98,7 +98,7 @@ public class MainActivity extends Activity {
 				button_Register.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View arg0) {
-						if (loginService.validateUser(editText_OldPassword
+						if (kVAccessObject.validateUser(editText_OldPassword
 								.getText().toString())) {
 							String password1 = editText_NewPassword.getText()
 									.toString();
@@ -109,7 +109,7 @@ public class MainActivity extends Activity {
 									ToastUtil.show(getApplicationContext(),
 											R.string.password_blank);
 								} else {
-									loginService.setPassword(password1);
+									kVAccessObject.setPassword(password1);
 									ToastUtil.show(getApplicationContext(),
 											R.string.password_change_success);
 									dialog.cancel();
@@ -159,7 +159,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		loginService = LoginService.getInstance(getApplicationContext());
+		kVAccessObject = KVAccessObject.getInstance(getApplicationContext());
 		bindView();
 		bindListener();
 

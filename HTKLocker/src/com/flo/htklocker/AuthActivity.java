@@ -7,11 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.flo.accessobject.KVAccessObject;
+import com.flo.accessobject.UserAccessObject;
 import com.flo.adapter.AuthListViewAdapter;
 import com.flo.htklocker.R;
 import com.flo.model.User;
-import com.flo.service.LoginService;
-import com.flo.service.UserService;
+
 import com.flo.util.ToastUtil;
 
 import android.app.Activity;
@@ -33,7 +34,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class AuthActivity extends Activity {
-	LoginService loginService;
+	KVAccessObject kVAccessObject;
 	boolean isSoundMode;
 	RelativeLayout relativeLayout_MainPanel;
 	TextView textView_Time;
@@ -66,7 +67,7 @@ public class AuthActivity extends Activity {
 	DecimalFormat decimalFormat;
 	AlertDialog alertDialog;
 
-	UserService userService;
+	UserAccessObject userAccessObject;
 
 	static String[] weekDaysName;
 
@@ -80,6 +81,7 @@ public class AuthActivity extends Activity {
 			if (u.getIsTrained()) {
 				map.put("textView_UserName", u.getName());
 				map.put("userId", u.getNameId());
+				map.put("question", u.getQuestion());				
 			} else {
 			}
 			result.add(map);
@@ -115,7 +117,7 @@ public class AuthActivity extends Activity {
 		progressBar.setVisibility(View.INVISIBLE);
 
 
-		userMapList = list2Map(userService.getTrainedUserList());
+		userMapList = list2Map(userAccessObject.getTrainedUserList());
 		if (userMapList.size() < 3) {
 			isSoundMode=false;
 		}
@@ -137,7 +139,7 @@ public class AuthActivity extends Activity {
 		// new int[] { R.id.textView_UserName });
 		adapter = new AuthListViewAdapter(this, userMapList,
 				R.layout.item_auth, new String[] { "textView_UserName",
-						"imageButton_UnLock", "userId" }, new int[] {
+						"imageButton_UnLock", "userId","question" }, new int[] {
 						R.id.textView_UserName, R.id.imageButton_UnLock });
 
 		listView_User.setAdapter(adapter);
@@ -181,7 +183,7 @@ public class AuthActivity extends Activity {
 				break;
 			}
 			editText_Password.setText(inputPassword);
-			if (loginService.validateUser(editText_Password.getText()
+			if (kVAccessObject.validateUser(editText_Password.getText()
 					.toString())) {
 				unLock();
 			}
@@ -269,7 +271,7 @@ public class AuthActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_auth);
-		loginService = LoginService.getInstance(getApplicationContext());
+		kVAccessObject = KVAccessObject.getInstance(getApplicationContext());
 		weekDaysName = getResources().getStringArray(R.array.weekDays);
 		Window win = getWindow();
 		WindowManager.LayoutParams winParams = win.getAttributes();
@@ -279,7 +281,7 @@ public class AuthActivity extends Activity {
 		win.setAttributes(winParams);
 		win.setFlags(0x80000000, 0x80000000);
 //		userService = new UserService(getApplicationContext());
-		userService=UserService.getInstance(getApplicationContext());
+		userAccessObject=UserAccessObject.getInstance(getApplicationContext());
 		decimalFormat = new DecimalFormat("00");
 	}
 

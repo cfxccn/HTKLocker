@@ -1,4 +1,4 @@
-package com.flo.service;
+package com.flo.accessobject ;
 
 import android.content.Context;
 
@@ -9,20 +9,20 @@ import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.db.sqlite.WhereBuilder;
 import com.lidroid.xutils.exception.DbException;
 
-public class LoginService {
+public class KVAccessObject  {
 	DbUtils db;
 
 	
-	static LoginService singleton=null;
+	static KVAccessObject singleton=null;
 
-	public static LoginService getInstance(Context context) {
+	public static KVAccessObject getInstance(Context context) {
 		if (singleton == null) {
-			singleton = new LoginService(context);
+			singleton = new KVAccessObject(context);
 			return singleton;
 		} else
 			return singleton;
 	}
-	private LoginService(Context context){
+	private KVAccessObject(Context context){
 		db = DbUtils.create(context);
 	}
 

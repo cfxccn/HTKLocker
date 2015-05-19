@@ -3,30 +3,31 @@ package com.flo.util;
 import java.io.IOException;
 import java.util.List;
 
+import com.flo.accessobject.FileAccessObject;
+import com.flo.accessobject.UserAccessObject;
 import com.flo.model.User;
-import com.flo.service.FileService;
-import com.flo.service.UserService;
+
 
 public class NativeHTK {
 
-	public static void createMFCC(FileService fileService, String wavPath,
+	public static void createMFCC(FileAccessObject fileAccessObject, String wavPath,
 			String userid, boolean isTrain) {
-		String wavlist = fileService.createWavList(wavPath, userid, isTrain);
-		HCopyFunc.exec(fileService.getConfigFilePath(), wavlist);
+		String wavlist = fileAccessObject.createWavList(wavPath, userid, isTrain);
+		HCopyFunc.exec(fileAccessObject.getConfigFilePath(), wavlist);
 		// fileService.copyMfcc(userid);
 	}
 
-	public static void train(FileService fileService, String userid) {
-		String labUserPath = fileService.createLab(userid);
-		String protoFile = fileService.createProto(userid);
-		String trainlist = fileService.createTrainList(userid);
-		HInitFunc.exec(trainlist, fileService.getHmm0Path(), protoFile, userid,
+	public static void train(FileAccessObject fileAccessObject, String userid) {
+		String labUserPath = fileAccessObject.createLab(userid);
+		String protoFile = fileAccessObject.createProto(userid);
+		String trainlist = fileAccessObject.createTrainList(userid);
+		HInitFunc.exec(trainlist, fileAccessObject.getHmm0Path(), protoFile, userid,
 				labUserPath);
-		HRestFunc.exec(trainlist, fileService.getHmm1Path(),
-				fileService.getHmm0Path() + "/hmm_" + userid, userid,
+		HRestFunc.exec(trainlist, fileAccessObject.getHmm1Path(),
+				fileAccessObject.getHmm0Path() + "/hmm_" + userid, userid,
 				labUserPath);
-		HRest2Func.exec(trainlist, fileService.getHmm2Path(),
-				fileService.getHmm1Path() + "/hmm_" + userid, userid,
+		HRest2Func.exec(trainlist, fileAccessObject.getHmm2Path(),
+				fileAccessObject.getHmm1Path() + "/hmm_" + userid, userid,
 				labUserPath);
 	}
 
@@ -34,21 +35,25 @@ public class NativeHTK {
 	// HParseFunc.exec(gramFilePath, slfFilePath);
 	// }
 
-	public static void test(FileService fileService, UserService userService,
+	public static void test(FileAccessObject fileAccessObject, UserAccessObject userAccessObject,
 			String USERID) throws IOException, InterruptedException {
-		List<User> userList = userService.getTrainedUserList();
-		String gramFile = fileService.createGram(userList);
-		HParseFunc.exec(gramFile, fileService.getSlfFilePath());
-		String dictFile = fileService.createDict(userList);
-		String allMmfFile = fileService.createAllMmf(userList);
-		String netSlfFile = fileService.getSlfFilePath();
-		String hmmListFile = fileService.createHmmListFile(userList);
-		String resultFile = fileService.getResultFilePath();
-		String mfcFile = fileService.getMfccPath() + "/" + USERID + ".mfc";
-		String hViteE = fileService.getHviteE();
+		List<User> userList = userAccessObject.getTrainedUserList();
+		String gramFile = fileAccessObject.createGram(userList);
+		HParseFunc.exec(gramFile, fileAccessObject.getSlfFilePath());
+		String dictFile = fileAccessObject.createDict(userList);
+		String allMmfFile = fileAccessObject.createAllMmf(userList);
+		String netSlfFile = fileAccessObject.getSlfFilePath();
+		String hmmListFile = fileAccessObject.createHmmListFile(userList);
+		String resultFile = fileAccessObject.getResultFilePath();
+		String mfcFile = fileAccessObject.getMfccPath() + "/" + USERID + ".mfc";
+		String hViteE = fileAccessObject.getHViteE();
 		HViteFunc.exec(hViteE, allMmfFile, resultFile, netSlfFile, dictFile,
 				hmmListFile, mfcFile);
 		Thread.sleep(1000);
 
 	}
+	public static void clear(){
+		HClearFunc.exec();
+	}
+	
 }

@@ -6,8 +6,7 @@ import java.util.Map;
 
 import com.flo.htklocker.AuthActivity;
 import com.flo.htklocker.R;
-import com.flo.service.FileService;
-import com.flo.service.UserService;
+import com.flo.accessobject.*;
 import com.flo.util.AudioRecordFunc;
 import com.flo.util.NativeHTK;
 import com.flo.util.ToastUtil;
@@ -42,8 +41,8 @@ public class AuthListViewAdapter extends BaseAdapter {
 	private int[] valueViewID;
 	private ButtonViewHolder holder;
 	private int resource;
-	FileService fileService;
-	UserService userService;
+	FileAccessObject fileAccessObject;
+	UserAccessObject userAccessObject;
 
 	AlertDialog alertDialog;
 
@@ -58,11 +57,11 @@ public class AuthListViewAdapter extends BaseAdapter {
 		valueViewID = new int[to.length];
 		System.arraycopy(from, 0, keyString, 0, from.length);
 		System.arraycopy(to, 0, valueViewID, 0, to.length);
-		//fileService = new FileService(mContext);
-		fileService =  FileService.getInstance(mContext);
-		userService = UserService.getInstance(mContext);
+		// fileService = new FileService(mContext);
+		fileAccessObject = FileAccessObject.getInstance(mContext);
+		userAccessObject = UserAccessObject.getInstance(mContext);
 
-		//userService = new UserService(mContext);
+		// userService = new UserService(mContext);
 
 	}
 
@@ -99,11 +98,13 @@ public class AuthListViewAdapter extends BaseAdapter {
 		if (userInfo != null) {
 			String textView_UserName = (String) userInfo.get(keyString[0]);
 			String userId = (String) userInfo.get(keyString[2]);
-
+			String question = (String) userInfo.get(keyString[3]);
+			;
 			holder.textView_UserName.setText(textView_UserName);
 			holder.imageButton_UnLock.setOnClickListener(new ButtonListener(
-					position, textView_UserName, userId));
+					position, textView_UserName, userId, question));
 		}
+
 		return convertView;
 	}
 
@@ -111,22 +112,33 @@ public class AuthListViewAdapter extends BaseAdapter {
 		// private int position;
 		String textView_UserName;
 		String userId;
+		String question;
 
-		ButtonListener(int pos, String name, String _userId) {
+		ButtonListener(int pos, String name, String _userId, String _question) {
 			// position = pos;
 			textView_UserName = name;
 			userId = _userId;
+
+			question = _question;
 		}
 
 		@Override
 		public void onClick(View v) {
 			int vid = v.getId();
 			if (vid == holder.imageButton_UnLock.getId())
-				wavPath = fileService.getTestWavPath();
+				wavPath = fileAccessObject.getTestWavPath();
 			final AlertDialog.Builder dialogBuilder1 = new AlertDialog.Builder(
 					mContext);
+
 			View view1 = View.inflate(mContext, R.layout.dialog_unlock, null);
+
+			TextView textView2 = (TextView) view1.findViewById(R.id.textView2);
+			StringBuilder questionString = new StringBuilder(view1
+					.getResources().getString(R.string.unlock_tips));
+			questionString.append(question);
+			textView2.setText(questionString);
 			dialogBuilder1.setView(view1);
+
 			alertDialog = dialogBuilder1.create();
 			alertDialog.setCanceledOnTouchOutside(false);
 			alertDialog.setCancelable(false);
@@ -156,9 +168,9 @@ public class AuthListViewAdapter extends BaseAdapter {
 
 	protected void stopRecord(String userId) {
 		audioRecordFunc.stopRecordAndFile();
-		NativeHTK.createMFCC(fileService, wavPath, userId, false);
+		NativeHTK.createMFCC(fileAccessObject, wavPath, userId, false);
 		try {
-			NativeHTK.test(fileService, userService, userId);
+			NativeHTK.test(fileAccessObject, userAccessObject, userId);
 		} catch (IOException e) {
 			ToastUtil.show(mContext, R.string.error);
 		} catch (InterruptedException e) {
@@ -168,15 +180,16 @@ public class AuthListViewAdapter extends BaseAdapter {
 	}
 
 	protected void verify(String userId) {
-		boolean result=userId.equalsIgnoreCase(fileService.parseRecoMlf());
-		if(result){
-			int id=Integer.parseInt(userId.substring(2));
-			userService.verifyUser(id);
+		boolean result = userId.equalsIgnoreCase(fileAccessObject
+				.parseRecoMlf());
+		if (result) {
+			int id = Integer.parseInt(userId.substring(2));
+			userAccessObject.verifyUser(id);
 			ToastUtil.show(mContext, R.string.unlock_success);
-			AuthActivity authActivity=(AuthActivity)mContext;
+			AuthActivity authActivity = (AuthActivity) mContext;
 			authActivity.unLock();
 			authActivity.finish();
-		}else{
+		} else {
 			ToastUtil.show(mContext, R.string.unlock_failure);
 		}
 	}

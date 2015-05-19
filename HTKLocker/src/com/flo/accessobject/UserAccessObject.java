@@ -1,4 +1,4 @@
-package com.flo.service;
+package com.flo.accessobject;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -6,29 +6,30 @@ import java.util.List;
 
 import android.content.Context;
 
+import com.flo.accessobject.FileAccessObject;
 import com.flo.model.User;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.exception.DbException;
 
-public class UserService {
+public class UserAccessObject {
 	Context context;
 	DbUtils db;
 
 	
 	
-	static UserService singleton=null;
+	static UserAccessObject singleton=null;
 
-	public static UserService getInstance(Context context) {
+	public static UserAccessObject getInstance(Context context) {
 		if (singleton == null) {
-			singleton = new UserService(context);
+			singleton = new UserAccessObject(context);
 			return singleton;
 		} else
 			return singleton;
 	}
 	
 	
-	private UserService(Context context) {
+	private UserAccessObject(Context context) {
 		this.context = context;
 		db = DbUtils.create(this.context);
 	}
@@ -63,25 +64,27 @@ public class UserService {
 
 	public boolean deleteUser(User user) {
 		//FileService fileService = new FileService(context);
-		FileService fileService=FileService.getInstance(context);
+		FileAccessObject fileAccessObject=FileAccessObject.getInstance(context);
 		try {
 		//	db.deleteById(User.class, user.getId());
 			db.delete(user);
-			fileService.deleteUser(user.getNameId());
+			fileAccessObject.deleteUser(user.getNameId());
 			return true;
 		} catch (DbException e) {
 			return false;
 		}
 	}
 
-	public void trainUser(int id) {
+	public void trainUser(int id, String question) {
 		User user = new User();
 		user.setId(id);
 		user.setIsTrained(true);
 		user.setTrainTime(new Date());
+		user.setQuestion(question);
 		try {
 			db.update(user, "IS_TRAINED");
 			db.update(user, "TRAIN_TIME");
+			db.update(user, "QUESTION");
 		} catch (DbException e) {
 		}
 	}

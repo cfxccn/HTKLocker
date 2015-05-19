@@ -26,8 +26,17 @@ public class User {
 	@Column(column = "LAST_VERIFY_TIME")
 	private Date lastVerifyTime;
 	
+	@Column(column = "QUESTION")
+	private String question;
 	
-	
+	public String getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(String question) {
+		this.question = question;
+	}
+
 	public Date getTrainTime() {
 		return trainTime;
 	}

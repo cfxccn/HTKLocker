@@ -1,4 +1,4 @@
-package com.flo.service;
+package com.flo.accessobject;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,7 +15,7 @@ import com.flo.model.User;
 import android.content.Context;
 import android.os.Environment;
 
-public class FileService {
+public class FileAccessObject {
 	/**
 	 * File structure ./- |-proto- hmmperson.mmf... |-wav- person1.wav
 	 * person2.wav person3.wav... |-mfcc- person1.mfc person2.mfc person3.mfc...
@@ -36,17 +36,17 @@ public class FileService {
 	String resultFile;
 	Context context;
 
-	static FileService singleton=null;
+	static FileAccessObject  singleton=null;
 
-	public static FileService getInstance(Context context) {
+	public static FileAccessObject  getInstance(Context context) {
 		if (singleton == null) {
-			singleton = new FileService(context);
+			singleton = new FileAccessObject (context);
 			return singleton;
 		} else
 			return singleton;
 	}
 
-	private FileService(Context context) {
+	private FileAccessObject (Context context) {
 		this.context = context;
 		File sdDir;
 		boolean sdCardExist = Environment.getExternalStorageState().equals(
@@ -239,11 +239,7 @@ public class FileService {
 	}
 
 	public String createTrainList(String userid) {
-		// FileOutputStream fs = null;
-		// String textString1 = mfccPath + "/" + userid + "_1.mfc \n";
-		// String textString2 = mfccPath + "/" + userid + "_2.mfc \n";
-		// String textString3 = mfccPath + "/" + userid + "_3.mfc \n";
-		// String textString4 = mfccPath + "/" + userid + "_4.mfc \n";
+
 		List<String> textStrings = new ArrayList<String>();
 		textStrings.add(mfccPath + "/" + userid + "_1.mfc \n");
 		textStrings.add(mfccPath + "/" + userid + "_2.mfc \n");
@@ -281,11 +277,13 @@ public class FileService {
 		String userString = "";
 		if (userList.size() != 0) {
 			StringBuilder userStringBuilder = new StringBuilder();
+			userStringBuilder.append("id0|id00");
 			for (User u : userList) {
+
 				userStringBuilder.append("|");
 				userStringBuilder.append(u.getNameId());
 			}
-			userString = userStringBuilder.toString().substring(1);
+			userString = userStringBuilder.toString();
 		}
 
 		try {
@@ -303,6 +301,8 @@ public class FileService {
 		String dictFile = appRoot + "/dict.txt";
 		StringBuilder userStringBuilder = new StringBuilder();
 		if (userList.size() != 0) {
+			userStringBuilder.append("id0 [id0] id0\n");
+			userStringBuilder.append("id00 [id00] id00\n");
 			for (User u : userList) {
 				userStringBuilder.append(u.getNameId());
 				userStringBuilder.append(" [");
@@ -323,6 +323,11 @@ public class FileService {
 	public String createHmmListFile(List<User> userList) {
 		String hmmListFile = appRoot + "/hmmlist.txt";
 		StringBuilder userStringBuilder = new StringBuilder();
+		userStringBuilder.append("id0");
+		userStringBuilder.append("\n");
+		userStringBuilder.append("id00");
+		userStringBuilder.append("\n");
+
 		if (userList.size() != 0) {
 			for (User u : userList) {
 				userStringBuilder.append(u.getNameId());
@@ -338,7 +343,7 @@ public class FileService {
 		}
 	}
 
-	public String getHviteE() {
+	public String getHViteE() {
 		File hViteE = null;
 		try {
 			InputStream inputStream = context.getAssets().open("HViteE");
@@ -357,24 +362,26 @@ public class FileService {
 		OutputStream outputStream = null;
 		try {
 			outputStream = FileUtils.openOutputStream(new File(allMmfFile));
+			
+			InputStream inputStream0 = context.getAssets().open("hmm_id0");
+			int c0;
+			byte bt0[] = new byte[1024];
+			while ((c0 = inputStream0.read(bt0)) > 0) {
+				outputStream.write(bt0, 0, c0);
+			}
+			InputStream inputStream00 = context.getAssets().open("hmm_id00");
+			int c00;
+			byte bt00[] = new byte[1024];
+			while ((c00 = inputStream00.read(bt00)) > 0) {
+				outputStream.write(bt00, 0, c00);
+			}
+			
+			
+			
 			if (userList.size() != 0) {
 				for (User u : userList) {
 					inputStream = FileUtils.openInputStream(FileUtils
 							.getFile(getHmm2Path() + "/hmm_" + u.getNameId()));
-					// if (userList.indexOf(u) == 0) {
-					// int c;
-					// byte bt[] = new byte[1024];
-					// while ((c = inputStream.read(bt)) > 0) {
-					// outputStream.write(bt, 0, c);
-					// }
-					// } else {
-					// int c;
-					// byte bt[] = new byte[1024];
-					// inputStream.read(new byte[3]);
-					// while ((c = inputStream.read(bt)) > 0) {
-					// outputStream.write(bt, 0, c);
-					// }
-					// }
 					int c;
 					byte bt[] = new byte[1024];
 					while ((c = inputStream.read(bt)) > 0) {

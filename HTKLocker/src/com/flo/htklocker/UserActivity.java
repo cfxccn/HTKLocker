@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import com.flo.accessobject.UserAccessObject;
 import com.flo.model.User;
-import com.flo.service.UserService;
 import com.flo.util.ToastUtil;
 
 import android.app.Activity;
@@ -27,7 +27,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 public class UserActivity extends Activity {
-	UserService userService;
+	UserAccessObject userAccessObject;
 	List<Map<String, Object>> userMapList;
 	ListView listView;
 	SimpleAdapter adapter;
@@ -68,7 +68,7 @@ public class UserActivity extends Activity {
 
 	private void bindView() {
 		listView = (ListView) findViewById(R.id.listView);
-		userMapList = list2Map(userService.getUserList());
+		userMapList = list2Map(userAccessObject.getUserList());
 		adapter = new SimpleAdapter(this, userMapList, R.layout.item_user,
 				new String[] { "textView_Username", "textView_TrainState",
 						"textView_TrainTime", "textView_TestTime" }, new int[] {
@@ -87,7 +87,7 @@ public class UserActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		userService = UserService.getInstance(getApplicationContext());
+		userAccessObject = UserAccessObject.getInstance(getApplicationContext());
 		bindView();
 		bindListener();
 	}
@@ -121,12 +121,13 @@ public class UserActivity extends Activity {
 					}
 				});
 				button_Delete.setOnClickListener(new OnClickListener() {
+					
 					@Override
 					public void onClick(View arg0) {
 						User user = new User();
 						user.setId(Integer.valueOf(map.get("USERID").toString()
 								.substring(2)));
-						if (userService.deleteUser(user)) {
+						if (userAccessObject.deleteUser(user)) {
 							ToastUtil.show(getApplicationContext(),
 									R.string.delete_success);
 							dialog.cancel();
@@ -172,7 +173,7 @@ public class UserActivity extends Activity {
 					User user = new User();
 					user.setName(username);
 					user.setIsTrained(false);
-					if (userService.addUser(user)) {
+					if (userAccessObject.addUser(user)) {
 						ToastUtil.show(getApplicationContext(),
 								R.string.register_success);
 						dialog.cancel();
@@ -189,6 +190,7 @@ public class UserActivity extends Activity {
 			finish();
 			break;
 		}
+		
 		return super.onOptionsItemSelected(item);
 
 	}

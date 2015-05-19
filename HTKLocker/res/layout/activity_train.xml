@@ -33,44 +33,20 @@
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
-            android:text="@string/train_tips2"
+            android:text="@string/train_tips3"
             android:textSize="15sp" />
 
         <TextView
             android:id="@+id/textView_TrainTips3"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center"
-            android:text="@string/train_tips3"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/train_tips4"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center"
-            android:text="@string/train_tips4"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/textView_TrainTips5"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center"
-            android:text="@string/record_time"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/textView_TrainTips6"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
-            android:text="@string/train_tips5"
+            android:text="@string/train_tips4"
             android:textSize="25sp" />
+
+        
+
     </LinearLayout>
 
     <LinearLayout
@@ -105,5 +81,40 @@
             android:text="@string/record_3"
             android:textSize="15sp" />
     </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/radioGroup_QuestionType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_centerHorizontal="true"
+>
+
+        <RadioButton
+            android:id="@+id/radioButton_DIY"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/question_diy" />
+
+        <EditText
+            android:id="@+id/editText_Question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="text" 
+            android:hint="@string/question_diy" >
+
+        </EditText>
+        <RadioButton
+            android:id="@+id/radioButton_System"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/question_system" 
+            android:checked="true" />
+        <Spinner
+            android:id="@+id/spinner_Question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RadioGroup>
 
 </RelativeLayout>

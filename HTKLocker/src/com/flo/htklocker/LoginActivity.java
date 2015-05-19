@@ -1,6 +1,6 @@
 package com.flo.htklocker;
 
-import com.flo.service.LoginService;
+import com.flo.accessobject.KVAccessObject;
 import com.flo.util.ToastUtil;
 
 import android.app.Activity;
@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 public class LoginActivity extends Activity {
-	LoginService loginService;
+	KVAccessObject kVAccessObject;
 	String password1;
 	String password2;
 
@@ -33,7 +33,7 @@ public class LoginActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-		loginService=LoginService.getInstance(getApplicationContext());
+		kVAccessObject=KVAccessObject.getInstance(getApplicationContext());
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class LoginActivity extends Activity {
 		setContentView(R.layout.activity_login);
 		// sharedPreferences = getSharedPreferences("HTKLocker", MODE_PRIVATE);
 		// oldPassword = sharedPreferences.getString("PASSWORD", "FIRSTLOGIN");
-		if (loginService.isFirstLogin()) {
+		if (kVAccessObject.isFirstLogin()) {
 			final AlertDialog.Builder dialogBuilder1 = new AlertDialog.Builder(
 					LoginActivity.this);
 			View view1 = View.inflate(LoginActivity.this,
@@ -68,7 +68,7 @@ public class LoginActivity extends Activity {
 							ToastUtil.show(getApplicationContext(),
 									R.string.password_blank);
 						} else {
-							loginService.setPassword(password1);
+							kVAccessObject.setPassword(password1);
 							ToastUtil.show(getApplicationContext(),
 									R.string.register_success);
 							Intent intent = new Intent(getApplicationContext(),
@@ -106,7 +106,7 @@ public class LoginActivity extends Activity {
 				@Override
 				public void onClick(View arg0) {
 					password1 = editText_Password.getText().toString();
-					if (loginService.validateUser(password1)) {
+					if (kVAccessObject.validateUser(password1)) {
 						Intent intent = new Intent(getApplicationContext(),
 								MainActivity.class);
 						startActivity(intent);
