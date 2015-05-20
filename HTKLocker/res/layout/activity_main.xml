@@ -36,17 +36,6 @@
         android:text="@string/user_manage_train" />
 
     <Button
-        android:id="@+id/button_Test"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/button_top_bottom_margin"
-        android:background="@drawable/my_btn"
-        android:gravity="center_vertical|start"
-        android:paddingLeft="@dimen/button_text_left_pad"
-        android:paddingRight="@dimen/button_text_left_pad"
-        android:text="@string/test" />
-
-    <Button
         android:id="@+id/button_ChangePassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

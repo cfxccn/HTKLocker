@@ -20,21 +20,21 @@ public class MainActivity extends Activity {
 	KVAccessObject kVAccessObject;
 	Switch switch_Service;
 	Button button_UserManage;
-	Button button_Test;
+	//Button button_Test;
 	//Button button_Config;
 	Button button_ChangePassword;
 	Button button_Exit;
-	Button button_DEVTest;
+	Button button_DevTest;
 	Intent serviceIntent;
 
 	private void bindView() {
 		switch_Service = (Switch) findViewById(R.id.switch_Service);
 		button_UserManage = (Button) findViewById(R.id.button_UserManage);
-		button_Test = (Button) findViewById(R.id.button_Test);
+		//button_Test = (Button) findViewById(R.id.button_Test);
 		//button_Config = (Button) findViewById(R.id.button_Config);
 		button_ChangePassword = (Button) findViewById(R.id.button_ChangePassword);
 		button_Exit = (Button) findViewById(R.id.button_Exit);
-		button_DEVTest = (Button) findViewById(R.id.button_Dev);
+		button_DevTest = (Button) findViewById(R.id.button_Dev);
 		if (BackgroundService.getStatus() == BackgroundService.Status.RUNNING) {
 			switch_Service.setChecked(true);
 		} else {
@@ -145,7 +145,7 @@ public class MainActivity extends Activity {
 				startActivity(intent);
 			}
 		});
-		button_DEVTest.setOnClickListener(new OnClickListener() {
+		button_DevTest.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent(getApplicationContext(),
