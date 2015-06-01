@@ -43,6 +43,9 @@ public class UserAccessObject {
 		return userList;
 	}
 	
+	
+	
+	
 	public List<User> getTrainedUserList() {
 		List<User> userList =new ArrayList<User>();
 		try {
@@ -96,5 +99,14 @@ public class UserAccessObject {
 			db.update(user, "LAST_VERIFY_TIME");
 		} catch (DbException e) {
 		}
+	}
+	
+	public User getUserQuestion(String name) {
+		User user=new User();
+		try {
+			user = db.findFirst(Selector.from(User.class).where("name","=", name));
+		} catch (DbException e) {
+		}
+		return user;
 	}
 }

@@ -7,11 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.flo.accessobject.FileAccessObject;
 import com.flo.accessobject.KVAccessObject;
 import com.flo.accessobject.UserAccessObject;
-import com.flo.adapter.AuthListViewAdapter;
 import com.flo.htklocker.R;
 import com.flo.model.User;
+import com.flo.util.AudioRecordFunc;
+import com.flo.util.NativeHTK;
 import com.flo.util.ToastUtil;
 
 import android.app.Activity;
@@ -19,30 +21,33 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnLongClickListener;
+import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
-import android.widget.ListView;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class AuthActivity extends Activity {
+	AudioRecordFunc audioRecordFunc;
+
 	KVAccessObject kVAccessObject;
 	boolean isSoundMode;
 	RelativeLayout relativeLayout_MainPanel;
 	TextView textView_Time;
 	TextView textView_Date;
 	TextView textView_Info;
-
+	User user;
 	EditText editText_Password;
 	ProgressBar progressBar;
 	Button button_ChangeMode;
@@ -57,19 +62,20 @@ public class AuthActivity extends Activity {
 	Button button8;
 	Button button9;
 	Button button0;
-
+	ImageButton imageButton_UnLock;
 	GridLayout gridLayout_NumberPanel;
 	String inputPassword;
 	String oldPassword;
-
-	ListView listView_User;
+	String wavPath;
+	Spinner spinner_User;
 	List<Map<String, Object>> userMapList;
 	// SimpleAdapter adapter;
-	AuthListViewAdapter adapter;
+	// AuthListViewAdapter adapter;
 	DecimalFormat decimalFormat;
 	AlertDialog alertDialog;
-
 	UserAccessObject userAccessObject;
+
+	FileAccessObject fileAccessObject;
 
 	static String[] weekDaysName;
 
@@ -97,7 +103,8 @@ public class AuthActivity extends Activity {
 		textView_Date = (TextView) findViewById(R.id.textView_Date);
 		textView_Info = (TextView) findViewById(R.id.textView_Info);
 		progressBar = (ProgressBar) findViewById(R.id.progressBar);
-		listView_User = (ListView) findViewById(R.id.listView_User);
+		spinner_User = (Spinner) findViewById(R.id.spinner_User);
+		imageButton_UnLock = (ImageButton) findViewById(R.id.imageButton_UnLock);
 		button_Reset = (Button) findViewById(R.id.button_Reset);
 		button1 = (Button) findViewById(R.id.button1);
 		button2 = (Button) findViewById(R.id.button2);
@@ -125,25 +132,121 @@ public class AuthActivity extends Activity {
 		if (isSoundMode) {
 			editText_Password.setVisibility(View.INVISIBLE);
 			gridLayout_NumberPanel.setVisibility(View.INVISIBLE);
-			listView_User.setVisibility(View.VISIBLE);
+			spinner_User.setVisibility(View.VISIBLE);
+			imageButton_UnLock.setVisibility(View.VISIBLE);
+
 			button_ChangeMode.setText(R.string.switch_numerical_password);
 
 		} else {
-			listView_User.setVisibility(View.INVISIBLE);
+			spinner_User.setVisibility(View.INVISIBLE);
+			imageButton_UnLock.setVisibility(View.INVISIBLE);
 			editText_Password.setVisibility(View.VISIBLE);
 			gridLayout_NumberPanel.setVisibility(View.VISIBLE);
 			button_ChangeMode.setText(R.string.switch_sound_password);
 
 		}
-		// adapter = new SimpleAdapter(this, userMapList, R.layout.item_auth,
-		// new String[] { "textView_UserName" },
-		// new int[] { R.id.textView_UserName });
-		adapter = new AuthListViewAdapter(this, userMapList,
-				R.layout.item_auth, new String[] { "textView_UserName",
-						"imageButton_UnLock", "userId", "question" },
-				new int[] { R.id.textView_UserName, R.id.imageButton_UnLock });
-		listView_User.setAdapter(adapter);
 
+		// adapter = new AuthListViewAdapter(this, userMapList,
+		// R.layout.item_auth, new String[] { "textView_UserName",
+		// "imageButton_UnLock", "userId", "question" },
+		// new int[] { R.id.textView_UserName, R.id.imageButton_UnLock });
+		// listView_User.setAdapter(adapter);
+		List<String> nameStrings = new ArrayList<String>(10);
+		for (Map<String, Object> i : userMapList) {
+			nameStrings.add((String) i.get("textView_UserName"));
+		}
+		String[] strings = nameStrings.toArray(new String[nameStrings.size()]);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, strings);
+		spinner_User.setAdapter(adapter);
+
+
+		imageButton_UnLock.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				switch (event.getAction()) {
+				case MotionEvent.ACTION_DOWN:
+					v.performClick();
+					wavPath = fileAccessObject.getTestWavPath();
+					final AlertDialog.Builder dialogBuilder1 = new AlertDialog.Builder(
+							AuthActivity.this);
+					View view1 = View.inflate(AuthActivity.this,
+							R.layout.dialog_unlock, null);
+					TextView textView2 = (TextView) view1
+							.findViewById(R.id.textView2);
+					StringBuilder questionString = new StringBuilder(view1
+							.getResources().getString(R.string.unlock_tips));
+					user = userAccessObject.getUserQuestion(spinner_User
+							.getSelectedItem().toString());
+					questionString.append(user.getQuestion());
+					textView2.setText(questionString);
+					dialogBuilder1.setView(view1);
+					alertDialog = dialogBuilder1.create();
+					alertDialog.setCanceledOnTouchOutside(false);
+					alertDialog.setCancelable(false);
+					alertDialog.show();
+
+					startRecord(user.getNameId());
+
+					return true;
+				case MotionEvent.ACTION_UP:
+
+					
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					stopRecord(user.getNameId());
+
+					return false;
+				default:
+					return false;
+				}
+			}
+		});
+
+	}
+
+	protected void startRecord(final String userId) {
+		String wavString = userId + ".wav";
+		String rawString = userId + ".raw";
+		audioRecordFunc = AudioRecordFunc.getInstance();
+		int result = audioRecordFunc.startRecordAndFile(wavPath, wavString,
+				rawString);
+		if (result == 1) {
+			ToastUtil.show(getApplicationContext(),
+					R.string.audio_error_unknown);
+			return;
+		}
+
+	}
+
+	protected void stopRecord(String userId) {
+		alertDialog.cancel();
+		audioRecordFunc.stopRecordAndFile();
+		NativeHTK.createMFCC(fileAccessObject, wavPath, userId, false);
+		try {
+			NativeHTK.test(fileAccessObject, userAccessObject, userId);
+		} catch (Exception e) {
+			ToastUtil.show(getApplicationContext(), R.string.error);
+		}
+		verify(userId);
+	}
+
+	protected void verify(String userId) {
+		boolean result = userId.equalsIgnoreCase(fileAccessObject
+				.parseRecoMlf());
+		if (result) {
+			int id = Integer.parseInt(userId.substring(2));
+			userAccessObject.verifyUser(id);
+			ToastUtil.show(getApplicationContext(), R.string.unlock_success);
+			unLock();
+			finish();
+		} else {
+			ToastUtil.show(getApplicationContext(), R.string.unlock_failure);
+		}
 	}
 
 	class NumberButtonClickListener implements OnClickListener {
@@ -235,14 +338,16 @@ public class AuthActivity extends Activity {
 	protected void changeMode() {
 		if (isSoundMode) {
 			isSoundMode = false;
-			listView_User.setVisibility(View.INVISIBLE);
+			spinner_User.setVisibility(View.INVISIBLE);
+			imageButton_UnLock.setVisibility(View.INVISIBLE);
 			gridLayout_NumberPanel.setVisibility(View.VISIBLE);
 			editText_Password.setVisibility(View.VISIBLE);
 			button_ChangeMode.setText(R.string.switch_sound_password);
 		} else {
 			isSoundMode = true;
 			gridLayout_NumberPanel.setVisibility(View.INVISIBLE);
-			listView_User.setVisibility(View.VISIBLE);
+			spinner_User.setVisibility(View.VISIBLE);
+			imageButton_UnLock.setVisibility(View.VISIBLE);
 			editText_Password.setVisibility(View.INVISIBLE);
 			button_ChangeMode.setText(R.string.switch_numerical_password);
 		}
@@ -283,6 +388,8 @@ public class AuthActivity extends Activity {
 		win.setFlags(0x80000000, 0x80000000);
 		// userService = new UserService(getApplicationContext());
 		userAccessObject = UserAccessObject
+				.getInstance(getApplicationContext());
+		fileAccessObject = FileAccessObject
 				.getInstance(getApplicationContext());
 		decimalFormat = new DecimalFormat("00");
 	}
