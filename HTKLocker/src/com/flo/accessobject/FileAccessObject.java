@@ -8,6 +8,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 import org.apache.commons.io.FileUtils;
 
 import com.flo.model.User;
@@ -36,17 +38,17 @@ public class FileAccessObject {
 	String resultFile;
 	Context context;
 
-	static FileAccessObject  singleton=null;
+	static FileAccessObject singleton = null;
 
-	public static FileAccessObject  getInstance(Context context) {
+	public static FileAccessObject getInstance(Context context) {
 		if (singleton == null) {
-			singleton = new FileAccessObject (context);
+			singleton = new FileAccessObject(context);
 			return singleton;
 		} else
 			return singleton;
 	}
 
-	private FileAccessObject (Context context) {
+	private FileAccessObject(Context context) {
 		this.context = context;
 		File sdDir;
 		boolean sdCardExist = Environment.getExternalStorageState().equals(
@@ -160,17 +162,15 @@ public class FileAccessObject {
 		return appRoot + "/reco.mlf";
 	}
 
-	public String createLab(String userid) {
-		// FileOutputStream fs = null;
-		// String textString = "0 20000000 " + userid;
+	public String createLab(String userid, List<Long> timeList) {
 		getLabPath(userid);
 		try {
 			FileUtils.write(new File(labUserPath + "/" + userid + "_1.lab"),
-					"0 30000000 " + userid);
+					"0 " + timeList.get(0) + "0000 " + userid);
 			FileUtils.write(new File(labUserPath + "/" + userid + "_2.lab"),
-					"0 30000000 " + userid);
+					"0 " + timeList.get(1) + "0000 " + userid);
 			FileUtils.write(new File(labUserPath + "/" + userid + "_3.lab"),
-					"0 30000000 " + userid);
+					"0 " + timeList.get(2) + "0000 " + userid);
 
 			// fs = new FileOutputStream(labUserPath + "/" + userid + "_1.lab");
 			// fs.write(textString.getBytes());
@@ -362,7 +362,7 @@ public class FileAccessObject {
 		OutputStream outputStream = null;
 		try {
 			outputStream = FileUtils.openOutputStream(new File(allMmfFile));
-			
+
 			InputStream inputStream0 = context.getAssets().open("hmm_id0");
 			int c0;
 			byte bt0[] = new byte[1024];
@@ -375,9 +375,7 @@ public class FileAccessObject {
 			while ((c00 = inputStream00.read(bt00)) > 0) {
 				outputStream.write(bt00, 0, c00);
 			}
-			
-			
-			
+
 			if (userList.size() != 0) {
 				for (User u : userList) {
 					inputStream = FileUtils.openInputStream(FileUtils

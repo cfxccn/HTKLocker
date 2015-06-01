@@ -17,8 +17,8 @@ public class NativeHTK {
 		// fileService.copyMfcc(userid);
 	}
 
-	public static void train(FileAccessObject fileAccessObject, String userid) {
-		String labUserPath = fileAccessObject.createLab(userid);
+	public static void train(FileAccessObject fileAccessObject, String userid,List<Long> timeList) {
+		String labUserPath = fileAccessObject.createLab(userid,timeList);
 		String protoFile = fileAccessObject.createProto(userid);
 		String trainlist = fileAccessObject.createTrainList(userid);
 		HInitFunc.exec(trainlist, fileAccessObject.getHmm0Path(), protoFile, userid,

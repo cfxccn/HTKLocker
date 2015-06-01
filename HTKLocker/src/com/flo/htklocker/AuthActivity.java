@@ -12,7 +12,6 @@ import com.flo.accessobject.UserAccessObject;
 import com.flo.adapter.AuthListViewAdapter;
 import com.flo.htklocker.R;
 import com.flo.model.User;
-
 import com.flo.util.ToastUtil;
 
 import android.app.Activity;
@@ -25,6 +24,9 @@ import android.view.View.OnLongClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
@@ -81,7 +83,7 @@ public class AuthActivity extends Activity {
 			if (u.getIsTrained()) {
 				map.put("textView_UserName", u.getName());
 				map.put("userId", u.getNameId());
-				map.put("question", u.getQuestion());				
+				map.put("question", u.getQuestion());
 			} else {
 			}
 			result.add(map);
@@ -116,10 +118,9 @@ public class AuthActivity extends Activity {
 		editText_Password.setFocusableInTouchMode(false);
 		progressBar.setVisibility(View.INVISIBLE);
 
-
 		userMapList = list2Map(userAccessObject.getTrainedUserList());
 		if (userMapList.size() < 3) {
-			isSoundMode=false;
+			isSoundMode = false;
 		}
 		if (isSoundMode) {
 			editText_Password.setVisibility(View.INVISIBLE);
@@ -139,10 +140,10 @@ public class AuthActivity extends Activity {
 		// new int[] { R.id.textView_UserName });
 		adapter = new AuthListViewAdapter(this, userMapList,
 				R.layout.item_auth, new String[] { "textView_UserName",
-						"imageButton_UnLock", "userId","question" }, new int[] {
-						R.id.textView_UserName, R.id.imageButton_UnLock });
-
+						"imageButton_UnLock", "userId", "question" },
+				new int[] { R.id.textView_UserName, R.id.imageButton_UnLock });
 		listView_User.setAdapter(adapter);
+
 	}
 
 	class NumberButtonClickListener implements OnClickListener {
@@ -220,7 +221,7 @@ public class AuthActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				if (userMapList.size() < 3) {
-					isSoundMode=false;
+					isSoundMode = false;
 
 					ToastUtil.show(getApplicationContext(), getResources()
 							.getString(R.string.trained_user_not_enough));
@@ -280,8 +281,9 @@ public class AuthActivity extends Activity {
 				| WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON | WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		win.setAttributes(winParams);
 		win.setFlags(0x80000000, 0x80000000);
-//		userService = new UserService(getApplicationContext());
-		userAccessObject=UserAccessObject.getInstance(getApplicationContext());
+		// userService = new UserService(getApplicationContext());
+		userAccessObject = UserAccessObject
+				.getInstance(getApplicationContext());
 		decimalFormat = new DecimalFormat("00");
 	}
 
