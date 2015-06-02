@@ -160,17 +160,19 @@ public class FileAccessObject {
 		return appRoot + "/reco.mlf";
 	}
 
-	public String createLab(String userid) {
+	public String createLab(String userid,List<Long>timeList) {
 		// FileOutputStream fs = null;
 		// String textString = "0 20000000 " + userid;
+		
+		
 		getLabPath(userid);
 		try {
 			FileUtils.write(new File(labUserPath + "/" + userid + "_1.lab"),
-					"0 30000000 " + userid);
+					"0 "+timeList.get(0)+"0000 " + userid);
 			FileUtils.write(new File(labUserPath + "/" + userid + "_2.lab"),
-					"0 30000000 " + userid);
+					"0 "+timeList.get(1)+"0000 " + userid);
 			FileUtils.write(new File(labUserPath + "/" + userid + "_3.lab"),
-					"0 30000000 " + userid);
+					"0 "+timeList.get(2)+"0000 " + userid);
 
 			// fs = new FileOutputStream(labUserPath + "/" + userid + "_1.lab");
 			// fs.write(textString.getBytes());

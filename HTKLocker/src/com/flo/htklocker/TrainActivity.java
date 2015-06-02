@@ -1,5 +1,8 @@
 package com.flo.htklocker;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.flo.accessobject.FileAccessObject;
 import com.flo.accessobject.UserAccessObject;
 import com.flo.util.AudioRecordFunc;
@@ -12,8 +15,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -41,6 +45,8 @@ public class TrainActivity extends Activity {
 	AlertDialog alertDialog;
 	FileAccessObject fileAccessObject;
 	String question;
+	Long startTime,endTime;
+	List<Long> timeList=new ArrayList<Long>(3);
 
 	private void bindView() {
 		button_Record1 = (Button) findViewById(R.id.button_Record1);
@@ -95,89 +101,205 @@ public class TrainActivity extends Activity {
 
 	private void bindListener() {
 		RadioCheckListener radioCheckListener = new RadioCheckListener();
-		button_Record1.setOnClickListener(new OnClickListener() {
+		button_Record1.setOnTouchListener(new OnTouchListener() {
+
 			@Override
-			public void onClick(View arg0) {
-				wavPath = fileAccessObject.getTrainWavPath();
-				if (wavPath == null) {
-					ToastUtil.show(TrainActivity.this,
-							R.string.audio_error_no_sdcard);
-				} else {
-					final AlertDialog.Builder dialogBuilder1 = new AlertDialog.Builder(
-							TrainActivity.this);
-					if (radioButton_DIY.isChecked() == true) {
-						question = editText_Question.getText().toString().trim();
-						if(question.equals("")){
-							return ;
-						}
+			public boolean onTouch(View v, MotionEvent event) {
+				switch (event.getAction()) {
+				case MotionEvent.ACTION_DOWN:
+					v.performClick();
+
+					wavPath = fileAccessObject.getTrainWavPath();
+					if (wavPath == null) {
+						ToastUtil.show(TrainActivity.this,
+								R.string.audio_error_no_sdcard);
 					} else {
-						question = spinner_Question.getSelectedItem()
-								.toString();
+						final AlertDialog.Builder dialogBuilder1 = new AlertDialog.Builder(
+								TrainActivity.this);
+						if (radioButton_DIY.isChecked() == true) {
+							question = editText_Question.getText().toString()
+									.trim();
+							if (question.equals("")) {
+							}
+						} else {
+							question = spinner_Question.getSelectedItem()
+									.toString();
+						}
+
+						View view1 = View.inflate(TrainActivity.this,
+								R.layout.dialog_record, null);
+						dialogBuilder1.setView(view1);
+						alertDialog = dialogBuilder1.create();
+						alertDialog.setCanceledOnTouchOutside(false);
+						alertDialog.setCancelable(false);
+						alertDialog.show();
+						editText_Question.setEnabled(false);
+						radioButton_DIY.setEnabled(false);
+						radioButton_System.setEnabled(false);
+						spinner_Question.setEnabled(false);
+						startRecord(1);
 					}
-					
-					View view1 = View.inflate(TrainActivity.this,
-							R.layout.dialog_record, null);
-					dialogBuilder1.setView(view1);
-					alertDialog = dialogBuilder1.create();
-					alertDialog.setCanceledOnTouchOutside(false);
-					alertDialog.setCancelable(false);
-					alertDialog.show();
-					editText_Question.setEnabled(false);
-					radioButton_DIY.setEnabled(false);
-					radioButton_System.setEnabled(false);
-					spinner_Question.setEnabled(false);
-					startRecord(1);
+					break;
+				case MotionEvent.ACTION_UP:
+					stopRecord(1);
+
+					break;
+				default:
+					break;
 				}
+				return false;
 			}
 		});
-		button_Record2.setOnClickListener(new OnClickListener() {
+
+		// button_Record1.setOnClickListener(new OnClickListener() {
+		// @Override
+		// public void onClick(View arg0) {
+		// wavPath = fileAccessObject.getTrainWavPath();
+		// if (wavPath == null) {
+		// ToastUtil.show(TrainActivity.this,
+		// R.string.audio_error_no_sdcard);
+		// } else {
+		// final AlertDialog.Builder dialogBuilder1 = new AlertDialog.Builder(
+		// TrainActivity.this);
+		// if (radioButton_DIY.isChecked() == true) {
+		// question = editText_Question.getText().toString().trim();
+		// if(question.equals("")){
+		// return ;
+		// }
+		// } else {
+		// question = spinner_Question.getSelectedItem()
+		// .toString();
+		// }
+		//
+		// View view1 = View.inflate(TrainActivity.this,
+		// R.layout.dialog_record, null);
+		// dialogBuilder1.setView(view1);
+		// alertDialog = dialogBuilder1.create();
+		// alertDialog.setCanceledOnTouchOutside(false);
+		// alertDialog.setCancelable(false);
+		// alertDialog.show();
+		// editText_Question.setEnabled(false);
+		// radioButton_DIY.setEnabled(false);
+		// radioButton_System.setEnabled(false);
+		// spinner_Question.setEnabled(false);
+		// startRecord(1);
+		// }
+		// }
+		// });
+		button_Record2.setOnTouchListener(new OnTouchListener() {
+
 			@Override
-			public void onClick(View arg0) {
-				wavPath = fileAccessObject.getTrainWavPath();
-				if (wavPath == null) {
-					ToastUtil.show(TrainActivity.this,
-							R.string.audio_error_no_sdcard);
-				} else {
-					final AlertDialog.Builder dialogBuilder1 = new AlertDialog.Builder(
-							TrainActivity.this);
-					View view1 = View.inflate(TrainActivity.this,
-							R.layout.dialog_record, null);
-					dialogBuilder1.setView(view1);
-					alertDialog = dialogBuilder1.create();
-					alertDialog.setCanceledOnTouchOutside(false);
-					alertDialog.setCancelable(false);
-					alertDialog.show();
-					startRecord(2);
+			public boolean onTouch(View v, MotionEvent event) {
+				switch (event.getAction()) {
+				case MotionEvent.ACTION_DOWN:
+					v.performClick();
+					wavPath = fileAccessObject.getTrainWavPath();
+					if (wavPath == null) {
+						ToastUtil.show(TrainActivity.this,
+								R.string.audio_error_no_sdcard);
+					} else {
+						final AlertDialog.Builder dialogBuilder1 = new AlertDialog.Builder(
+								TrainActivity.this);
+						View view1 = View.inflate(TrainActivity.this,
+								R.layout.dialog_record, null);
+						dialogBuilder1.setView(view1);
+						alertDialog = dialogBuilder1.create();
+						alertDialog.setCanceledOnTouchOutside(false);
+						alertDialog.setCancelable(false);
+						alertDialog.show();
+						startRecord(2);
+					}
+					break;
+				case MotionEvent.ACTION_UP:
+					stopRecord(2);
+					break;
+				default:
+					break;
 				}
+				return false;
 			}
 		});
-		button_Record3.setOnClickListener(new OnClickListener() {
+		// button_Record2.setOnClickListener(new OnClickListener() {
+		// @Override
+		// public void onClick(View arg0) {
+		// wavPath = fileAccessObject.getTrainWavPath();
+		// if (wavPath == null) {
+		// ToastUtil.show(TrainActivity.this,
+		// R.string.audio_error_no_sdcard);
+		// } else {
+		// final AlertDialog.Builder dialogBuilder1 = new AlertDialog.Builder(
+		// TrainActivity.this);
+		// View view1 = View.inflate(TrainActivity.this,
+		// R.layout.dialog_record, null);
+		// dialogBuilder1.setView(view1);
+		// alertDialog = dialogBuilder1.create();
+		// alertDialog.setCanceledOnTouchOutside(false);
+		// alertDialog.setCancelable(false);
+		// alertDialog.show();
+		// startRecord(2);
+		// }
+		// }
+		// });
+		button_Record3.setOnTouchListener(new OnTouchListener() {
 			@Override
-			public void onClick(View arg0) {
-				wavPath = fileAccessObject.getTrainWavPath();
-				if (wavPath == null) {
-					ToastUtil.show(TrainActivity.this,
-							R.string.audio_error_no_sdcard);
-				} else {
-					final AlertDialog.Builder dialogBuilder1 = new AlertDialog.Builder(
-							TrainActivity.this);
-					View view1 = View.inflate(TrainActivity.this,
-							R.layout.dialog_record, null);
-					dialogBuilder1.setView(view1);
-					alertDialog = dialogBuilder1.create();
-					alertDialog.setCanceledOnTouchOutside(false);
-					alertDialog.setCancelable(false);
-					alertDialog.show();
-					startRecord(3);
+			public boolean onTouch(View v, MotionEvent event) {
+				switch (event.getAction()) {
+				case MotionEvent.ACTION_DOWN:
+					v.performClick();
+					wavPath = fileAccessObject.getTrainWavPath();
+					if (wavPath == null) {
+						ToastUtil.show(TrainActivity.this,
+								R.string.audio_error_no_sdcard);
+					} else {
+						final AlertDialog.Builder dialogBuilder1 = new AlertDialog.Builder(
+								TrainActivity.this);
+						View view1 = View.inflate(TrainActivity.this,
+								R.layout.dialog_record, null);
+						dialogBuilder1.setView(view1);
+						alertDialog = dialogBuilder1.create();
+						alertDialog.setCanceledOnTouchOutside(false);
+						alertDialog.setCancelable(false);
+						alertDialog.show();
+						startRecord(3);
+					}
+					break;
+				case MotionEvent.ACTION_UP:
+						stopRecord(3);
+						break;
+				default:
+					break;
 				}
+				return false;
 			}
 		});
+		// button_Record3.setOnClickListener(new OnClickListener() {
+		// @Override
+		// public void onClick(View arg0) {
+		// wavPath = fileAccessObject.getTrainWavPath();
+		// if (wavPath == null) {
+		// ToastUtil.show(TrainActivity.this,
+		// R.string.audio_error_no_sdcard);
+		// } else {
+		// final AlertDialog.Builder dialogBuilder1 = new AlertDialog.Builder(
+		// TrainActivity.this);
+		// View view1 = View.inflate(TrainActivity.this,
+		// R.layout.dialog_record, null);
+		// dialogBuilder1.setView(view1);
+		// alertDialog = dialogBuilder1.create();
+		// alertDialog.setCanceledOnTouchOutside(false);
+		// alertDialog.setCancelable(false);
+		// alertDialog.show();
+		// startRecord(3);
+		// }
+		// }
+		// });
 		radioButton_System.setOnCheckedChangeListener(radioCheckListener);
 		radioButton_DIY.setOnCheckedChangeListener(radioCheckListener);
 
 	}
 
-	protected void startRecord(final int n) {
+	protected void startRecord(int n) {
+		startTime=System.currentTimeMillis();
 		audioRecordFunc = AudioRecordFunc.getInstance();
 		int result = audioRecordFunc.startRecordAndFile(wavPath, userid + "_"
 				+ n + ".wav", userid + "_" + n + ".raw");
@@ -187,16 +309,13 @@ public class TrainActivity extends Activity {
 			alertDialog.cancel();
 			return;
 		}
-		new Handler().postDelayed(new Runnable() {
-			public void run() {
-				alertDialog.cancel();
-				stopRecord(n);
-			}
-		}, 3000);
 	}
 
 	protected void stopRecord(int n) {
+		alertDialog.cancel();
 		audioRecordFunc.stopRecordAndFile();
+		endTime=System.currentTimeMillis()+300;
+		timeList.add(endTime-startTime);
 		switch (n) {
 		case 1:
 			button_Record1.setEnabled(false);
@@ -217,17 +336,18 @@ public class TrainActivity extends Activity {
 			button_Record2.setEnabled(false);
 			button_Record3.setEnabled(false);
 
-
-
+			NativeHTK.createMFCC(fileAccessObject, wavPath, userid,
+					true);
+			
 			final Context mContext = this;
 			new Handler().postDelayed(new Runnable() {
 				public void run() {
-					NativeHTK.createMFCC(fileAccessObject, wavPath, userid, true);
-					NativeHTK.train(fileAccessObject, userid);
-					userAccessObject.trainUser(Integer.valueOf(userid
-							.substring(2)),question);
+
+					NativeHTK.train(fileAccessObject, userid,timeList);
+					userAccessObject.trainUser(
+							Integer.valueOf(userid.substring(2)), question);
 					ToastUtil.show(mContext, R.string.train_end);
-					NativeHTK.clear();
+				//	NativeHTK.clear();
 				}
 			}, 1000);
 
