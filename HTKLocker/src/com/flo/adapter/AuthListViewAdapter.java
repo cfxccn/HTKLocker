@@ -15,10 +15,14 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Handler;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -101,20 +105,23 @@ public class AuthListViewAdapter extends BaseAdapter {
 			String question = (String) userInfo.get(keyString[3]);
 			;
 			holder.textView_UserName.setText(textView_UserName);
-			holder.imageButton_UnLock.setOnClickListener(new ButtonListener(
+			holder.imageButton_UnLock.setOnTouchListener(new TouchListener(
 					position, textView_UserName, userId, question));
+			// holder.imageButton_UnLock.setOnClickListener(new ButtonListener(
+			// position, textView_UserName, userId, question));
 		}
 
 		return convertView;
 	}
 
-	class ButtonListener implements OnClickListener {
+	class TouchListener implements OnTouchListener {
 		// private int position;
 		String textView_UserName;
 		String userId;
 		String question;
+		Long startTime, endTime;
 
-		ButtonListener(int pos, String name, String _userId, String _question) {
+		TouchListener(int pos, String name, String _userId, String _question) {
 			// position = pos;
 			textView_UserName = name;
 			userId = _userId;
@@ -123,30 +130,96 @@ public class AuthListViewAdapter extends BaseAdapter {
 		}
 
 		@Override
-		public void onClick(View v) {
-			int vid = v.getId();
-			if (vid == holder.imageButton_UnLock.getId())
+		public boolean onTouch(View v, MotionEvent event) {
+			switch (event.getAction()) {
+			case MotionEvent.ACTION_DOWN:
+				v.performClick();
+				startTime = System.currentTimeMillis();
 				wavPath = fileAccessObject.getTestWavPath();
-			final AlertDialog.Builder dialogBuilder1 = new AlertDialog.Builder(
-					mContext);
+				final AlertDialog.Builder dialogBuilder1 = new AlertDialog.Builder(
+						mContext);
+				View view1 = View.inflate(mContext, R.layout.dialog_unlock,
+						null);
 
-			View view1 = View.inflate(mContext, R.layout.dialog_unlock, null);
+				TextView textView2 = (TextView) view1
+						.findViewById(R.id.textView2);
+				StringBuilder questionString = new StringBuilder(view1
+						.getResources().getString(R.string.unlock_tips));
+				questionString.append(question);
+				textView2.setText(questionString);
+				dialogBuilder1.setView(view1);
+				alertDialog = dialogBuilder1.create();
+				alertDialog.setCanceledOnTouchOutside(false);
+				alertDialog.setCancelable(false);
+				Window window = alertDialog.getWindow();    
+				window.setGravity(Gravity.TOP); 
+				alertDialog.show();
+				startRecord(userId);
+				break;
+			case MotionEvent.ACTION_UP:
+				endTime = System.currentTimeMillis();
+				if ((endTime - startTime) > 800) {
+					ToastUtil.show(mContext, R.string.record_end);
+					stopRecord(userId);
+				}else{
+					ToastUtil.show(mContext, R.string.test_too_short);
+					alertDialog.cancel();
+					audioRecordFunc.stopRecordAndFile();
+				}
+				
+				break;
+			case MotionEvent.ACTION_CANCEL:
+				alertDialog.cancel();
+				audioRecordFunc.stopRecordAndFile();
+				break;
+			default:
+				break;
+			}
 
-			TextView textView2 = (TextView) view1.findViewById(R.id.textView2);
-			StringBuilder questionString = new StringBuilder(view1
-					.getResources().getString(R.string.unlock_tips));
-			questionString.append(question);
-			textView2.setText(questionString);
-			dialogBuilder1.setView(view1);
-
-			alertDialog = dialogBuilder1.create();
-			alertDialog.setCanceledOnTouchOutside(false);
-			alertDialog.setCancelable(false);
-			alertDialog.show();
-			startRecord(userId);
+			return false;
 		}
 	}
 
+	//
+	// class ButtonListener implements OnClickListener {
+	// // private int position;
+	// String textView_UserName;
+	// String userId;
+	// String question;
+	//
+	// ButtonListener(int pos, String name, String _userId, String _question) {
+	// // position = pos;
+	// textView_UserName = name;
+	// userId = _userId;
+	//
+	// question = _question;
+	// }
+	//
+	// @Override
+	// public void onClick(View v) {
+	// int vid = v.getId();
+	// if (vid == holder.imageButton_UnLock.getId())
+	// wavPath = fileAccessObject.getTestWavPath();
+	// final AlertDialog.Builder dialogBuilder1 = new AlertDialog.Builder(
+	// mContext);
+	//
+	// View view1 = View.inflate(mContext, R.layout.dialog_unlock, null);
+	//
+	// TextView textView2 = (TextView) view1.findViewById(R.id.textView2);
+	// StringBuilder questionString = new StringBuilder(view1
+	// .getResources().getString(R.string.unlock_tips));
+	// questionString.append(question);
+	// textView2.setText(questionString);
+	// dialogBuilder1.setView(view1);
+	//
+	// alertDialog = dialogBuilder1.create();
+	// alertDialog.setCanceledOnTouchOutside(false);
+	// alertDialog.setCancelable(false);
+	// alertDialog.show();
+	// startRecord(userId);
+	// }
+	// }
+	//
 	protected void startRecord(final String userId) {
 		String wavString = userId + ".wav";
 		String rawString = userId + ".raw";
@@ -157,16 +230,10 @@ public class AuthListViewAdapter extends BaseAdapter {
 			ToastUtil.show(mContext, R.string.audio_error_unknown);
 			return;
 		}
-		new Handler().postDelayed(new Runnable() {
-			public void run() {
-				stopRecord(userId);
-				alertDialog.cancel();
-
-			}
-		}, 3000);
 	}
 
 	protected void stopRecord(String userId) {
+		alertDialog.cancel();
 		audioRecordFunc.stopRecordAndFile();
 		NativeHTK.createMFCC(fileAccessObject, wavPath, userId, false);
 		try {

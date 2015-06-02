@@ -31,8 +31,10 @@
     <string name="train_tips_title">训练提示</string>
     <string name="train_tips1">要使用语音识别解锁，首先请进行训练。\n训练过程中将录音，并保存处理。</string>
     <string name="train_tips2">训练后可以再次训练，\n每次训练都将清除原先的训练数据。</string>
-    <string name="train_tips3">训练时将进行三次录音。\n录音时间为3秒。</string>
+    <string name="train_tips3">训练时将进行三次录音。\n录音时请按住按钮不放。</string>
     <string name="train_tips4">录音时请清晰地回答系统内置提示或自定义提示。</string>
+        <string name="test_too_short">测试时间过短</string>
+    
     <string name="record_1">第一次录音</string>
     <string name="record_2">第二次录音</string>
     <string name="record_3">第三次录音</string>
