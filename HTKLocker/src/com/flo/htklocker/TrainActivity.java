@@ -315,7 +315,7 @@ public class TrainActivity extends Activity {
 	protected void stopRecord(int n) {
 		alertDialog.cancel();
 		audioRecordFunc.stopRecordAndFile();
-		endTime = System.currentTimeMillis() + 300;
+		endTime = System.currentTimeMillis();
 		timeList.add(endTime - startTime);
 		switch (n) {
 		case 1:
@@ -338,32 +338,41 @@ public class TrainActivity extends Activity {
 			button_Record3.setEnabled(false);
 
 			NativeHTK.createMFCC(fileAccessObject, wavPath, userid, true);
-
 			final Context mContext = this;
-			new Handler().postDelayed(new Runnable() {
-				public void run() {
 
-					try {
-						NativeHTK.train(fileAccessObject, userid, timeList);
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					userAccessObject.trainUser(
-							Integer.valueOf(userid.substring(2)), question);
-					ToastUtil.show(mContext, R.string.train_end);
-					// NativeHTK.clear();
+			ToastUtil.show(mContext, "hcopy");
 
-					Intent i = getBaseContext().getPackageManager()
-							.getLaunchIntentForPackage(
-									getBaseContext().getPackageName());
-					i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					i.addCategory(Intent.CATEGORY_HOME);
-					startActivity(i);
-					System.exit(0);
-				}
-			}, 1000);
+			final String labUserPath = fileAccessObject.createLab(userid,
+					timeList);
+			final String protoFile = fileAccessObject.createProto(userid);
+			final String trainlist = fileAccessObject.createTrainList(userid);
+
+
+			NativeHTK.train(fileAccessObject, userid, timeList, trainlist,
+					protoFile, labUserPath);
+			ToastUtil.show(mContext, "hinit");
+			NativeHTK.train2(fileAccessObject, userid, timeList,
+					trainlist, protoFile, labUserPath);
+			ToastUtil.show(mContext, "hrest");
+			NativeHTK.train3(fileAccessObject, userid, timeList,
+					trainlist, protoFile, labUserPath);
+			ToastUtil.show(mContext, "hrest2");
+
+			userAccessObject.trainUser(
+					Integer.valueOf(userid.substring(2)), question);
+			ToastUtil.show(mContext, R.string.train_end);
+			
+
+			// Intent i = getBaseContext().getPackageManager()
+			// .getLaunchIntentForPackage(
+			// getBaseContext().getPackageName());
+			// i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			// i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			// i.addCategory(Intent.CATEGORY_HOME);
+			// startActivity(i);
+			// System.exit(0);
+			
+
 
 			break;
 		default:
