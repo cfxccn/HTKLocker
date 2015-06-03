@@ -17,18 +17,23 @@ public class NativeHTK {
 		// fileService.copyMfcc(userid);
 	}
 
-	public static void train(FileAccessObject fileAccessObject, String userid,List<Long>timeList) {
+	public static void train(FileAccessObject fileAccessObject, String userid,List<Long>timeList) throws InterruptedException {
 		String labUserPath = fileAccessObject.createLab(userid,timeList);
 		String protoFile = fileAccessObject.createProto(userid);
 		String trainlist = fileAccessObject.createTrainList(userid);
 		HInitFunc.exec(trainlist, fileAccessObject.getHmm0Path(), protoFile, userid,
 				labUserPath);
+		Thread.sleep(500);
 		HRestFunc.exec(trainlist, fileAccessObject.getHmm1Path(),
 				fileAccessObject.getHmm0Path() + "/hmm_" + userid, userid,
 				labUserPath);
+		Thread.sleep(500);
+
 		HRest2Func.exec(trainlist, fileAccessObject.getHmm2Path(),
 				fileAccessObject.getHmm1Path() + "/hmm_" + userid, userid,
 				labUserPath);
+		Thread.sleep(500);
+
 	}
 
 	// public static void createSlf(String gramFilePath, String slfFilePath) {

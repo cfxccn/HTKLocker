@@ -55,6 +55,11 @@
             android:name=".UserActivity"
             android:label="@string/user_manage_train" >
         </activity>
+        
+                <activity
+            android:name=".ConfigActivity"
+            android:label="@string/threshold_config" >
+        </activity>
     </application>
 
 </manifest>

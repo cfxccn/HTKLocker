@@ -20,8 +20,8 @@ public class MainActivity extends Activity {
 	KVAccessObject kVAccessObject;
 	Switch switch_Service;
 	Button button_UserManage;
-	Button button_Test;
-	//Button button_Config;
+	Button button_Config;
+	// Button button_Config;
 	Button button_ChangePassword;
 	Button button_Exit;
 	Button button_DEVTest;
@@ -30,8 +30,8 @@ public class MainActivity extends Activity {
 	private void bindView() {
 		switch_Service = (Switch) findViewById(R.id.switch_Service);
 		button_UserManage = (Button) findViewById(R.id.button_UserManage);
-		button_Test = (Button) findViewById(R.id.button_Test);
-		//button_Config = (Button) findViewById(R.id.button_Config);
+		button_Config = (Button) findViewById(R.id.button_Config);
+		// button_Config = (Button) findViewById(R.id.button_Config);
 		button_ChangePassword = (Button) findViewById(R.id.button_ChangePassword);
 		button_Exit = (Button) findViewById(R.id.button_Exit);
 		button_DEVTest = (Button) findViewById(R.id.button_Dev);
@@ -64,21 +64,22 @@ public class MainActivity extends Activity {
 				startActivityForResult(intent, 100);
 			}
 		});
-//		button_Test.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View arg0) {
-//				Intent intent = new Intent(getApplicationContext(),
-//						TestActivity.class);
-//				startActivityForResult(intent, 100);
-//			}
-//		});
-//		button_Config.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View arg0) {
-//			
-//
-//			}
-//		});
+		// button_Test.setOnClickListener(new OnClickListener() {
+		// @Override
+		// public void onClick(View arg0) {
+		// Intent intent = new Intent(getApplicationContext(),
+		// TestActivity.class);
+		// startActivityForResult(intent, 100);
+		// }
+		// });
+		button_Config.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent(getApplicationContext(),
+						ConfigActivity.class);
+				startActivityForResult(intent, 100);
+			}
+		});
 		button_ChangePassword.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {

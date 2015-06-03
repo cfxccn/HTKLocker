@@ -55,6 +55,33 @@ public class KVAccessObject  {
 		}
 	}
 
+	public String getThreshold() {
+		KeyValue keyValue=null;
+		try {
+			keyValue = db.findFirst(Selector.from(KeyValue.class).where("KEY",
+					"=", "THRESHOLD"));
+			if (keyValue == null) {
+				return "10000";
+			} else
+				return keyValue.getValue();
+		} catch (DbException e) {
+			return "10000";
+		}
+	}
+
+	public boolean setThreshold(String value) {
+		KeyValue keyValue = new KeyValue();
+		keyValue.setKey("THRESHOLD");
+		keyValue.setValue(value);
+
+		try {
+			db.delete(KeyValue.class, WhereBuilder.b("KEY", "=", "THRESHOLD"));
+			db.save(keyValue);
+			return true;
+		} catch (DbException e) {
+			return false;
+		}
+	}
 	public boolean isFirstLogin() {
 		if (getOldPassword().equals("FIRSTLOGIN")) {
 			return true;

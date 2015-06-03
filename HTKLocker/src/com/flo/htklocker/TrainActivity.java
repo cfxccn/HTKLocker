@@ -12,6 +12,7 @@ import com.flo.util.ToastUtil;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -45,8 +46,8 @@ public class TrainActivity extends Activity {
 	AlertDialog alertDialog;
 	FileAccessObject fileAccessObject;
 	String question;
-	Long startTime,endTime;
-	List<Long> timeList=new ArrayList<Long>(3);
+	Long startTime, endTime;
+	List<Long> timeList = new ArrayList<Long>(3);
 
 	private void bindView() {
 		button_Record1 = (Button) findViewById(R.id.button_Record1);
@@ -264,8 +265,8 @@ public class TrainActivity extends Activity {
 					}
 					break;
 				case MotionEvent.ACTION_UP:
-						stopRecord(3);
-						break;
+					stopRecord(3);
+					break;
 				default:
 					break;
 				}
@@ -299,7 +300,7 @@ public class TrainActivity extends Activity {
 	}
 
 	protected void startRecord(int n) {
-		startTime=System.currentTimeMillis();
+		startTime = System.currentTimeMillis();
 		audioRecordFunc = AudioRecordFunc.getInstance();
 		int result = audioRecordFunc.startRecordAndFile(wavPath, userid + "_"
 				+ n + ".wav", userid + "_" + n + ".raw");
@@ -314,8 +315,8 @@ public class TrainActivity extends Activity {
 	protected void stopRecord(int n) {
 		alertDialog.cancel();
 		audioRecordFunc.stopRecordAndFile();
-		endTime=System.currentTimeMillis()+300;
-		timeList.add(endTime-startTime);
+		endTime = System.currentTimeMillis() + 300;
+		timeList.add(endTime - startTime);
 		switch (n) {
 		case 1:
 			button_Record1.setEnabled(false);
@@ -336,18 +337,31 @@ public class TrainActivity extends Activity {
 			button_Record2.setEnabled(false);
 			button_Record3.setEnabled(false);
 
-			NativeHTK.createMFCC(fileAccessObject, wavPath, userid,
-					true);
-			
+			NativeHTK.createMFCC(fileAccessObject, wavPath, userid, true);
+
 			final Context mContext = this;
 			new Handler().postDelayed(new Runnable() {
 				public void run() {
 
-					NativeHTK.train(fileAccessObject, userid,timeList);
+					try {
+						NativeHTK.train(fileAccessObject, userid, timeList);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					userAccessObject.trainUser(
 							Integer.valueOf(userid.substring(2)), question);
 					ToastUtil.show(mContext, R.string.train_end);
-				//	NativeHTK.clear();
+					// NativeHTK.clear();
+
+					Intent i = getBaseContext().getPackageManager()
+							.getLaunchIntentForPackage(
+									getBaseContext().getPackageName());
+					i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					i.addCategory(Intent.CATEGORY_HOME);
+					startActivity(i);
+					System.exit(0);
 				}
 			}, 1000);
 
