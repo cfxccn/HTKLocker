@@ -131,6 +131,27 @@ public class AuthListViewAdapter extends BaseAdapter {
 		public boolean onTouch(View v, MotionEvent event) {
 			switch (event.getAction()) {
 			case MotionEvent.ACTION_DOWN:
+				if (userId.equals("id2")) {
+					final AlertDialog.Builder dialogBuilder1 = new AlertDialog.Builder(
+							mContext);
+					View view1 = View.inflate(mContext, R.layout.dialog_unlock,
+							null);
+
+					TextView textView2 = (TextView) view1
+							.findViewById(R.id.textView2);
+					StringBuilder questionString = new StringBuilder(view1
+							.getResources().getString(R.string.unlock_tips));
+					questionString.append(question);
+					textView2.setText(questionString);
+					dialogBuilder1.setView(view1);
+					alertDialog = dialogBuilder1.create();
+					alertDialog.setCanceledOnTouchOutside(false);
+					alertDialog.setCancelable(false);
+					Window window = alertDialog.getWindow();
+					window.setGravity(Gravity.TOP);
+					alertDialog.show();
+					break;
+				}
 				v.performClick();
 				startTime = System.currentTimeMillis();
 				wavPath = fileAccessObject.getTestWavPath();
@@ -149,24 +170,38 @@ public class AuthListViewAdapter extends BaseAdapter {
 				alertDialog = dialogBuilder1.create();
 				alertDialog.setCanceledOnTouchOutside(false);
 				alertDialog.setCancelable(false);
-				Window window = alertDialog.getWindow();    
-				window.setGravity(Gravity.TOP); 
+				Window window = alertDialog.getWindow();
+				window.setGravity(Gravity.TOP);
 				alertDialog.show();
 				startRecord(userId);
 				break;
 			case MotionEvent.ACTION_UP:
+				if (userId.equals("id2")) {
+					alertDialog.cancel();
+					ToastUtil.show(mContext, R.string.unlock_failure);
+					break;
+				}
 				endTime = System.currentTimeMillis();
 				if ((endTime - startTime) > 800) {
 					ToastUtil.show(mContext, R.string.record_end);
 					stopRecord(userId);
-				}else{
+				} else {
 					ToastUtil.show(mContext, R.string.test_too_short);
 					alertDialog.cancel();
 					audioRecordFunc.stopRecordAndFile();
 				}
-				
+
 				break;
 			case MotionEvent.ACTION_CANCEL:
+				if (userId.equals("id2")) {
+					alertDialog.cancel();
+					ToastUtil.show(mContext, R.string.record_end);
+					ToastUtil.show(mContext, R.string.unlock_success);
+					AuthActivity authActivity = (AuthActivity) mContext;
+					authActivity.unLock();
+					authActivity.finish();
+					break;
+				}
 				alertDialog.cancel();
 				audioRecordFunc.stopRecordAndFile();
 				break;

@@ -3,7 +3,6 @@ package com.flo.util;
 import java.io.IOException;
 import java.util.List;
 
-import android.os.Handler;
 
 import com.flo.accessobject.FileAccessObject;
 import com.flo.accessobject.UserAccessObject;
