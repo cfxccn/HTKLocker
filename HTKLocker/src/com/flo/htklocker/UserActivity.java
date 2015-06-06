@@ -31,9 +31,9 @@ public class UserActivity extends Activity {
 	List<Map<String, Object>> userMapList;
 	ListView listView;
 	SimpleAdapter adapter;
-	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()) ; 
-	
-	
+	SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+			"yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+
 	private List<Map<String, Object>> list2Map(List<User> userList) {
 		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
 		if (userList == null) {
@@ -41,17 +41,27 @@ public class UserActivity extends Activity {
 		}
 		for (User u : userList) {
 			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("id", u.getId());
 			map.put("textView_Username", u.getName());
 			map.put("USERID", u.getNameId());
 			if (u.getTrainTime() == null) {
-				map.put("textView_TrainTime", getResources().getString(R.string.train_time)+":"+getResources().getString(R.string.none));
+				map.put("textView_TrainTime",
+						getResources().getString(R.string.train_time) + ":"
+								+ getResources().getString(R.string.none));
 			} else {
-				map.put("textView_TrainTime", getResources().getString(R.string.train_time)+":"+simpleDateFormat.format(u.getTrainTime()));
+				map.put("textView_TrainTime",
+						getResources().getString(R.string.train_time) + ":"
+								+ simpleDateFormat.format(u.getTrainTime()));
 			}
 			if (u.getLastVerifyTime() == null) {
-				map.put("textView_TestTime", getResources().getString(R.string.last_verify_time)+":"+getResources().getString(R.string.none));
+				map.put("textView_TestTime",
+						getResources().getString(R.string.last_verify_time)
+								+ ":" + getResources().getString(R.string.none));
 			} else {
-				map.put("textView_TestTime", getResources().getString(R.string.last_verify_time)+":"+simpleDateFormat.format(u.getLastVerifyTime()));
+				map.put("textView_TestTime",
+						getResources().getString(R.string.last_verify_time)
+								+ ":"
+								+ simpleDateFormat.format(u.getLastVerifyTime()));
 			}
 
 			if (u.getIsTrained()) {
@@ -87,7 +97,8 @@ public class UserActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		userAccessObject = UserAccessObject.getInstance(getApplicationContext());
+		userAccessObject = UserAccessObject
+				.getInstance(getApplicationContext());
 		bindView();
 		bindListener();
 	}
@@ -108,6 +119,8 @@ public class UserActivity extends Activity {
 						.findViewById(R.id.button_Train);
 				Button button_Delete = (Button) dialog
 						.findViewById(R.id.button_Delete);
+				Button button_Config = (Button) dialog
+						.findViewById(R.id.button_Config);
 				button_Train.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View arg0) {
@@ -120,8 +133,19 @@ public class UserActivity extends Activity {
 						startActivityForResult(intent, 100);
 					}
 				});
+				button_Config.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View arg0) {
+						Intent intent = new Intent(getApplicationContext(),
+								ConfigActivity.class);
+						intent.putExtra("id",
+								Integer.parseInt(map.get("id").toString()));
+						dialog.cancel();
+						startActivityForResult(intent, 100);
+					}
+				});
 				button_Delete.setOnClickListener(new OnClickListener() {
-					
+
 					@Override
 					public void onClick(View arg0) {
 						User user = new User();
@@ -190,7 +214,7 @@ public class UserActivity extends Activity {
 			finish();
 			break;
 		}
-		
+
 		return super.onOptionsItemSelected(item);
 
 	}

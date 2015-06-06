@@ -246,26 +246,25 @@ public class AuthListViewAdapter extends BaseAdapter {
 
 	protected void verify(String userId) {
 		String result = fileAccessObject.parseRecoMlf();
-		String [] r=result.split("-");
-		String r1=r[0];
-		Double r2=Double.parseDouble(r[1]);
-		
-		KVAccessObject kVAccessObject = KVAccessObject
-				.getInstance(mContext);
-		Double threshold=Double.parseDouble(kVAccessObject.getThreshold());
-		if (r1.equalsIgnoreCase(userId)&&(r2<threshold)) {
-			int id = Integer.parseInt(userId.substring(2));
-			kVAccessObject.getThreshold();
+		String[] r = result.split("-");
+		String r1 = r[0];
+		Double r2 = Double.parseDouble(r[1]);
+		int id = Integer.parseInt(userId.substring(2));
+
+		Double threshold = Double.parseDouble(userAccessObject
+				.getUserThreshold(id));
+		if (r1.equalsIgnoreCase(userId) && (r2 < threshold)) {
 			userAccessObject.verifyUser(id);
 			ToastUtil.show(mContext, R.string.unlock_success);
-			ToastUtil.show(mContext, userId+" "+r1+" "+ r2+" "+threshold);
+			ToastUtil.show(mContext, userId + " " + r1 + " " + r2 + " "
+					+ threshold);
 			AuthActivity authActivity = (AuthActivity) mContext;
 			authActivity.unLock();
 			authActivity.finish();
 		} else {
 			ToastUtil.show(mContext, R.string.unlock_failure);
-			ToastUtil.show(mContext, userId+" "+r1+" "+ r2+" "+threshold);
+			ToastUtil.show(mContext, userId + " " + r1 + " " + r2 + " "
+					+ threshold);
 		}
 	}
-
 }

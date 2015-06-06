@@ -16,9 +16,7 @@ public class UserAccessObject {
 	Context context;
 	DbUtils db;
 
-	
-	
-	static UserAccessObject singleton=null;
+	static UserAccessObject singleton = null;
 
 	public static UserAccessObject getInstance(Context context) {
 		if (singleton == null) {
@@ -27,8 +25,7 @@ public class UserAccessObject {
 		} else
 			return singleton;
 	}
-	
-	
+
 	private UserAccessObject(Context context) {
 		this.context = context;
 		db = DbUtils.create(this.context);
@@ -42,12 +39,39 @@ public class UserAccessObject {
 		}
 		return userList;
 	}
-	
-	public List<User> getTrainedUserList() {
-		List<User> userList =new ArrayList<User>();
+
+	public String getUserThreshold(int id) {
+		User user = null;
 		try {
-			userList = db.findAll(Selector.from(User.class)
-                    .where("IS_TRAINED", "=", true));
+			user = db.findById(User.class, id);
+			if (user.getThreshold() != null) {
+				return user.getThreshold();
+			} else {
+				return "7000";
+			}
+		} catch (DbException e) {
+			return "7000";
+		}
+	}
+
+	public boolean setUserThreshold(int id, String threshold) {
+		User user = null;
+		try {
+			user = db.findById(User.class, id);
+			user.setThreshold(threshold);
+			db.update(user, "THRESHOLD");
+			return true;
+
+		} catch (DbException e) {
+			return false;
+		}
+	}
+
+	public List<User> getTrainedUserList() {
+		List<User> userList = new ArrayList<User>();
+		try {
+			userList = db.findAll(Selector.from(User.class).where("IS_TRAINED",
+					"=", true));
 		} catch (DbException e) {
 		}
 		return userList;
@@ -63,10 +87,11 @@ public class UserAccessObject {
 	}
 
 	public boolean deleteUser(User user) {
-		//FileService fileService = new FileService(context);
-		FileAccessObject fileAccessObject=FileAccessObject.getInstance(context);
+		// FileService fileService = new FileService(context);
+		FileAccessObject fileAccessObject = FileAccessObject
+				.getInstance(context);
 		try {
-		//	db.deleteById(User.class, user.getId());
+			// db.deleteById(User.class, user.getId());
 			db.delete(user);
 			fileAccessObject.deleteUser(user.getNameId());
 			return true;
@@ -88,7 +113,8 @@ public class UserAccessObject {
 		} catch (DbException e) {
 		}
 	}
-	public void verifyUser(int id){
+
+	public void verifyUser(int id) {
 		User user = new User();
 		user.setId(id);
 		user.setLastVerifyTime(new Date());

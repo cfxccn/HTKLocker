@@ -11,6 +11,13 @@
         android:text="@string/train" />
 
     <Button
+        android:id="@+id/button_Config"
+        style="?android:attr/buttonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/threshold_config" />
+
+    <Button
         android:id="@+id/button_Delete"
         style="?android:attr/buttonStyle"
         android:layout_width="match_parent"

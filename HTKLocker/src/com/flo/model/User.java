@@ -29,6 +29,17 @@ public class User {
 	@Column(column = "QUESTION")
 	private String question;
 	
+	@Column(column = "THRESHOLD")
+	private String threshold;
+	
+	public String getThreshold() {
+		return threshold;
+	}
+
+	public void setThreshold(String threshold) {
+		this.threshold = threshold;
+	}
+
 	public String getQuestion() {
 		return question;
 	}

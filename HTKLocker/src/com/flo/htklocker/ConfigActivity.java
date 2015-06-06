@@ -1,6 +1,6 @@
 package com.flo.htklocker;
 
-import com.flo.accessobject.KVAccessObject;
+import com.flo.accessobject.UserAccessObject;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,14 +10,16 @@ import android.widget.TextView;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class ConfigActivity extends Activity {
-	KVAccessObject kVAccessObject;
+	UserAccessObject userAccessObject;
 	SeekBar seekBar_Threshold;
 	TextView textView_Threshold;
 	int threshold;
+	int id;
 
 	private void bindView() {
 		seekBar_Threshold = (SeekBar) findViewById(R.id.seekBar_Threshold);
-		threshold = Integer.parseInt(kVAccessObject.getThreshold());
+		threshold=Integer.parseInt(userAccessObject.getUserThreshold(id));
+		
 		seekBar_Threshold.setProgress(threshold);
 		textView_Threshold = (TextView) findViewById(R.id.textView_Threshold);
 		textView_Threshold.setText(" " + threshold);
@@ -28,7 +30,7 @@ public class ConfigActivity extends Activity {
 				.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 					@Override
 					public void onStopTrackingTouch(SeekBar arg0) {
-						kVAccessObject.setThreshold(threshold+ "");
+						userAccessObject.setUserThreshold(id,threshold+ "");
 					}
 
 					@Override
@@ -48,7 +50,9 @@ public class ConfigActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_config);
-		kVAccessObject = KVAccessObject.getInstance(getApplicationContext());
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		id = getIntent().getIntExtra("id", 0);
+		userAccessObject = UserAccessObject.getInstance(getApplicationContext());
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		bindView();
 		bindListener();
