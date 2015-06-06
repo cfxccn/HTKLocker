@@ -61,11 +61,11 @@ public class KVAccessObject  {
 			keyValue = db.findFirst(Selector.from(KeyValue.class).where("KEY",
 					"=", "THRESHOLD"));
 			if (keyValue == null) {
-				return "10000";
+				return "7000";
 			} else
 				return keyValue.getValue();
 		} catch (DbException e) {
-			return "10000";
+			return "7000";
 		}
 	}
 

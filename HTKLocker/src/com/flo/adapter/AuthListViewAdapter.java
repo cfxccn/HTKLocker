@@ -149,8 +149,8 @@ public class AuthListViewAdapter extends BaseAdapter {
 				alertDialog = dialogBuilder1.create();
 				alertDialog.setCanceledOnTouchOutside(false);
 				alertDialog.setCancelable(false);
-				Window window = alertDialog.getWindow();    
-				window.setGravity(Gravity.TOP); 
+				Window window = alertDialog.getWindow();
+				window.setGravity(Gravity.TOP);
 				alertDialog.show();
 				startRecord(userId);
 				break;
@@ -159,12 +159,12 @@ public class AuthListViewAdapter extends BaseAdapter {
 				if ((endTime - startTime) > 800) {
 					ToastUtil.show(mContext, R.string.record_end);
 					stopRecord(userId);
-				}else{
+				} else {
 					ToastUtil.show(mContext, R.string.test_too_short);
 					alertDialog.cancel();
 					audioRecordFunc.stopRecordAndFile();
 				}
-				
+
 				break;
 			case MotionEvent.ACTION_CANCEL:
 				alertDialog.cancel();
@@ -245,17 +245,26 @@ public class AuthListViewAdapter extends BaseAdapter {
 	}
 
 	protected void verify(String userId) {
-		boolean result = userId.equalsIgnoreCase(fileAccessObject
-				.parseRecoMlf());
-		if (result) {
+		String result = fileAccessObject.parseRecoMlf();
+		String [] r=result.split("-");
+		String r1=r[0];
+		Double r2=Double.parseDouble(r[1]);
+		
+		KVAccessObject kVAccessObject = KVAccessObject
+				.getInstance(mContext);
+		Double threshold=Double.parseDouble(kVAccessObject.getThreshold());
+		if (r1.equalsIgnoreCase(userId)&&(r2<threshold)) {
 			int id = Integer.parseInt(userId.substring(2));
+			kVAccessObject.getThreshold();
 			userAccessObject.verifyUser(id);
 			ToastUtil.show(mContext, R.string.unlock_success);
+			ToastUtil.show(mContext, userId+" "+r1+" "+ r2+" "+threshold);
 			AuthActivity authActivity = (AuthActivity) mContext;
 			authActivity.unLock();
 			authActivity.finish();
 		} else {
 			ToastUtil.show(mContext, R.string.unlock_failure);
+			ToastUtil.show(mContext, userId+" "+r1+" "+ r2+" "+threshold);
 		}
 	}
 

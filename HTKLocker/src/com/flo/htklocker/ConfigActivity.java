@@ -17,7 +17,7 @@ public class ConfigActivity extends Activity {
 
 	private void bindView() {
 		seekBar_Threshold = (SeekBar) findViewById(R.id.seekBar_Threshold);
-		threshold = Integer.parseInt(kVAccessObject.getThreshold()) - 5000;
+		threshold = Integer.parseInt(kVAccessObject.getThreshold());
 		seekBar_Threshold.setProgress(threshold);
 		textView_Threshold = (TextView) findViewById(R.id.textView_Threshold);
 		textView_Threshold.setText(" " + threshold);
@@ -28,7 +28,7 @@ public class ConfigActivity extends Activity {
 				.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 					@Override
 					public void onStopTrackingTouch(SeekBar arg0) {
-						kVAccessObject.setThreshold(threshold+5000+ "");
+						kVAccessObject.setThreshold(threshold+ "");
 					}
 
 					@Override

@@ -279,7 +279,7 @@ public class FileAccessObject {
 		String userString = "";
 		if (userList.size() != 0) {
 			StringBuilder userStringBuilder = new StringBuilder();
-			userStringBuilder.append("id0|id00");
+			//userStringBuilder.append("id0|id00");
 			for (User u : userList) {
 
 				userStringBuilder.append("|");
@@ -287,7 +287,7 @@ public class FileAccessObject {
 			}
 			userString = userStringBuilder.toString();
 		}
-
+		userString=userString.substring(1);
 		try {
 			FileUtils.write(new File(gramFile), "$WORD= " + userString
 					+ ";\n([$WORD])");
@@ -303,8 +303,8 @@ public class FileAccessObject {
 		String dictFile = appRoot + "/dict.txt";
 		StringBuilder userStringBuilder = new StringBuilder();
 		if (userList.size() != 0) {
-			userStringBuilder.append("id0 [id0] id0\n");
-			userStringBuilder.append("id00 [id00] id00\n");
+//			userStringBuilder.append("id0 [id0] id0\n");
+//			userStringBuilder.append("id00 [id00] id00\n");
 			for (User u : userList) {
 				userStringBuilder.append(u.getNameId());
 				userStringBuilder.append(" [");
@@ -325,10 +325,10 @@ public class FileAccessObject {
 	public String createHmmListFile(List<User> userList) {
 		String hmmListFile = appRoot + "/hmmlist.txt";
 		StringBuilder userStringBuilder = new StringBuilder();
-		userStringBuilder.append("id0");
-		userStringBuilder.append("\n");
-		userStringBuilder.append("id00");
-		userStringBuilder.append("\n");
+//		userStringBuilder.append("id0");
+//		userStringBuilder.append("\n");
+//		userStringBuilder.append("id00");
+//		userStringBuilder.append("\n");
 
 		if (userList.size() != 0) {
 			for (User u : userList) {
@@ -365,18 +365,18 @@ public class FileAccessObject {
 		try {
 			outputStream = FileUtils.openOutputStream(new File(allMmfFile));
 			
-			InputStream inputStream0 = context.getAssets().open("hmm_id0");
-			int c0;
-			byte bt0[] = new byte[1024];
-			while ((c0 = inputStream0.read(bt0)) > 0) {
-				outputStream.write(bt0, 0, c0);
-			}
-			InputStream inputStream00 = context.getAssets().open("hmm_id00");
-			int c00;
-			byte bt00[] = new byte[1024];
-			while ((c00 = inputStream00.read(bt00)) > 0) {
-				outputStream.write(bt00, 0, c00);
-			}
+//			InputStream inputStream0 = context.getAssets().open("hmm_id0");
+//			int c0;
+//			byte bt0[] = new byte[1024];
+//			while ((c0 = inputStream0.read(bt0)) > 0) {
+//				outputStream.write(bt0, 0, c0);
+//			}
+//			InputStream inputStream00 = context.getAssets().open("hmm_id00");
+//			int c00;
+//			byte bt00[] = new byte[1024];
+//			while ((c00 = inputStream00.read(bt00)) > 0) {
+//				outputStream.write(bt00, 0, c00);
+//			}
 			
 			
 			
@@ -409,6 +409,6 @@ public class FileAccessObject {
 
 		}
 		String[] result = userId.split(" ");
-		return result[2];
+		return result[2]+result[3];
 	}
 }
