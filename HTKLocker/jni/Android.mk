@@ -49,3 +49,10 @@ LOCAL_MODULE    := HVite
 LOCAL_SRC_FILES := com_flo_util_HViteFunc.c
 LOCAL_WHOLE_STATIC_LIBRARIES := libHTKCore
 include $(BUILD_SHARED_LIBRARY) 
+
+include $(CLEAR_VARS)
+LOCAL_MODULE    := HViteE
+LOCAL_SRC_FILES := com_HVite.c
+LOCAL_STATIC_LIBRARIES := libHTKCore
+include $(BUILD_EXECUTABLE)
+

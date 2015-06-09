@@ -17,6 +17,7 @@ import com.flo.util.ToastUtil;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.os.Environment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -227,7 +228,7 @@ public class AuthListViewAdapter extends BaseAdapter {
 		//audioRecordFunc = AudioRecordFunc.getInstance();
 		File file=new File(wavPath+"/"+wavString);
 		FileUtils.deleteQuietly(file);
-		audioRecordFunc=new AudioRecordFunc();
+		audioRecordFunc=AudioRecordFunc.getInstance();
 		int result = audioRecordFunc.startRecordAndFile(wavPath, wavString,
 				rawString);
 		if (result == 1) {
@@ -244,8 +245,6 @@ public class AuthListViewAdapter extends BaseAdapter {
 		try {
 			NativeHTK.test(fileAccessObject, userAccessObject, userId);
 		} catch (IOException e) {
-			ToastUtil.show(mContext, R.string.error);
-		} catch (InterruptedException e) {
 			ToastUtil.show(mContext, R.string.error);
 		}
 		verify(userId);

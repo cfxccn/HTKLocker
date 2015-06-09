@@ -36,17 +36,17 @@ public class FileAccessObject {
 	String resultFile;
 	Context context;
 
-	static FileAccessObject  singleton=null;
+	static FileAccessObject singleton = null;
 
-	public static FileAccessObject  getInstance(Context context) {
+	public static FileAccessObject getInstance(Context context) {
 		if (singleton == null) {
-			singleton = new FileAccessObject (context);
+			singleton = new FileAccessObject(context);
 			return singleton;
 		} else
 			return singleton;
 	}
 
-	private FileAccessObject (Context context) {
+	private FileAccessObject(Context context) {
 		this.context = context;
 		File sdDir;
 		boolean sdCardExist = Environment.getExternalStorageState().equals(
@@ -157,24 +157,23 @@ public class FileAccessObject {
 	}
 
 	public String getResultFilePath() {
-		File file=new File(appRoot + "/reco.mlf");
+		File file = new File(appRoot + "/reco.mlf");
 
 		return file.getAbsolutePath();
 	}
 
-	public String createLab(String userid,List<Long>timeList) {
+	public String createLab(String userid, List<Long> timeList) {
 		// FileOutputStream fs = null;
 		// String textString = "0 20000000 " + userid;
-		
-		
+
 		getLabPath(userid);
 		try {
 			FileUtils.write(new File(labUserPath + "/" + userid + "_1.lab"),
-					"0 "+timeList.get(0)+"0000 " + userid);
+					"0 " + timeList.get(0) + "0000 " + userid);
 			FileUtils.write(new File(labUserPath + "/" + userid + "_2.lab"),
-					"0 "+timeList.get(1)+"0000 " + userid);
+					"0 " + timeList.get(1) + "0000 " + userid);
 			FileUtils.write(new File(labUserPath + "/" + userid + "_3.lab"),
-					"0 "+timeList.get(2)+"0000 " + userid);
+					"0 " + timeList.get(2) + "0000 " + userid);
 
 			// fs = new FileOutputStream(labUserPath + "/" + userid + "_1.lab");
 			// fs.write(textString.getBytes());
@@ -281,7 +280,7 @@ public class FileAccessObject {
 		String userString = "";
 		if (userList.size() != 0) {
 			StringBuilder userStringBuilder = new StringBuilder();
-			//userStringBuilder.append("id0|id00");
+			// userStringBuilder.append("id0|id00");
 			for (User u : userList) {
 
 				userStringBuilder.append("|");
@@ -289,7 +288,7 @@ public class FileAccessObject {
 			}
 			userString = userStringBuilder.toString();
 		}
-		userString=userString.substring(1);
+		userString = userString.substring(1);
 		try {
 			FileUtils.write(new File(gramFile), "$WORD= " + userString
 					+ ";\n([$WORD])");
@@ -305,8 +304,8 @@ public class FileAccessObject {
 		String dictFile = appRoot + "/dict.txt";
 		StringBuilder userStringBuilder = new StringBuilder();
 		if (userList.size() != 0) {
-//			userStringBuilder.append("id0 [id0] id0\n");
-//			userStringBuilder.append("id00 [id00] id00\n");
+			// userStringBuilder.append("id0 [id0] id0\n");
+			// userStringBuilder.append("id00 [id00] id00\n");
 			for (User u : userList) {
 				userStringBuilder.append(u.getNameId());
 				userStringBuilder.append(" [");
@@ -327,10 +326,10 @@ public class FileAccessObject {
 	public String createHmmListFile(List<User> userList) {
 		String hmmListFile = appRoot + "/hmmlist.txt";
 		StringBuilder userStringBuilder = new StringBuilder();
-//		userStringBuilder.append("id0");
-//		userStringBuilder.append("\n");
-//		userStringBuilder.append("id00");
-//		userStringBuilder.append("\n");
+		// userStringBuilder.append("id0");
+		// userStringBuilder.append("\n");
+		// userStringBuilder.append("id00");
+		// userStringBuilder.append("\n");
 
 		if (userList.size() != 0) {
 			for (User u : userList) {
@@ -348,9 +347,18 @@ public class FileAccessObject {
 	}
 
 	public String getHViteE() {
+		String dataPath=Environment.getDataDirectory().getAbsolutePath();
+		File hViteE = null;
+		try {
+			InputStream inputStream = context.getAssets().open("HViteE");
+			// FileUtil.copyFile(inputStream, appRoot + "/config");
+			hViteE = new File(dataPath +"/data/com.flo.htklocker/HViteE");
+			FileUtils.copyInputStreamToFile(inputStream, hViteE);
+			Runtime.getRuntime().exec("chmod 777 "+dataPath +"/data/com.flo.htklocker/HViteE");
 
-		return appRoot + "/HViteE";
-
+		} catch (IOException e) {
+		}
+		return dataPath +"/data/com.flo.htklocker/HViteE";
 	}
 
 	public String createAllMmf(List<User> userList) {
@@ -359,22 +367,20 @@ public class FileAccessObject {
 		OutputStream outputStream = null;
 		try {
 			outputStream = FileUtils.openOutputStream(new File(allMmfFile));
-			
-//			InputStream inputStream0 = context.getAssets().open("hmm_id0");
-//			int c0;
-//			byte bt0[] = new byte[1024];
-//			while ((c0 = inputStream0.read(bt0)) > 0) {
-//				outputStream.write(bt0, 0, c0);
-//			}
-//			InputStream inputStream00 = context.getAssets().open("hmm_id00");
-//			int c00;
-//			byte bt00[] = new byte[1024];
-//			while ((c00 = inputStream00.read(bt00)) > 0) {
-//				outputStream.write(bt00, 0, c00);
-//			}
-			
-			
-			
+
+			// InputStream inputStream0 = context.getAssets().open("hmm_id0");
+			// int c0;
+			// byte bt0[] = new byte[1024];
+			// while ((c0 = inputStream0.read(bt0)) > 0) {
+			// outputStream.write(bt0, 0, c0);
+			// }
+			// InputStream inputStream00 = context.getAssets().open("hmm_id00");
+			// int c00;
+			// byte bt00[] = new byte[1024];
+			// while ((c00 = inputStream00.read(bt00)) > 0) {
+			// outputStream.write(bt00, 0, c00);
+			// }
+
 			if (userList.size() != 0) {
 				for (User u : userList) {
 					inputStream = FileUtils.openInputStream(FileUtils
@@ -404,6 +410,6 @@ public class FileAccessObject {
 
 		}
 		String[] result = userId.split(" ");
-		return result[2]+result[3];
+		return result[2] + result[3];
 	}
 }

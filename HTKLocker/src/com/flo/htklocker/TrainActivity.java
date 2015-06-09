@@ -15,7 +15,6 @@ import com.flo.util.ToastUtil;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.media.AudioRecord;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -304,7 +303,7 @@ public class TrainActivity extends Activity {
 	protected void startRecord(int n) {
 		startTime = System.currentTimeMillis();
 //		audioRecordFunc = AudioRecordFunc.getInstance();
-		audioRecordFunc = new AudioRecordFunc();
+		audioRecordFunc = AudioRecordFunc.getInstance();
 		File file=new File(wavPath+"/"+userid + "_"+ n + ".wav");
 		FileUtils.deleteQuietly(file);
 		int result = audioRecordFunc.startRecordAndFile(wavPath, userid + "_"

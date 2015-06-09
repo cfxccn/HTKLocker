@@ -62,7 +62,7 @@ public class NativeHTK {
 
 	public static void test(FileAccessObject fileAccessObject,
 			UserAccessObject userAccessObject, String USERID)
-			throws IOException, InterruptedException {
+			throws IOException {
 		List<User> userList = userAccessObject.getTrainedUserList();
 		String gramFile = fileAccessObject.createGram(userList);
 		HParseFunc.exec(gramFile, fileAccessObject.getSlfFilePath());
@@ -72,9 +72,11 @@ public class NativeHTK {
 		String hmmListFile = fileAccessObject.createHmmListFile(userList);
 		String resultFile = fileAccessObject.getResultFilePath();
 		String mfcFile = fileAccessObject.getMfccPath() + "/" + USERID + ".mfc";
-		//String hViteE = fileAccessObject.getHViteE();
+		String hViteE = fileAccessObject.getHViteE();
 
-		HViteFunc.exec( allMmfFile, resultFile, netSlfFile, dictFile,
+//		HViteFunc.exec( allMmfFile, resultFile, netSlfFile, dictFile,
+//				hmmListFile, mfcFile);
+		HViteFunc.exec1(hViteE, allMmfFile, resultFile, netSlfFile, dictFile,
 				hmmListFile, mfcFile);
 	//	Thread.sleep(1000);
 

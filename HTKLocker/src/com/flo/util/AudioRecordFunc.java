@@ -20,16 +20,16 @@ public class AudioRecordFunc {
 	private AudioRecord audioRecord;
 	private boolean isRecord = false;// 设置正在录制的状态
 	int AUDIO_SAMPLE_RATE = 11025;
-	//private static AudioRecordFunc mInstance;
+	private static AudioRecordFunc mInstance;
 
-	public AudioRecordFunc() {
+	private AudioRecordFunc() {
 	}
 
-//	public synchronized static AudioRecordFunc getInstance() {
-//		if (mInstance == null)
-//			mInstance = new AudioRecordFunc();
-//		return mInstance;
-//	}
+	public synchronized static AudioRecordFunc getInstance() {
+		if (mInstance == null)
+			mInstance = new AudioRecordFunc();
+		return mInstance;
+	}
 
 	private void creatAudioRecord(String pathString, String wavString,
 			String rawString) {
