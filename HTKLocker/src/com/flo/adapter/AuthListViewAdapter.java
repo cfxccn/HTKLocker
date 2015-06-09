@@ -1,8 +1,11 @@
 package com.flo.adapter;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.io.FileUtils;
 
 import com.flo.htklocker.AuthActivity;
 import com.flo.htklocker.R;
@@ -221,7 +224,10 @@ public class AuthListViewAdapter extends BaseAdapter {
 	protected void startRecord(final String userId) {
 		String wavString = userId + ".wav";
 		String rawString = userId + ".raw";
-		audioRecordFunc = AudioRecordFunc.getInstance();
+		//audioRecordFunc = AudioRecordFunc.getInstance();
+		File file=new File(wavPath+"/"+wavString);
+		FileUtils.deleteQuietly(file);
+		audioRecordFunc=new AudioRecordFunc();
 		int result = audioRecordFunc.startRecordAndFile(wavPath, wavString,
 				rawString);
 		if (result == 1) {
@@ -234,6 +240,7 @@ public class AuthListViewAdapter extends BaseAdapter {
 		alertDialog.cancel();
 		audioRecordFunc.stopRecordAndFile();
 		NativeHTK.createMFCC(fileAccessObject, wavPath, userId, false);
+
 		try {
 			NativeHTK.test(fileAccessObject, userAccessObject, userId);
 		} catch (IOException e) {

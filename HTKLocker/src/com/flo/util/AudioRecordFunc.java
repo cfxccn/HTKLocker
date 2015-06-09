@@ -20,16 +20,16 @@ public class AudioRecordFunc {
 	private AudioRecord audioRecord;
 	private boolean isRecord = false;// 设置正在录制的状态
 	int AUDIO_SAMPLE_RATE = 11025;
-	private static AudioRecordFunc mInstance;
+	//private static AudioRecordFunc mInstance;
 
-	private AudioRecordFunc() {
+	public AudioRecordFunc() {
 	}
 
-	public synchronized static AudioRecordFunc getInstance() {
-		if (mInstance == null)
-			mInstance = new AudioRecordFunc();
-		return mInstance;
-	}
+//	public synchronized static AudioRecordFunc getInstance() {
+//		if (mInstance == null)
+//			mInstance = new AudioRecordFunc();
+//		return mInstance;
+//	}
 
 	private void creatAudioRecord(String pathString, String wavString,
 			String rawString) {
@@ -73,6 +73,8 @@ public class AudioRecordFunc {
 			audioRecord.stop();
 			audioRecord.release();// 释放资源
 			audioRecord = null;
+			copyWaveFile(rawFilePathName, wavFilePathName);// 给裸数据加上头文件
+
 		}
 		new File(rawFilePathName).delete();
 	}
@@ -81,7 +83,6 @@ public class AudioRecordFunc {
 		@Override
 		public void run() {
 			writeDateTOFile();// 往文件中写入裸数据
-			copyWaveFile(rawFilePathName, wavFilePathName);// 给裸数据加上头文件
 		}
 	}
 

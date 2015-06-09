@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 
 
+
+
 import com.flo.accessobject.FileAccessObject;
 import com.flo.accessobject.UserAccessObject;
 import com.flo.model.User;
@@ -70,10 +72,11 @@ public class NativeHTK {
 		String hmmListFile = fileAccessObject.createHmmListFile(userList);
 		String resultFile = fileAccessObject.getResultFilePath();
 		String mfcFile = fileAccessObject.getMfccPath() + "/" + USERID + ".mfc";
-		String hViteE = fileAccessObject.getHViteE();
-		HViteFunc.exec(hViteE, allMmfFile, resultFile, netSlfFile, dictFile,
+		//String hViteE = fileAccessObject.getHViteE();
+
+		HViteFunc.exec( allMmfFile, resultFile, netSlfFile, dictFile,
 				hmmListFile, mfcFile);
-		Thread.sleep(1000);
+	//	Thread.sleep(1000);
 
 	}
 

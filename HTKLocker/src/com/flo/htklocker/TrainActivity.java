@@ -1,7 +1,10 @@
 package com.flo.htklocker;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.io.FileUtils;
 
 import com.flo.accessobject.FileAccessObject;
 import com.flo.accessobject.UserAccessObject;
@@ -12,6 +15,7 @@ import com.flo.util.ToastUtil;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.media.AudioRecord;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -299,7 +303,10 @@ public class TrainActivity extends Activity {
 
 	protected void startRecord(int n) {
 		startTime = System.currentTimeMillis();
-		audioRecordFunc = AudioRecordFunc.getInstance();
+//		audioRecordFunc = AudioRecordFunc.getInstance();
+		audioRecordFunc = new AudioRecordFunc();
+		File file=new File(wavPath+"/"+userid + "_"+ n + ".wav");
+		FileUtils.deleteQuietly(file);
 		int result = audioRecordFunc.startRecordAndFile(wavPath, userid + "_"
 				+ n + ".wav", userid + "_" + n + ".raw");
 		if (result == 1) {
@@ -334,7 +341,12 @@ public class TrainActivity extends Activity {
 			button_Record1.setEnabled(false);
 			button_Record2.setEnabled(false);
 			button_Record3.setEnabled(false);
-
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			NativeHTK.createMFCC(fileAccessObject, wavPath, userid, true);
 			final Context mContext = this;
 
@@ -345,21 +357,19 @@ public class TrainActivity extends Activity {
 			final String protoFile = fileAccessObject.createProto(userid);
 			final String trainlist = fileAccessObject.createTrainList(userid);
 
-
 			NativeHTK.train(fileAccessObject, userid, timeList, trainlist,
 					protoFile, labUserPath);
 			ToastUtil.show(mContext, "hinit");
-			NativeHTK.train2(fileAccessObject, userid, timeList,
-					trainlist, protoFile, labUserPath);
+			NativeHTK.train2(fileAccessObject, userid, timeList, trainlist,
+					protoFile, labUserPath);
 			ToastUtil.show(mContext, "hrest");
-			NativeHTK.train3(fileAccessObject, userid, timeList,
-					trainlist, protoFile, labUserPath);
+			NativeHTK.train3(fileAccessObject, userid, timeList, trainlist,
+					protoFile, labUserPath);
 			ToastUtil.show(mContext, "hrest2");
 
-			userAccessObject.trainUser(
-					Integer.valueOf(userid.substring(2)), question);
+			userAccessObject.trainUser(Integer.valueOf(userid.substring(2)),
+					question);
 			ToastUtil.show(mContext, R.string.train_end);
-			
 
 			// Intent i = getBaseContext().getPackageManager()
 			// .getLaunchIntentForPackage(
@@ -369,8 +379,6 @@ public class TrainActivity extends Activity {
 			// i.addCategory(Intent.CATEGORY_HOME);
 			// startActivity(i);
 			// System.exit(0);
-			
-
 
 			break;
 		default:

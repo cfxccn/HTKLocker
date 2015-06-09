@@ -157,7 +157,9 @@ public class FileAccessObject {
 	}
 
 	public String getResultFilePath() {
-		return appRoot + "/reco.mlf";
+		File file=new File(appRoot + "/reco.mlf");
+
+		return file.getAbsolutePath();
 	}
 
 	public String createLab(String userid,List<Long>timeList) {
@@ -346,15 +348,8 @@ public class FileAccessObject {
 	}
 
 	public String getHViteE() {
-		File hViteE = null;
-		try {
-			InputStream inputStream = context.getAssets().open("HViteE");
-			// FileUtil.copyFile(inputStream, appRoot + "/config");
-			hViteE = new File(appRoot + "/HViteE");
-			FileUtils.copyInputStreamToFile(inputStream, hViteE);
-		} catch (IOException e) {
-		}
-		return hViteE.getAbsolutePath();
+
+		return appRoot + "/HViteE";
 
 	}
 
