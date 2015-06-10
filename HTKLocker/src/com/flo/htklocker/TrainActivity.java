@@ -340,12 +340,7 @@ public class TrainActivity extends Activity {
 			button_Record1.setEnabled(false);
 			button_Record2.setEnabled(false);
 			button_Record3.setEnabled(false);
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+
 			NativeHTK.createMFCC(fileAccessObject, wavPath, userid, true);
 			final Context mContext = this;
 

@@ -6,6 +6,7 @@ import java.util.List;
 
 
 
+
 import com.flo.accessobject.FileAccessObject;
 import com.flo.accessobject.UserAccessObject;
 import com.flo.model.User;
@@ -78,7 +79,12 @@ public class NativeHTK {
 //				hmmListFile, mfcFile);
 		HViteFunc.exec1(hViteE, allMmfFile, resultFile, netSlfFile, dictFile,
 				hmmListFile, mfcFile);
-	//	Thread.sleep(1000);
+	try {
+		Thread.sleep(1000);
+	} catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 
 	}
 

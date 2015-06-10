@@ -17,7 +17,6 @@ import com.flo.util.ToastUtil;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.os.Environment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
